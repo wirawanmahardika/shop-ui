@@ -2,11 +2,12 @@ import {
   Route,
   RouterProvider,
   createBrowserRouter,
+  createHashRouter,
   createRoutesFromElements,
 } from "react-router-dom";
 import Home from "./pages/Home";
 
-const router = createBrowserRouter(
+const router = createHashRouter(
   createRoutesFromElements(
     <>
       <Route path='/' element={<Home />} />
