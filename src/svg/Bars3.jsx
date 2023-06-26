@@ -1,12 +1,12 @@
-export default function Bars3({ width, length }) {
+export default function Bars3({ className, strokeColor }) {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
       fill='none'
       viewBox='0 0 24 24'
       strokeWidth={1.5}
-      stroke='currentColor'
-      className={`${width} ${length}`}>
+      stroke={strokeColor || "currentColor"}
+      className={`${className}`}>
       <path
         strokeLinecap='round'
         strokeLinejoin='round'
