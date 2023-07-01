@@ -29,7 +29,7 @@ export default function Home() {
 
   return (
     <>
-      <nav className='flex p-5 justify-between w-full md:bg-main-1 md:p-3  relative z-10'>
+      <nav className='flex p-5 justify-between w-full md:bg-main-1 md:p-3 xl:p-7 relative z-10'>
         <div
           className='cursor-pointer sm:hidden'
           onClick={() => setNavbarToggle(!navbarToggle)}>
@@ -42,7 +42,7 @@ export default function Home() {
             <Bars3 className={"w-10 h-10 lg:hidden"} />
           </div>
           <img src={logo} alt='logo' className='w-8 h-8 ' />
-          <h1 className='text-main-1 font-bold text-xl md:text-white'>
+          <h1 className='text-main-1 font-bold text-xl md:text-white xl:text-3xl'>
             Toko<span className='text-main-2 md:text-white'>Sedia</span>
           </h1>
         </div>
@@ -50,21 +50,21 @@ export default function Home() {
           <NavLink
             to={"/"}
             className={
-              "font-semibold text-md hover:text-white hidden lg:inline"
+              "font-semibold text-md hover:text-white hidden lg:inline xl:text-xl"
             }>
             Home
           </NavLink>
           <NavLink
             to={"/toko"}
             className={
-              "font-semibold text-md hover:text-white hidden lg:inline"
+              "font-semibold text-md hover:text-white hidden lg:inline xl:text-xl"
             }>
             Toko
           </NavLink>
           <NavLink
             to={"/about"}
             className={
-              "font-semibold text-md hover:text-white hidden lg:inline"
+              "font-semibold text-md hover:text-white hidden lg:inline xl:text-xl"
             }>
             About
           </NavLink>
@@ -134,16 +134,18 @@ export default function Home() {
       </motion.nav>
       <div className='w-full h-[390px] bg-image-home bg-cover p-7 flex sm:bg-none sm:flex sm:p-0 md:h-[450px]'>
         <div className='w-4/5 text-center sm:w-full sm:flex sm:items-center sm:justify-center sm:flex-col sm:basis-1/2 md:gap-y-1 lg:gap-y-2'>
-          <h2 className='text-main-1 font-bold text-3xl sm:text-yellow-600 md:text-fuchsia-600 lg:text-emerald-600 xl:text-red-600 md:-mb-1'>
+          <h2 className='text-main-1 font-bold text-3xl sm:text-yellow-600 md:text-fuchsia-600 lg:text-emerald-600 xl:text-4xl xl:text-red-600 md:-mb-1'>
             SHOP WITH US
           </h2>
           <p className='font-semibold font-quicksand'>
-            <span className='text-main-2'>Get</span> Your Dream{" "}
+            <span className='text-main-2 xl:text-lg'>Get</span> Your Dream{" "}
             <span className='text-main-1'>Fashion</span> Style
           </p>
-          <button className='mx-auto px-3 py-0.5 rounded-2xl bg-main-3 font-semibold hidden md:block shadow-md'>
+          <NavLink
+            to={"/toko"}
+            className='mx-auto px-3 py-0.5 rounded-2xl bg-main-3 font-semibold hidden md:block shadow-md lg:px-5 lg:py-1'>
             Start Now
-          </button>
+          </NavLink>
         </div>
         <div className='hidden justify-end items-center sm:flex sm:basis-1/2 md:pb-4'>
           <img src={imageHome} alt='imageHome' className='w-4/5' />
