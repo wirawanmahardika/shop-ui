@@ -6,7 +6,7 @@ import { Form, NavLink } from "react-router-dom";
 import Filter from "../svg/Filter";
 import ModalItem from "../components/ModalItem";
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { checkTargetForNewValues, motion } from "framer-motion";
 import HomeNav from "../svg/HomeNav";
 import Shop from "../svg/Shop";
 import hacker from "../img/hacker-1.jpg";
@@ -14,10 +14,36 @@ import hacker from "../img/hacker-1.jpg";
 export default function Toko() {
   const [filterToggle, setFilterToggle] = useState(false);
   const [navbarToggle, setNavbarToggle] = useState(false);
-
-  const [hargaToggle, setHargaToggle] = useState("custom");
+  const [hargaToggle, setHargaToggle] = useState("auto");
   const hargaAutoToggle = hargaToggle === "auto" ? "bg-main-3" : "bg-black";
   const hargaCustomToggle = hargaToggle === "custom" ? "bg-main-3" : "bg-black";
+
+  const [limitHarga, setLimitHarga] = useState({
+    harga_lte: undefined,
+    harga_gte: undefined,
+  });
+
+  const [brands, setBrands] = useState([]);
+  const brandHandle = (brandName) => {
+    if (brands.includes(brandName)) {
+      const brandFiltered = brands.filter((e) => e !== brandName);
+      setBrands(brandFiltered);
+    } else {
+      setBrands([...brands, brandName]);
+    }
+  };
+  const [categories, setCategories] = useState([]);
+  const categoryHandle = (categoryName) => {
+    if (categories.includes(categoryName)) {
+      const brandFiltered = categories.filter((e) => e !== categoryName);
+      setCategories(brandFiltered);
+    } else {
+      setCategories([...categories, categoryName]);
+    }
+  };
+  console.log(brands);
+  console.log(limitHarga);
+  console.log(categories);
 
   return (
     <>
@@ -155,26 +181,50 @@ export default function Toko() {
                   Category
                 </p>
                 <div className='flex gap-x-2 items-center '>
-                  <input type='checkbox' className='form-input md:w-9 md:h-9' />
-                  <label className='md:text-xl' htmlFor=''>
+                  <input
+                    type='checkbox'
+                    id='baju'
+                    className='form-input md:w-9 md:h-9'
+                    onChange={() => categoryHandle("baju")}
+                    checked={categories.includes("baju")}
+                  />
+                  <label className='md:text-xl' htmlFor='baju'>
                     Baju
                   </label>
                 </div>
                 <div className='flex gap-x-2 items-center '>
-                  <input type='checkbox' className='form-input md:w-9 md:h-9' />
-                  <label className='md:text-xl' htmlFor=''>
+                  <input
+                    type='checkbox'
+                    id='celana'
+                    className='form-input md:w-9 md:h-9'
+                    onChange={() => categoryHandle("celana")}
+                    checked={categories.includes("celana")}
+                  />
+                  <label className='md:text-xl' htmlFor='celana'>
                     Celana
                   </label>
                 </div>
                 <div className='flex gap-x-2 items-center '>
-                  <input type='checkbox' className='form-input md:w-9 md:h-9' />
-                  <label className='md:text-xl' htmlFor=''>
+                  <input
+                    type='checkbox'
+                    id='sepatu'
+                    className='form-input md:w-9 md:h-9'
+                    onChange={() => categoryHandle("sepatu")}
+                    checked={categories.includes("sepatu")}
+                  />
+                  <label className='md:text-xl' htmlFor='sepatu'>
                     Sepatu
                   </label>
                 </div>
                 <div className='flex gap-x-2 items-center '>
-                  <input type='checkbox' className='form-input md:w-9 md:h-9' />
-                  <label className='md:text-xl' htmlFor=''>
+                  <input
+                    type='checkbox'
+                    id='kalung'
+                    className='form-input md:w-9 md:h-9'
+                    onChange={() => categoryHandle("kalung")}
+                    checked={categories.includes("kalung")}
+                  />
+                  <label className='md:text-xl' htmlFor='kalung'>
                     Kalung
                   </label>
                 </div>
@@ -184,26 +234,50 @@ export default function Toko() {
                   Brand
                 </p>
                 <div className='flex gap-x-2 items-center '>
-                  <input type='checkbox' className='form-input md:w-9 md:h-9' />
-                  <label className='md:text-xl' htmlFor=''>
+                  <input
+                    type='checkbox'
+                    id='adidas'
+                    className='form-input md:w-9 md:h-9'
+                    onChange={() => brandHandle("adidas")}
+                    checked={brands.includes("adidas")}
+                  />
+                  <label className='md:text-xl' htmlFor='adidas'>
                     Adidas
                   </label>
                 </div>
                 <div className='flex gap-x-2 items-center '>
-                  <input type='checkbox' className='form-input md:w-9 md:h-9' />
-                  <label className='md:text-xl' htmlFor=''>
+                  <input
+                    type='checkbox'
+                    id='converse'
+                    className='form-input md:w-9 md:h-9'
+                    onChange={() => brandHandle("converse")}
+                    checked={brands.includes("converse")}
+                  />
+                  <label className='md:text-xl' htmlFor='converse'>
                     Converse
                   </label>
                 </div>
                 <div className='flex gap-x-2 items-center '>
-                  <input type='checkbox' className='form-input md:w-9 md:h-9' />
-                  <label className='md:text-xl' htmlFor=''>
+                  <input
+                    type='checkbox'
+                    id='ventela'
+                    className='form-input md:w-9 md:h-9'
+                    onChange={() => brandHandle("ventela")}
+                    checked={brands.includes("ventela")}
+                  />
+                  <label className='md:text-xl' htmlFor='ventela'>
                     Ventela
                   </label>
                 </div>
                 <div className='flex gap-x-2 items-center '>
-                  <input type='checkbox' className='form-input md:w-9 md:h-9' />
-                  <label className='md:text-xl' htmlFor=''>
+                  <input
+                    type='checkbox'
+                    id='gucci'
+                    className='form-input md:w-9 md:h-9'
+                    onChange={() => brandHandle("gucci")}
+                    checked={brands.includes("gucci")}
+                  />
+                  <label className='md:text-xl' htmlFor='gucci'>
                     Gucci
                   </label>
                 </div>
@@ -215,7 +289,13 @@ export default function Toko() {
                 <div className='mx-auto text-center mb-2'>
                   <button
                     type='button'
-                    onClick={() => setHargaToggle("auto")}
+                    onClick={() => {
+                      setLimitHarga({
+                        harga_lte: undefined,
+                        harga_gte: undefined,
+                      });
+                      setHargaToggle("auto");
+                    }}
                     className={
                       "px-2 rounded-l py-0.5 md:px-5 md:py-2 " + hargaAutoToggle
                     }>
@@ -223,7 +303,13 @@ export default function Toko() {
                   </button>
                   <button
                     type='button'
-                    onClick={() => setHargaToggle("custom")}
+                    onClick={() => {
+                      setLimitHarga({
+                        harga_lte: undefined,
+                        harga_gte: undefined,
+                      });
+                      setHargaToggle("custom");
+                    }}
                     className={
                       `px-2 rounded-r py-0.5 md:px-5 md:py-2 ` +
                       hargaCustomToggle
@@ -239,11 +325,25 @@ export default function Toko() {
                       <input
                         type='number'
                         className='form-input py-0.5 w-2/3 font-semibold md:py-2 md:px-2'
+                        value={limitHarga.harga_gte || undefined}
+                        onChange={(e) =>
+                          setLimitHarga({
+                            ...limitHarga,
+                            harga_gte: parseInt(e.target.value) || 0,
+                          })
+                        }
                       />
                       <p className='font-medium text-white md:text-xl'>to</p>
                       <input
                         type='number'
                         className='form-input py-0.5 w-2/3 font-semibold md:py-2 md:px-2'
+                        value={limitHarga.harga_lte || undefined}
+                        onChange={(e) =>
+                          setLimitHarga({
+                            ...limitHarga,
+                            harga_lte: parseInt(e.target.value) || undefined,
+                          })
+                        }
                       />
                     </div>
                   </>
@@ -253,6 +353,16 @@ export default function Toko() {
                       <input
                         type='radio'
                         className='form-input  md:w-9 md:h-9'
+                        checked={
+                          limitHarga.harga_gte === 0 &&
+                          limitHarga.harga_lte === 250000
+                        }
+                        onChange={() =>
+                          setLimitHarga({
+                            harga_gte: 0,
+                            harga_lte: 250000,
+                          })
+                        }
                       />
                       <label className='md:text-xl' htmlFor=''>
                         0 - 250.000
@@ -262,6 +372,16 @@ export default function Toko() {
                       <input
                         type='radio'
                         className='form-input  md:w-9 md:h-9'
+                        checked={
+                          limitHarga.harga_gte === 250000 &&
+                          limitHarga.harga_lte === 1000000
+                        }
+                        onChange={() =>
+                          setLimitHarga({
+                            harga_gte: 250000,
+                            harga_lte: 1000000,
+                          })
+                        }
                       />
                       <label className='md:text-xl' htmlFor=''>
                         250.000 - 1.000.000
@@ -271,6 +391,16 @@ export default function Toko() {
                       <input
                         type='radio'
                         className='form-input  md:w-9 md:h-9'
+                        checked={
+                          limitHarga.harga_gte === 1000000 &&
+                          limitHarga.harga_lte === 3000000
+                        }
+                        onChange={() =>
+                          setLimitHarga({
+                            harga_gte: 1000000,
+                            harga_lte: 3000000,
+                          })
+                        }
                       />
                       <label className='md:text-xl' htmlFor=''>
                         1.000.000 - 3.000.000
@@ -280,6 +410,16 @@ export default function Toko() {
                       <input
                         type='radio'
                         className='form-input  md:w-9 md:h-9'
+                        checked={
+                          limitHarga.harga_gte === 3000000 &&
+                          limitHarga.harga_lte === undefined
+                        }
+                        onChange={() =>
+                          setLimitHarga({
+                            harga_gte: 3000000,
+                            harga_lte: undefined,
+                          })
+                        }
                       />
                       <label className='md:text-xl' htmlFor=''>
                         3.000.000 ++
@@ -323,25 +463,45 @@ export default function Toko() {
                 Category
               </p>
               <div className='flex gap-x-2 items-center '>
-                <input type='checkbox' className='form-input md:w-9 md:h-9' />
+                <input
+                  type='checkbox'
+                  className='form-input md:w-9 md:h-9'
+                  onChange={() => categoryHandle("baju")}
+                  checked={categories.includes("baju")}
+                />
                 <label className='md:text-xl' htmlFor=''>
                   Baju
                 </label>
               </div>
               <div className='flex gap-x-2 items-center '>
-                <input type='checkbox' className='form-input md:w-9 md:h-9' />
+                <input
+                  type='checkbox'
+                  className='form-input md:w-9 md:h-9'
+                  onChange={() => categoryHandle("celana")}
+                  checked={categories.includes("celana")}
+                />
                 <label className='md:text-xl' htmlFor=''>
                   Celana
                 </label>
               </div>
               <div className='flex gap-x-2 items-center '>
-                <input type='checkbox' className='form-input md:w-9 md:h-9' />
+                <input
+                  type='checkbox'
+                  className='form-input md:w-9 md:h-9'
+                  onChange={() => categoryHandle("sepatu")}
+                  checked={categories.includes("sepatu")}
+                />
                 <label className='md:text-xl' htmlFor=''>
                   Sepatu
                 </label>
               </div>
               <div className='flex gap-x-2 items-center '>
-                <input type='checkbox' className='form-input md:w-9 md:h-9' />
+                <input
+                  type='checkbox'
+                  className='form-input md:w-9 md:h-9'
+                  onChange={() => categoryHandle("kalung")}
+                  checked={categories.includes("kalung")}
+                />
                 <label className='md:text-xl' htmlFor=''>
                   Kalung
                 </label>
@@ -352,26 +512,50 @@ export default function Toko() {
                 Brand
               </p>
               <div className='flex gap-x-2 items-center '>
-                <input type='checkbox' className='form-input md:w-9 md:h-9' />
-                <label className='md:text-xl' htmlFor=''>
+                <input
+                  type='checkbox'
+                  id='adidas'
+                  className='form-input md:w-9 md:h-9'
+                  onChange={() => brandHandle("adidas")}
+                  checked={brands.includes("adidas")}
+                />
+                <label className='md:text-xl' htmlFor='adidas'>
                   Adidas
                 </label>
               </div>
               <div className='flex gap-x-2 items-center '>
-                <input type='checkbox' className='form-input md:w-9 md:h-9' />
-                <label className='md:text-xl' htmlFor=''>
+                <input
+                  type='checkbox'
+                  id='converse'
+                  className='form-input md:w-9 md:h-9'
+                  onChange={() => brandHandle("converse")}
+                  checked={brands.includes("converse")}
+                />
+                <label className='md:text-xl' htmlFor='converse'>
                   Converse
                 </label>
               </div>
               <div className='flex gap-x-2 items-center '>
-                <input type='checkbox' className='form-input md:w-9 md:h-9' />
-                <label className='md:text-xl' htmlFor=''>
+                <input
+                  type='checkbox'
+                  id='ventela'
+                  className='form-input md:w-9 md:h-9'
+                  onChange={() => brandHandle("ventela")}
+                  checked={brands.includes("ventela")}
+                />
+                <label className='md:text-xl' htmlFor='ventela'>
                   Ventela
                 </label>
               </div>
               <div className='flex gap-x-2 items-center '>
-                <input type='checkbox' className='form-input md:w-9 md:h-9' />
-                <label className='md:text-xl' htmlFor=''>
+                <input
+                  type='checkbox'
+                  id='gucci'
+                  className='form-input md:w-9 md:h-9'
+                  onChange={() => brandHandle("gucci")}
+                  checked={brands.includes("gucci")}
+                />
+                <label className='md:text-xl' htmlFor='gucci'>
                   Gucci
                 </label>
               </div>
@@ -383,7 +567,13 @@ export default function Toko() {
               <div className='mx-auto text-center mb-2'>
                 <button
                   type='button'
-                  onClick={() => setHargaToggle("auto")}
+                  onClick={() => {
+                    setLimitHarga({
+                      harga_lte: undefined,
+                      harga_gte: undefined,
+                    });
+                    setHargaToggle("auto");
+                  }}
                   className={
                     "px-2 rounded-l py-0.5 md:px-5 md:py-2 " + hargaAutoToggle
                   }>
@@ -391,7 +581,13 @@ export default function Toko() {
                 </button>
                 <button
                   type='button'
-                  onClick={() => setHargaToggle("custom")}
+                  onClick={() => {
+                    setLimitHarga({
+                      harga_lte: undefined,
+                      harga_gte: undefined,
+                    });
+                    setHargaToggle("custom");
+                  }}
                   className={
                     `px-2 rounded-r py-0.5 md:px-5 md:py-2 ` + hargaCustomToggle
                   }>
@@ -406,37 +602,101 @@ export default function Toko() {
                     <input
                       type='number'
                       className='form-input py-0.5 w-2/3 font-semibold md:py-2 md:px-2'
+                      value={limitHarga.harga_gte || undefined}
+                      onChange={(e) =>
+                        setLimitHarga({
+                          ...limitHarga,
+                          harga_gte: parseInt(e.target.value) || 0,
+                        })
+                      }
                     />
                     <p className='font-medium text-white md:text-xl'>to</p>
                     <input
                       type='number'
                       className='form-input py-0.5 w-2/3 font-semibold md:py-2 md:px-2'
+                      value={limitHarga.harga_lte || undefined}
+                      onChange={(e) =>
+                        setLimitHarga({
+                          ...limitHarga,
+                          harga_lte: parseInt(e.target.value) || undefined,
+                        })
+                      }
                     />
                   </div>
                 </>
               ) : (
                 <>
                   <div className='flex gap-x-2 items-center '>
-                    <input type='radio' className='form-input  md:w-9 md:h-9' />
-                    <label className='md:text-xl' htmlFor=''>
+                    <input
+                      id='lt2.5'
+                      type='radio'
+                      className='form-input  md:w-9 md:h-9'
+                      checked={
+                        limitHarga.harga_gte === 0 &&
+                        limitHarga.harga_lte === 250000
+                      }
+                      onChange={() =>
+                        setLimitHarga({ harga_gte: 0, harga_lte: 250000 })
+                      }
+                    />
+                    <label className='md:text-xl' htmlFor='lt2.5'>
                       0 - 250.000
                     </label>
                   </div>
                   <div className='flex gap-x-2 items-center '>
-                    <input type='radio' className='form-input  md:w-9 md:h-9' />
-                    <label className='md:text-xl' htmlFor=''>
+                    <input
+                      id='bt2.5a1'
+                      type='radio'
+                      className='form-input  md:w-9 md:h-9'
+                      checked={
+                        limitHarga.harga_gte === 250000 &&
+                        limitHarga.harga_lte === 1000000
+                      }
+                      onChange={() =>
+                        setLimitHarga({ harga_gte: 250000, harga_lte: 1000000 })
+                      }
+                    />
+                    <label className='md:text-xl' htmlFor='bt2.5a1'>
                       250.000 - 1.000.000
                     </label>
                   </div>
                   <div className='flex gap-x-2 items-center '>
-                    <input type='radio' className='form-input  md:w-9 md:h-9' />
-                    <label className='md:text-xl' htmlFor=''>
+                    <input
+                      id='bt1a3'
+                      type='radio'
+                      className='form-input  md:w-9 md:h-9'
+                      checked={
+                        limitHarga.harga_gte === 1000000 &&
+                        limitHarga.harga_lte === 3000000
+                      }
+                      onChange={() =>
+                        setLimitHarga({
+                          harga_gte: 1000000,
+                          harga_lte: 3000000,
+                        })
+                      }
+                    />
+                    <label className='md:text-xl' htmlFor='bt1a3'>
                       1.000.000 - 3.000.000
                     </label>
                   </div>
                   <div className='flex gap-x-2 items-center '>
-                    <input type='radio' className='form-input  md:w-9 md:h-9' />
-                    <label className='md:text-xl' htmlFor=''>
+                    <input
+                      type='radio'
+                      id='gt3'
+                      className='form-input  md:w-9 md:h-9'
+                      checked={
+                        limitHarga.harga_gte === 3000000 &&
+                        limitHarga.harga_lte === undefined
+                      }
+                      onChange={() =>
+                        setLimitHarga({
+                          harga_gte: 3000000,
+                          harga_lte: undefined,
+                        })
+                      }
+                    />
+                    <label className='md:text-xl' htmlFor='gt3'>
                       3.000.000 ++
                     </label>
                   </div>
