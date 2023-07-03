@@ -10,6 +10,7 @@ import { checkTargetForNewValues, motion } from "framer-motion";
 import HomeNav from "../svg/HomeNav";
 import Shop from "../svg/Shop";
 import hacker from "../img/hacker-1.jpg";
+import User from "../svg/User";
 
 export default function CartPage() {
   const [filterToggle, setFilterToggle] = useState(false);
@@ -28,6 +29,12 @@ export default function CartPage() {
             <HomeNav />
             <li className='font-semibold text-xl hover:text-white'>
               <NavLink to={"/"}>Home</NavLink>
+            </li>
+          </div>
+          <div className='flex gap-x-2 items-center'>
+            <User />
+            <li className='font-semibold text-xl hover:text-white'>
+              <NavLink to={"/profile"}>Profile</NavLink>
             </li>
           </div>
           <div className='flex gap-x-2 items-center'>
@@ -75,13 +82,17 @@ export default function CartPage() {
           <div className='mr-3 font-semibold hidden md:block md:text-2xl lg:text-xl'>
             <ul className='flex gap-x-3'>
               <NavLink to='/'>Home</NavLink>
+              <NavLink to={"/cart"} className={"md:hidden"}>
+                Cart
+              </NavLink>
+              <NavLink to={"/profile"}>Profile</NavLink>
               <NavLink to={"/toko"}>Toko</NavLink>
               <NavLink to={"/about"}>About</NavLink>
             </ul>
           </div>
-          <div>
+          <NavLink to='/cart'>
             <Cart className={"w-7 h-7 md:w-8 md:h-8"} />
-          </div>
+          </NavLink>
           <img
             src={hacker}
             alt='profile'

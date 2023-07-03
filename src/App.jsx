@@ -8,6 +8,7 @@ import {
 import Home from "./pages/Home";
 import Toko from "./pages/Toko";
 import CartPage from "./pages/Cart";
+import Profile from "./pages/Profile";
 
 const router = createHashRouter(
   createRoutesFromElements(
@@ -15,6 +16,7 @@ const router = createHashRouter(
       <Route path='/' element={<Home />} />
       <Route path='/toko' element={<Toko />} />
       <Route path='/cart' element={<CartPage />} />
+      <Route path='/profile' element={<Profile />} />
     </>
   )
 );

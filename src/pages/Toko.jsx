@@ -6,10 +6,11 @@ import { Form, NavLink } from "react-router-dom";
 import Filter from "../svg/Filter";
 import ModalItem from "../components/ModalItem";
 import { useState } from "react";
-import { checkTargetForNewValues, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import HomeNav from "../svg/HomeNav";
 import Shop from "../svg/Shop";
 import hacker from "../img/hacker-1.jpg";
+import User from "../svg/User";
 
 export default function Toko() {
   const [filterToggle, setFilterToggle] = useState(false);
@@ -41,9 +42,6 @@ export default function Toko() {
       setCategories([...categories, categoryName]);
     }
   };
-  console.log(brands);
-  console.log(limitHarga);
-  console.log(categories);
 
   return (
     <>
@@ -56,6 +54,12 @@ export default function Toko() {
             <HomeNav />
             <li className='font-semibold text-xl hover:text-white'>
               <NavLink to={"/"}>Home</NavLink>
+            </li>
+          </div>
+          <div className='flex gap-x-2 items-center'>
+            <User />
+            <li className='font-semibold text-xl hover:text-white'>
+              <NavLink to={"/profile"}>Profile</NavLink>
             </li>
           </div>
           <div className='flex gap-x-2 items-center'>
@@ -103,13 +107,14 @@ export default function Toko() {
           <div className='mr-3 font-semibold hidden md:block md:text-2xl lg:text-xl'>
             <ul className='flex gap-x-3'>
               <NavLink to='/'>Home</NavLink>
+              <NavLink to='/profile'>Profile</NavLink>
               <NavLink to={"/toko"}>Toko</NavLink>
               <NavLink to={"/about"}>About</NavLink>
             </ul>
           </div>
-          <div>
+          <NavLink to={"/cart"}>
             <Cart className={"w-7 h-7 md:w-8 md:h-8"} />
-          </div>
+          </NavLink>
           <img
             src={hacker}
             alt='profile'

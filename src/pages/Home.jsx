@@ -23,6 +23,7 @@ import { useState } from "react";
 import HomeNav from "../svg/HomeNav";
 import Shop from "../svg/Shop";
 import { NavLink } from "react-router-dom";
+import User from "../svg/User";
 
 export default function Home() {
   const [navbarToggle, setNavbarToggle] = useState(false);
@@ -55,6 +56,13 @@ export default function Home() {
             Home
           </NavLink>
           <NavLink
+            to={"/profile"}
+            className={
+              "font-semibold text-md hover:text-white hidden lg:inline xl:text-xl"
+            }>
+            Profile
+          </NavLink>
+          <NavLink
             to={"/toko"}
             className={
               "font-semibold text-md hover:text-white hidden lg:inline xl:text-xl"
@@ -68,12 +76,16 @@ export default function Home() {
             }>
             About
           </NavLink>
-          <Cart className={"w-10 h-10"} />
-          <img
-            src={hacker}
-            alt='profile'
-            className='w-10 rounded-full self-stretch'
-          />
+          <NavLink to='/cart'>
+            <Cart className={"w-10 h-10"} />
+          </NavLink>
+          <NavLink to={"/profile"} className={"w-10 h-full flex"}>
+            <img
+              src={hacker}
+              alt='profile'
+              className='w-10 rounded-full self-stretch'
+            />
+          </NavLink>
         </div>
       </nav>
       <motion.nav
@@ -88,11 +100,18 @@ export default function Home() {
             </li>
           </div>
           <div className='flex gap-x-2 items-center'>
+            <User />
+            <li className='font-semibold text-xl hover:text-white'>
+              <NavLink to={"/profile"}>Profile</NavLink>
+            </li>
+          </div>
+          <div className='flex gap-x-2 items-center'>
             <Shop />
             <li className='font-semibold text-xl hover:text-white'>
               <NavLink to={"/toko"}>Toko</NavLink>
             </li>
           </div>
+
           <div className='flex gap-x-2 items-center'>
             <svg
               xmlns='http://www.w3.org/2000/svg'
@@ -125,6 +144,9 @@ export default function Home() {
             <NavLink to={"/"}>Home</NavLink>
           </li>
           <li className='font-bold text-xl hover:text-white'>
+            <NavLink to={"/profile"}>Profile</NavLink>
+          </li>
+          <li className='font-bold text-xl hover:text-white'>
             <NavLink to={"/toko"}>Toko</NavLink>
           </li>
           <li className='font-bold text-xl hover:text-white'>
@@ -152,9 +174,11 @@ export default function Home() {
         </div>
       </div>
       <div className='w-full flex justify-center p-5 pb-9 md:hidden'>
-        <button className='mx-auto px-5 py-1 rounded-xl bg-main-3 font-semibold'>
+        <NavLink
+          to='/toko'
+          className='mx-auto px-5 py-1 rounded-xl bg-main-3 font-semibold'>
           Start Now
-        </button>
+        </NavLink>
       </div>
 
       <div className='flex flex-col w-full bg-main-2  p-5 gap-y-2 md:p-8 md:gap-y-6'>
