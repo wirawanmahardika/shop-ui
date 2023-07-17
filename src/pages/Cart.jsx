@@ -3,8 +3,6 @@ import logo from "../img/logo.png";
 import Bars3 from "../svg/Bars3";
 import Cart from "../svg/Cart";
 import { Form, NavLink } from "react-router-dom";
-import Filter from "../svg/Filter";
-import ModalItem from "../components/ModalItem";
 import { useState } from "react";
 import { checkTargetForNewValues, motion } from "framer-motion";
 import HomeNav from "../svg/HomeNav";

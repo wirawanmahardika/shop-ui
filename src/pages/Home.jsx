@@ -19,14 +19,30 @@ import facebook from "../img/facebook.png";
 import imageHome from "../img/bg-image-home.png";
 import logo from "../img/logo.png";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import HomeNav from "../svg/HomeNav";
 import Shop from "../svg/Shop";
 import { NavLink } from "react-router-dom";
 import User from "../svg/User";
+import axios from "axios";
 
 export default function Home() {
   const [navbarToggle, setNavbarToggle] = useState(false);
+  const [categories, setCategories] = useState(null);
+  const [brands, setBrands] = useState(null);
+
+  useEffect(() => {
+    axios.get("http://localhost:1000/api/category").then((res) => {
+      setCategories(res.data.data);
+    });
+  }, []);
+
+  useEffect(() => {
+    axios.get("http://localhost:1000/api/brands").then((res) => {
+      console.log(res.data.data);
+      setBrands(res.data.data);
+    });
+  }, []);
 
   return (
     <>
@@ -186,31 +202,17 @@ export default function Home() {
           Working with popular brand
         </h2>
         <div className='w-full grid grid-cols-3 items-center justify-items-center gap-3'>
-          <img
-            src={converse}
-            alt='converse'
-            className='pl-2 w-11/12 sm:w-4/6 md:w-1/2 lg:w-1/3'
-          />
-          <img
-            src={nike}
-            alt='nike'
-            className='pl-2 w-11/12 sm:w-4/6 md:w-1/2 lg:w-1/3'
-          />
-          <img
-            src={adidas}
-            alt='adidas'
-            className='pl-2 w-11/12 sm:w-4/6 md:w-1/2 lg:w-1/3'
-          />
-          <img
-            src={gucci}
-            alt='gucci'
-            className='pl-2 w-11/12 sm:w-4/6 md:w-1/2 lg:w-1/3'
-          />
-          <img
-            src={puma}
-            alt='puma'
-            className='pl-2 w-11/12 sm:w-4/6 md:w-1/2 lg:w-1/3'
-          />
+          {brands &&
+            brands.map((d) => {
+              return (
+                <img
+                  key={d.id_brand}
+                  src={d.brand_photo}
+                  alt={d.name_brand}
+                  className='pl-2 w-11/12 sm:w-4/6 md:w-1/2 lg:w-1/3'
+                />
+              );
+            })}
         </div>
       </div>
       <div className='w-full min-h-[300px] grid grid-cols-3 bg-gray-600 gap-5 p-4 gap-x-9'>
@@ -259,26 +261,15 @@ export default function Home() {
         <button className='border border-black rounded-lg font-semibold font-roboto bg-main-1 text-center w-full py-2 shadow-lg sm:w-3/5'>
           Category
         </button>
-        <div className='w-full flex justify-between items-center px-6 sm:justify-around'>
-          <img src={baju} alt='shoes1' className='w-[80px]' />
-          <h3 className='font-semibold'>Baju</h3>
-        </div>
-        <div className='w-full flex justify-between items-center px-6 sm:justify-around'>
-          <img src={celana} alt='shoes1' className='w-[80px]' />
-          <h3 className='font-semibold'>Celana</h3>
-        </div>
-        <div className='w-full flex justify-between items-center px-6 sm:justify-around'>
-          <img src={shoes1} alt='shoes1' className='w-[80px]' />
-          <h3 className='font-semibold'>Sepatu</h3>
-        </div>
-        <div className='w-full flex justify-between items-center px-6 sm:justify-around'>
-          <img src={gelang} alt='shoes1' className='w-[80px]' />
-          <h3 className='font-semibold'>Gelang</h3>
-        </div>
-        <div className='w-full flex justify-between items-center px-6 sm:justify-around'>
-          <img src={kalung} alt='shoes1' className='w-[80px]' />
-          <h3 className='font-semibold'>Kalung</h3>
-        </div>
+        {categories &&
+          categories.map((d) => {
+            return (
+              <div className='w-full flex justify-between items-center px-6 sm:justify-around'>
+                <img src={d.category_photo} alt='shoes1' className='w-[80px]' />
+                <h3 className='font-semibold capitalize'>{d.category}</h3>
+              </div>
+            );
+          })}
       </div>
       <footer className='w-full bg-black text-gray-50 p-5 gap-x-5 flex flex-col items-center gap-y-4 sm:p-10 sm:flex-row'>
         <div className='w-1/2 flex flex-col items-center gap-y-2 self-start sm:self-auto'>

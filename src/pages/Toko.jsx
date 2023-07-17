@@ -4,26 +4,33 @@ import Bars3 from "../svg/Bars3";
 import Cart from "../svg/Cart";
 import { Form, NavLink } from "react-router-dom";
 import Filter from "../svg/Filter";
-import ModalItem from "../components/ModalItem";
-import { useState } from "react";
+import BoxItem from "../components/BoxItem";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import HomeNav from "../svg/HomeNav";
 import Shop from "../svg/Shop";
 import hacker from "../img/hacker-1.jpg";
 import User from "../svg/User";
+import axios from "axios";
+import ModalItem from "../components/ModalItem";
 
 export default function Toko() {
+  const [data, setData] = useState();
   const [filterToggle, setFilterToggle] = useState(false);
   const [navbarToggle, setNavbarToggle] = useState(false);
   const [hargaToggle, setHargaToggle] = useState("auto");
   const hargaAutoToggle = hargaToggle === "auto" ? "bg-main-3" : "bg-black";
   const hargaCustomToggle = hargaToggle === "custom" ? "bg-main-3" : "bg-black";
 
+  const [brandForFilter, setBrandForFilter] = useState();
+  const [categoriesForFilter, setCategoriesForFilter] = useState();
+
   const [limitHarga, setLimitHarga] = useState({
     harga_lte: undefined,
     harga_gte: undefined,
   });
 
+  const [nameItem, setNameItem] = useState("");
   const [brands, setBrands] = useState([]);
   const brandHandle = (brandName) => {
     if (brands.includes(brandName)) {
@@ -41,6 +48,43 @@ export default function Toko() {
     } else {
       setCategories([...categories, categoryName]);
     }
+  };
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:1000/api/category")
+      .then((res) => setCategoriesForFilter(res.data.data));
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:1000/api/brands")
+      .then((res) => setBrandForFilter(res.data.data));
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:1000/api/items/get-all")
+      .then((res) => setData(res.data.data));
+  }, []);
+
+  const getData = () => {
+    const data = {
+      brands,
+      categories,
+      name: nameItem,
+      harga_gte: limitHarga.harga_gte,
+      harga_lte: limitHarga.harga_lte,
+    };
+    axios.post("http://localhost:1000/api/items/search", data).then((res) => {
+      setData(res.data.data);
+    });
+  };
+
+  const resetFilter = () => {
+    setBrands([]);
+    setCategories([]);
+    setLimitHarga({ harga_lte: undefined, harga_gte: undefined });
   };
 
   return (
@@ -138,15 +182,18 @@ export default function Toko() {
               type='text'
               className='form-input md:text-xl sm:py-2 py-1 w-4/5 md:py-3 rounded-l-md bg-main-1 placeholder-gray-200 shadow-xl focus:border-main-2 placeholder-opacity-70 text-white text-sm lg:w-3/5'
               placeholder='Type here'
+              value={nameItem}
+              onChange={(e) => setNameItem(e.target.value)}
             />
             <div className='form-input py-1 md:text-xl md:py-2 rounded-r-md bg-black placeholder-gray-200 shadow-xl focus:border-main-2 placeholder-opacity-70 text-white text-sm sm:py-2 flex items-center justify-center'>
               <svg
+                onClick={getData}
                 xmlns='http://www.w3.org/2000/svg'
                 fill='none'
                 viewBox='0 0 24 24'
                 strokeWidth={1.5}
                 stroke='white'
-                className='w-5 h-5 self-stretch md:w-8 md:h-8 my-auto lg:w-6 lg:h-6'>
+                className='w-5 h-5 cursor-pointer self-stretch md:w-8 md:h-8 my-auto lg:w-6 lg:h-6'>
                 <path
                   strokeLinecap='round'
                   strokeLinejoin='round'
@@ -238,6 +285,25 @@ export default function Toko() {
                 <p className='text-xl font-bold text-center col-span-2 mb-2 md:text-3xl'>
                   Brand
                 </p>
+                {brandForFilter &&
+                  brandForFilter.map((b) => {
+                    return (
+                      <div
+                        className='flex gap-x-2 items-center '
+                        key={b.id_brand}>
+                        <input
+                          type='checkbox'
+                          id={b.id_brand}
+                          className='form-input md:w-9 md:h-9'
+                          onChange={() => brandHandle(b.id_brand)}
+                          checked={brands.includes(b.id_brand)}
+                        />
+                        <label className='md:text-xl' htmlFor={b.id_brand}>
+                          {b.name_brand}
+                        </label>
+                      </div>
+                    );
+                  })}
                 <div className='flex gap-x-2 items-center '>
                   <input
                     type='checkbox'
@@ -435,7 +501,7 @@ export default function Toko() {
               </div>
               <button
                 type='button'
-                onClick={() => setFilterToggle(!filterToggle)}
+                onClick={resetFilter}
                 className='px-4 py-0.5 rounded bg-main-3  text-black font-semibold mx-auto mt-auto md:px-8 md:py-2 md:mb-5 md:text-2xl md:border border-black'>
                 Apply
               </button>
@@ -467,103 +533,48 @@ export default function Toko() {
               <p className='text-xl font-bold text-center col-span-2 mb-2 md:text-3xl'>
                 Category
               </p>
-              <div className='flex gap-x-2 items-center '>
-                <input
-                  type='checkbox'
-                  className='form-input md:w-9 md:h-9'
-                  onChange={() => categoryHandle("baju")}
-                  checked={categories.includes("baju")}
-                />
-                <label className='md:text-xl' htmlFor=''>
-                  Baju
-                </label>
-              </div>
-              <div className='flex gap-x-2 items-center '>
-                <input
-                  type='checkbox'
-                  className='form-input md:w-9 md:h-9'
-                  onChange={() => categoryHandle("celana")}
-                  checked={categories.includes("celana")}
-                />
-                <label className='md:text-xl' htmlFor=''>
-                  Celana
-                </label>
-              </div>
-              <div className='flex gap-x-2 items-center '>
-                <input
-                  type='checkbox'
-                  className='form-input md:w-9 md:h-9'
-                  onChange={() => categoryHandle("sepatu")}
-                  checked={categories.includes("sepatu")}
-                />
-                <label className='md:text-xl' htmlFor=''>
-                  Sepatu
-                </label>
-              </div>
-              <div className='flex gap-x-2 items-center '>
-                <input
-                  type='checkbox'
-                  className='form-input md:w-9 md:h-9'
-                  onChange={() => categoryHandle("kalung")}
-                  checked={categories.includes("kalung")}
-                />
-                <label className='md:text-xl' htmlFor=''>
-                  Kalung
-                </label>
-              </div>
+              {categoriesForFilter &&
+                categoriesForFilter.map((d) => {
+                  return (
+                    <div
+                      className='flex gap-x-2 items-center '
+                      key={d.id_category}>
+                      <input
+                        type='checkbox'
+                        className='form-input md:w-9 md:h-9'
+                        onChange={() => categoryHandle(d.id_category)}
+                        checked={categories.includes(d.id_category)}
+                      />
+                      <label className='md:text-xl' htmlFor=''>
+                        {d.category}
+                      </label>
+                    </div>
+                  );
+                })}
             </div>
             <div className='grid grid-cols-2 gap-y-2 p-3 md:gap-y-5'>
               <p className='text-xl font-bold text-center col-span-2 mb-2 md:text-3xl'>
                 Brand
               </p>
-              <div className='flex gap-x-2 items-center '>
-                <input
-                  type='checkbox'
-                  id='adidas'
-                  className='form-input md:w-9 md:h-9'
-                  onChange={() => brandHandle("adidas")}
-                  checked={brands.includes("adidas")}
-                />
-                <label className='md:text-xl' htmlFor='adidas'>
-                  Adidas
-                </label>
-              </div>
-              <div className='flex gap-x-2 items-center '>
-                <input
-                  type='checkbox'
-                  id='converse'
-                  className='form-input md:w-9 md:h-9'
-                  onChange={() => brandHandle("converse")}
-                  checked={brands.includes("converse")}
-                />
-                <label className='md:text-xl' htmlFor='converse'>
-                  Converse
-                </label>
-              </div>
-              <div className='flex gap-x-2 items-center '>
-                <input
-                  type='checkbox'
-                  id='ventela'
-                  className='form-input md:w-9 md:h-9'
-                  onChange={() => brandHandle("ventela")}
-                  checked={brands.includes("ventela")}
-                />
-                <label className='md:text-xl' htmlFor='ventela'>
-                  Ventela
-                </label>
-              </div>
-              <div className='flex gap-x-2 items-center '>
-                <input
-                  type='checkbox'
-                  id='gucci'
-                  className='form-input md:w-9 md:h-9'
-                  onChange={() => brandHandle("gucci")}
-                  checked={brands.includes("gucci")}
-                />
-                <label className='md:text-xl' htmlFor='gucci'>
-                  Gucci
-                </label>
-              </div>
+              {brandForFilter &&
+                brandForFilter.map((b) => {
+                  return (
+                    <div
+                      className='flex gap-x-2 items-center '
+                      key={b.id_brand}>
+                      <input
+                        type='checkbox'
+                        id={b.id_brand}
+                        className='form-input md:w-9 md:h-9'
+                        onChange={() => brandHandle(b.id_brand)}
+                        checked={brands.includes(b.id_brand)}
+                      />
+                      <label className='md:text-xl' htmlFor={b.id_brand}>
+                        {b.name_brand}
+                      </label>
+                    </div>
+                  );
+                })}
             </div>
             <div className='flex flex-col gap-y-2 p-3'>
               <p className='text-xl font-bold text-center col-span-2 mb-2 md:text-3xl'>
@@ -710,19 +721,25 @@ export default function Toko() {
             </div>
             <button
               type='button'
-              onClick={() => setFilterToggle(!filterToggle)}
+              onClick={resetFilter}
               className='px-4 py-0.5 rounded bg-main-3  text-black font-semibold mx-auto mt-auto md:px-8 md:py-2 md:mb-5 md:text-2xl md:border border-black'>
-              Apply
+              Reset
             </button>
           </div>
         </div>
-        <ModalItem />
-        <ModalItem />
-        <ModalItem />
-        <ModalItem />
-        <ModalItem />
-        <ModalItem />
-        <ModalItem />
+        {data &&
+          data.map((item) => {
+            return (
+              <BoxItem
+                id={item.id_item}
+                price={item.price}
+                name={item.name}
+                rating={item.rating}
+                key={item.id_item}
+                image={item.photo_item}
+              />
+            );
+          })}
       </main>
     </>
   );
