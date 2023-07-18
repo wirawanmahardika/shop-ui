@@ -1,4 +1,3 @@
-import shoes from "../img/shoes1.png";
 import logo from "../img/logo.png";
 import Bars3 from "../svg/Bars3";
 import Cart from "../svg/Cart";
@@ -6,7 +5,7 @@ import { Form, NavLink } from "react-router-dom";
 import Filter from "../svg/Filter";
 import BoxItem from "../components/BoxItem";
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { checkTargetForNewValues, motion } from "framer-motion";
 import HomeNav from "../svg/HomeNav";
 import Shop from "../svg/Shop";
 import hacker from "../img/hacker-1.jpg";
@@ -21,6 +20,7 @@ export default function Toko() {
   const [hargaToggle, setHargaToggle] = useState("auto");
   const hargaAutoToggle = hargaToggle === "auto" ? "bg-main-3" : "bg-black";
   const hargaCustomToggle = hargaToggle === "custom" ? "bg-main-3" : "bg-black";
+  const [checkoutToggle, setCheckoutToggle] = useState(false);
 
   const [brandForFilter, setBrandForFilter] = useState();
   const [categoriesForFilter, setCategoriesForFilter] = useState();
@@ -67,6 +67,10 @@ export default function Toko() {
       .get("http://localhost:1000/api/items/get-all")
       .then((res) => setData(res.data.data));
   }, []);
+
+  const checkoutToggleForDetail = () => {
+    setCheckoutToggle(!checkoutToggle);
+  };
 
   const getData = () => {
     const data = {
@@ -143,17 +147,17 @@ export default function Toko() {
             alt='tokosediaLogo'
             className='w-1/12 sm:w-[5%] md:w-[8%] lg:w-[4%]'
           />
-          <h2 className='font-bold text-xl uppercase md:text-4xl lg:text-3xl'>
+          <h2 className='font-bold text-xl uppercase md:text-3xl '>
             TokoSedia
           </h2>
         </div>
         <div className='flex gap-x-2 items-center md:justify-end'>
-          <div className='mr-3 font-semibold hidden md:block md:text-2xl lg:text-xl'>
+          <div className='mr-3 font-semibold hidden md:block md:text-xl '>
             <ul className='flex gap-x-3'>
               <NavLink to='/'>Home</NavLink>
               <NavLink to='/profile'>Profile</NavLink>
-              <NavLink to={"/toko"}>Toko</NavLink>
-              <NavLink to={"/about"}>About</NavLink>
+              <NavLink to='/toko'>Toko</NavLink>
+              <NavLink to='/about'>About</NavLink>
             </ul>
           </div>
           <NavLink to={"/cart"}>
@@ -174,10 +178,10 @@ export default function Toko() {
 
       <section className='w-full overflow-hidden'>
         <Form className='p-5 pt-2 flex-col gap-y-1 flex'>
-          <h2 className='font-bold  text-2xl -mb-1 font-roboto sm:text-3xl sm:text-red-600 md:text-4xl md:text-main-1 lg:text-yellow-600 lg:text-3xl'>
+          <h2 className='font-bold  text-2xl -mb-1 font-roboto sm:text-3xl  sm:text-red-600 md:text-3xl md:text-main-1 lg:text-yellow-600 lg:text-3xl'>
             Search Item
           </h2>
-          <div className='flex md:h-14 items-stretch lg:h-10'>
+          <div className='flex md:h-10 items-stretch lg:h-10'>
             <input
               type='text'
               className='form-input md:text-xl sm:py-2 py-1 w-4/5 md:py-3 rounded-l-md bg-main-1 placeholder-gray-200 shadow-xl focus:border-main-2 placeholder-opacity-70 text-white text-sm lg:w-3/5'
@@ -193,7 +197,7 @@ export default function Toko() {
                 viewBox='0 0 24 24'
                 strokeWidth={1.5}
                 stroke='white'
-                className='w-5 h-5 cursor-pointer self-stretch md:w-8 md:h-8 my-auto lg:w-6 lg:h-6'>
+                className='w-5 h-5 cursor-pointer self-stretch md:w-6 md:h-6 my-auto lg:w-6 lg:h-6'>
                 <path
                   strokeLinecap='round'
                   strokeLinejoin='round'
@@ -204,7 +208,7 @@ export default function Toko() {
             <div
               className='ml-1 flex md:ml-3 lg:hidden'
               onClick={() => setFilterToggle(!filterToggle)}>
-              <Filter className={"w-8 h-8 md:w-12 md:h-12 my-auto"} />
+              <Filter className={"w-8 h-8 md:w-10 md:h-10 my-auto"} />
             </div>
           </div>
           <motion.div
@@ -737,10 +741,14 @@ export default function Toko() {
                 rating={item.rating}
                 key={item.id_item}
                 image={item.photo_item}
+                setToggle={checkoutToggleForDetail}
               />
             );
           })}
       </main>
+      <div className={checkoutToggle ? "block" : "hidden"}>
+        <ModalItem setToggle={checkoutToggleForDetail} />
+      </div>
     </>
   );
 }
