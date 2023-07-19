@@ -1,6 +1,14 @@
 import Star from "../svg/Star";
 
-export default function BoxItem({ id, name, price, rating, image, setToggle }) {
+export default function BoxItem({
+  id,
+  name,
+  price,
+  rating,
+  image,
+  stock,
+  setToggle,
+}) {
   const numberWithCommas = (x) =>
     x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 
@@ -20,7 +28,7 @@ export default function BoxItem({ id, name, price, rating, image, setToggle }) {
         </div>
         <button
           type='button'
-          onClick={setToggle}
+          onClick={() => setToggle({ id, name, price, image, stock })}
           className='px-2 py-0.5 text-sm mt-1 font-semibold w-fit rounded-xl mx-auto bg-main-1 lg:px-3 lg:py-1 lg:text-lg'>
           Checkout
         </button>

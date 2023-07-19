@@ -973,6 +973,10 @@ select {
   height: 100vh;
 }
 
+.max-h-full {
+  max-height: 100%;
+}
+
 .min-h-\[200px\] {
   min-height: 200px;
 }
@@ -981,17 +985,8 @@ select {
   min-height: 300px;
 }
 
-.min-h-\[60vh\] {
-  min-height: 60vh;
-}
-
 .min-h-full {
   min-height: 100%;
-}
-
-.min-h-fit {
-  min-height: -moz-fit-content;
-  min-height: fit-content;
 }
 
 .w-1\/12 {
@@ -1806,6 +1801,11 @@ select {
   color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 
+.hover\:text-blue-500:hover {
+  --tw-text-opacity: 1;
+  color: rgb(59 130 246 / var(--tw-text-opacity));
+}
+
 .focus\:border-main-2:focus {
   --tw-border-opacity: 1;
   border-color: rgb(171 156 17 / var(--tw-border-opacity));
@@ -1889,6 +1889,14 @@ select {
     display: none;
   }
 
+  .sm\:h-28 {
+    height: 7rem;
+  }
+
+  .sm\:w-28 {
+    width: 7rem;
+  }
+
   .sm\:w-3\/5 {
     width: 60%;
   }
@@ -1899,10 +1907,6 @@ select {
 
   .sm\:w-4\/6 {
     width: 66.666667%;
-  }
-
-  .sm\:w-40 {
-    width: 10rem;
   }
 
   .sm\:w-\[5\%\] {
@@ -2072,12 +2076,16 @@ select {
     display: none;
   }
 
+  .md\:h-10 {
+    height: 2.5rem;
+  }
+
   .md\:h-12 {
     height: 3rem;
   }
 
-  .md\:h-14 {
-    height: 3.5rem;
+  .md\:h-6 {
+    height: 1.5rem;
   }
 
   .md\:h-8 {
@@ -2090,22 +2098,6 @@ select {
 
   .md\:h-\[450px\] {
     height: 450px;
-  }
-
-  .md\:h-2\/5 {
-    height: 40%;
-  }
-
-  .md\:h-1\/5 {
-    height: 20%;
-  }
-
-  .md\:h-10 {
-    height: 2.5rem;
-  }
-
-  .md\:h-6 {
-    height: 1.5rem;
   }
 
   .md\:w-1\/2 {
@@ -2140,6 +2132,10 @@ select {
     width: 80%;
   }
 
+  .md\:w-6 {
+    width: 1.5rem;
+  }
+
   .md\:w-8 {
     width: 2rem;
   }
@@ -2150,14 +2146,6 @@ select {
 
   .md\:w-\[8\%\] {
     width: 8%;
-  }
-
-  .md\:w-6 {
-    width: 1.5rem;
-  }
-
-  .md\:w-3\/5 {
-    width: 60%;
   }
 
   .md\:grid-cols-3 {
@@ -2263,11 +2251,6 @@ select {
   .md\:py-4 {
     padding-top: 1rem;
     padding-bottom: 1rem;
-  }
-
-  .md\:py-1 {
-    padding-top: 0.25rem;
-    padding-bottom: 0.25rem;
   }
 
   .md\:pb-4 {
@@ -2429,11 +2412,6 @@ select {
 }
 
 @media (min-width: 1280px) {
-  .xl\:bg-fuchsia-600 {
-    --tw-bg-opacity: 1;
-    background-color: rgb(192 38 211 / var(--tw-bg-opacity));
-  }
-
   .xl\:p-7 {
     padding: 1.75rem;
   }

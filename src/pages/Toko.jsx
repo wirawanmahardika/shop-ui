@@ -5,16 +5,23 @@ import { Form, NavLink } from "react-router-dom";
 import Filter from "../svg/Filter";
 import BoxItem from "../components/BoxItem";
 import { useEffect, useState } from "react";
-import { checkTargetForNewValues, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import HomeNav from "../svg/HomeNav";
 import Shop from "../svg/Shop";
 import hacker from "../img/hacker-1.jpg";
 import User from "../svg/User";
 import axios from "axios";
 import ModalItem from "../components/ModalItem";
+import { useFetchGet } from "../hooks/useFetch";
 
 export default function Toko() {
-  const [data, setData] = useState();
+  const [brandForFilter] = useFetchGet("http://localhost:1000/api/brands");
+  const [data, setData] = useFetchGet(
+    "http://localhost:1000/api/items/get-all"
+  );
+  const [categoriesForFilter] = useFetchGet(
+    "http://localhost:1000/api/category"
+  );
   const [filterToggle, setFilterToggle] = useState(false);
   const [navbarToggle, setNavbarToggle] = useState(false);
   const [hargaToggle, setHargaToggle] = useState("auto");
@@ -22,54 +29,39 @@ export default function Toko() {
   const hargaCustomToggle = hargaToggle === "custom" ? "bg-main-3" : "bg-black";
   const [checkoutToggle, setCheckoutToggle] = useState(false);
 
-  const [brandForFilter, setBrandForFilter] = useState();
-  const [categoriesForFilter, setCategoriesForFilter] = useState();
-
   const [limitHarga, setLimitHarga] = useState({
     harga_lte: undefined,
     harga_gte: undefined,
   });
 
   const [nameItem, setNameItem] = useState("");
+  const nameItemHandle = (e) => setNameItem(e.target.value);
+
   const [brands, setBrands] = useState([]);
-  const brandHandle = (brandName) => {
-    if (brands.includes(brandName)) {
-      const brandFiltered = brands.filter((e) => e !== brandName);
+  const brandHandle = (id_brand) => {
+    if (brands.includes(id_brand)) {
+      const brandFiltered = brands.filter((e) => e !== id_brand);
       setBrands(brandFiltered);
     } else {
-      setBrands([...brands, brandName]);
+      setBrands([...brands, id_brand]);
     }
   };
+
   const [categories, setCategories] = useState([]);
-  const categoryHandle = (categoryName) => {
-    if (categories.includes(categoryName)) {
-      const brandFiltered = categories.filter((e) => e !== categoryName);
+  const categoryHandle = (id_category) => {
+    if (categories.includes(id_category)) {
+      const brandFiltered = categories.filter((e) => e !== id_category);
       setCategories(brandFiltered);
     } else {
-      setCategories([...categories, categoryName]);
+      setCategories([...categories, id_category]);
     }
   };
 
-  useEffect(() => {
-    axios
-      .get("http://localhost:1000/api/category")
-      .then((res) => setCategoriesForFilter(res.data.data));
-  }, []);
+  const [checkoutDetail, setCheckoutDetail] = useState(null);
 
-  useEffect(() => {
-    axios
-      .get("http://localhost:1000/api/brands")
-      .then((res) => setBrandForFilter(res.data.data));
-  }, []);
-
-  useEffect(() => {
-    axios
-      .get("http://localhost:1000/api/items/get-all")
-      .then((res) => setData(res.data.data));
-  }, []);
-
-  const checkoutToggleForDetail = () => {
+  const checkoutToggleForDetail = (data) => {
     setCheckoutToggle(!checkoutToggle);
+    setCheckoutDetail(data);
   };
 
   const getData = () => {
@@ -91,8 +83,17 @@ export default function Toko() {
     setLimitHarga({ harga_lte: undefined, harga_gte: undefined });
   };
 
+  const resetLimitHargaAndChangeMode = (mode) => {
+    setLimitHarga({
+      harga_lte: undefined,
+      harga_gte: undefined,
+    });
+    setHargaToggle(mode);
+  };
+
   return (
     <>
+      {/* Nav for mobile size */}
       <motion.nav
         animate={{ x: navbarToggle ? 0 : "-100vh" }}
         className='fixed bg-black bottom-0 left-0 top-0 w-1/2 z-40 text-white p-3 -translate-x-[100vh] md:hidden'>
@@ -152,14 +153,15 @@ export default function Toko() {
           </h2>
         </div>
         <div className='flex gap-x-2 items-center md:justify-end'>
-          <div className='mr-3 font-semibold hidden md:block md:text-xl '>
+          {/* nav untuk size tablet */}
+          <nav className='mr-3 font-semibold hidden md:block md:text-xl '>
             <ul className='flex gap-x-3'>
               <NavLink to='/'>Home</NavLink>
               <NavLink to='/profile'>Profile</NavLink>
               <NavLink to='/toko'>Toko</NavLink>
               <NavLink to='/about'>About</NavLink>
             </ul>
-          </div>
+          </nav>
           <NavLink to={"/cart"}>
             <Cart className={"w-7 h-7 md:w-8 md:h-8"} />
           </NavLink>
@@ -187,7 +189,7 @@ export default function Toko() {
               className='form-input md:text-xl sm:py-2 py-1 w-4/5 md:py-3 rounded-l-md bg-main-1 placeholder-gray-200 shadow-xl focus:border-main-2 placeholder-opacity-70 text-white text-sm lg:w-3/5'
               placeholder='Type here'
               value={nameItem}
-              onChange={(e) => setNameItem(e.target.value)}
+              onChange={nameItemHandle}
             />
             <div className='form-input py-1 md:text-xl md:py-2 rounded-r-md bg-black placeholder-gray-200 shadow-xl focus:border-main-2 placeholder-opacity-70 text-white text-sm sm:py-2 flex items-center justify-center'>
               <svg
@@ -236,54 +238,25 @@ export default function Toko() {
                 <p className='text-xl font-bold text-center col-span-2 mb-2 md:text-3xl'>
                   Category
                 </p>
-                <div className='flex gap-x-2 items-center '>
-                  <input
-                    type='checkbox'
-                    id='baju'
-                    className='form-input md:w-9 md:h-9'
-                    onChange={() => categoryHandle("baju")}
-                    checked={categories.includes("baju")}
-                  />
-                  <label className='md:text-xl' htmlFor='baju'>
-                    Baju
-                  </label>
-                </div>
-                <div className='flex gap-x-2 items-center '>
-                  <input
-                    type='checkbox'
-                    id='celana'
-                    className='form-input md:w-9 md:h-9'
-                    onChange={() => categoryHandle("celana")}
-                    checked={categories.includes("celana")}
-                  />
-                  <label className='md:text-xl' htmlFor='celana'>
-                    Celana
-                  </label>
-                </div>
-                <div className='flex gap-x-2 items-center '>
-                  <input
-                    type='checkbox'
-                    id='sepatu'
-                    className='form-input md:w-9 md:h-9'
-                    onChange={() => categoryHandle("sepatu")}
-                    checked={categories.includes("sepatu")}
-                  />
-                  <label className='md:text-xl' htmlFor='sepatu'>
-                    Sepatu
-                  </label>
-                </div>
-                <div className='flex gap-x-2 items-center '>
-                  <input
-                    type='checkbox'
-                    id='kalung'
-                    className='form-input md:w-9 md:h-9'
-                    onChange={() => categoryHandle("kalung")}
-                    checked={categories.includes("kalung")}
-                  />
-                  <label className='md:text-xl' htmlFor='kalung'>
-                    Kalung
-                  </label>
-                </div>
+                {categoriesForFilter &&
+                  categoriesForFilter.map((d) => {
+                    return (
+                      <div
+                        className='flex gap-x-2 items-center '
+                        key={d.id_category}>
+                        <input
+                          type='checkbox'
+                          id={d.category}
+                          className='form-input md:w-9 md:h-9'
+                          onChange={() => categoryHandle(d.id_category)}
+                          checked={categories.includes(d.id_category)}
+                        />
+                        <label className='md:text-xl' htmlFor={d.category}>
+                          {d.category}
+                        </label>
+                      </div>
+                    );
+                  })}
               </div>
               <div className='grid grid-cols-2 gap-y-2 p-3 md:gap-y-5'>
                 <p className='text-xl font-bold text-center col-span-2 mb-2 md:text-3xl'>
@@ -308,54 +281,6 @@ export default function Toko() {
                       </div>
                     );
                   })}
-                <div className='flex gap-x-2 items-center '>
-                  <input
-                    type='checkbox'
-                    id='adidas'
-                    className='form-input md:w-9 md:h-9'
-                    onChange={() => brandHandle("adidas")}
-                    checked={brands.includes("adidas")}
-                  />
-                  <label className='md:text-xl' htmlFor='adidas'>
-                    Adidas
-                  </label>
-                </div>
-                <div className='flex gap-x-2 items-center '>
-                  <input
-                    type='checkbox'
-                    id='converse'
-                    className='form-input md:w-9 md:h-9'
-                    onChange={() => brandHandle("converse")}
-                    checked={brands.includes("converse")}
-                  />
-                  <label className='md:text-xl' htmlFor='converse'>
-                    Converse
-                  </label>
-                </div>
-                <div className='flex gap-x-2 items-center '>
-                  <input
-                    type='checkbox'
-                    id='ventela'
-                    className='form-input md:w-9 md:h-9'
-                    onChange={() => brandHandle("ventela")}
-                    checked={brands.includes("ventela")}
-                  />
-                  <label className='md:text-xl' htmlFor='ventela'>
-                    Ventela
-                  </label>
-                </div>
-                <div className='flex gap-x-2 items-center '>
-                  <input
-                    type='checkbox'
-                    id='gucci'
-                    className='form-input md:w-9 md:h-9'
-                    onChange={() => brandHandle("gucci")}
-                    checked={brands.includes("gucci")}
-                  />
-                  <label className='md:text-xl' htmlFor='gucci'>
-                    Gucci
-                  </label>
-                </div>
               </div>
               <div className='flex flex-col gap-y-2 p-3'>
                 <p className='text-xl font-bold text-center col-span-2 mb-2 md:text-3xl'>
@@ -364,13 +289,7 @@ export default function Toko() {
                 <div className='mx-auto text-center mb-2'>
                   <button
                     type='button'
-                    onClick={() => {
-                      setLimitHarga({
-                        harga_lte: undefined,
-                        harga_gte: undefined,
-                      });
-                      setHargaToggle("auto");
-                    }}
+                    onClick={() => resetLimitHargaAndChangeMode("auto")}
                     className={
                       "px-2 rounded-l py-0.5 md:px-5 md:py-2 " + hargaAutoToggle
                     }>
@@ -378,18 +297,12 @@ export default function Toko() {
                   </button>
                   <button
                     type='button'
-                    onClick={() => {
-                      setLimitHarga({
-                        harga_lte: undefined,
-                        harga_gte: undefined,
-                      });
-                      setHargaToggle("custom");
-                    }}
+                    onClick={() => resetLimitHargaAndChangeMode("custom")}
                     className={
                       `px-2 rounded-r py-0.5 md:px-5 md:py-2 ` +
                       hargaCustomToggle
                     }>
-                    Costum
+                    Custom
                   </button>
                 </div>
 
@@ -507,7 +420,7 @@ export default function Toko() {
                 type='button'
                 onClick={resetFilter}
                 className='px-4 py-0.5 rounded bg-main-3  text-black font-semibold mx-auto mt-auto md:px-8 md:py-2 md:mb-5 md:text-2xl md:border border-black'>
-                Apply
+                Reset
               </button>
             </div>
           </motion.div>
@@ -740,6 +653,7 @@ export default function Toko() {
                 name={item.name}
                 rating={item.rating}
                 key={item.id_item}
+                stock={item.stock}
                 image={item.photo_item}
                 setToggle={checkoutToggleForDetail}
               />
@@ -747,7 +661,7 @@ export default function Toko() {
           })}
       </main>
       <div className={checkoutToggle ? "block" : "hidden"}>
-        <ModalItem setToggle={checkoutToggleForDetail} />
+        <ModalItem setToggle={checkoutToggleForDetail} data={checkoutDetail} />
       </div>
     </>
   );

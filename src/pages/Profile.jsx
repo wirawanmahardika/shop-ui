@@ -98,39 +98,41 @@ export default function Profile() {
           <p>Rp 1.000.000.000</p>
         </div>
       </div>
-      <div class='flex flex-col mt-4'>
+      <div className='flex flex-col mt-4'>
         <p className='font-bold text-2xl font-geologica px-3 text-center mb-3 sm:text-sky-600 md:text-3xl'>
           Buy History
         </p>
-        <div class='overflow-x-auto sm:-mx-6 lg:-mx-8'>
-          <div class='inline-block min-w-full py-2 sm:px-6 lg:px-8'>
-            <div class='overflow-hidden'>
-              <table class='min-w-full text-center text-sm '>
-                <thead class='border-b bg-neutral-800 font-medium text-white dark:border-neutral-500 dark:bg-neutral-900'>
+        <div className='overflow-x-auto sm:-mx-6 lg:-mx-8'>
+          <div className='inline-block min-w-full py-2 sm:px-6 lg:px-8'>
+            <div className='overflow-hidden'>
+              <table className='min-w-full text-center text-sm '>
+                <thead className='border-b bg-neutral-800 font-medium text-white dark:border-neutral-500 dark:bg-neutral-900'>
                   <tr>
-                    <th scope='col' class=' px-6 py-4'>
+                    <th scope='col' className=' px-6 py-4'>
                       Date
                     </th>
-                    <th scope='col' class=' px-6 py-4'>
+                    <th scope='col' className=' px-6 py-4'>
                       Spend
                     </th>
-                    <th scope='col' class=' px-6 py-4'>
+                    <th scope='col' className=' px-6 py-4'>
                       Handle
                     </th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr class='border-b dark:border-neutral-500'>
-                    <td class='whitespace-nowrap  px-6 py-4 font-medium'>
+                  <tr className='border-b dark:border-neutral-500'>
+                    <td className='whitespace-nowrap  px-6 py-4 font-medium'>
                       Date
                     </td>
-                    <td class='whitespace-nowrap  px-6 py-4'>Spend</td>
-                    <td class='whitespace-nowrap  px-6 py-4'>Handle</td>
+                    <td className='whitespace-nowrap  px-6 py-4'>Spend</td>
+                    <td className='whitespace-nowrap  px-6 py-4'>Handle</td>
                   </tr>
-                  <tr class='border-b dark:border-neutral-500'>
-                    <td class='whitespace-nowrap  px-6 py-4 font-medium'>2</td>
-                    <td class='whitespace-nowrap  px-6 py-4'>Thornton</td>
-                    <td class='whitespace-nowrap  px-6 py-4'>Thornton</td>
+                  <tr className='border-b dark:border-neutral-500'>
+                    <td className='whitespace-nowrap  px-6 py-4 font-medium'>
+                      2
+                    </td>
+                    <td className='whitespace-nowrap  px-6 py-4'>Thornton</td>
+                    <td className='whitespace-nowrap  px-6 py-4'>Thornton</td>
                   </tr>
                 </tbody>
               </table>
