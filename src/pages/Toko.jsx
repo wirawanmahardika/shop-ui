@@ -14,6 +14,8 @@ import axios from "axios";
 import ModalItem from "../components/ModalItem";
 import { useFetchGet } from "../hooks/useFetch";
 import useGetUser from "../hooks/useGetUser";
+import Login from "../svg/Login";
+import signup from "../img/signup.png";
 
 export default function Toko() {
   const [brandForFilter] = useFetchGet("http://localhost:1000/api/brands");
@@ -92,7 +94,8 @@ export default function Toko() {
     setHargaToggle(mode);
   };
 
-  useGetUser();
+  const user = useGetUser();
+  console.log(user);
   return (
     <>
       {/* Nav for mobile size */}
@@ -108,33 +111,34 @@ export default function Toko() {
             </li>
           </div>
           <div className='flex gap-x-2 items-center'>
-            <User />
-            <li className='font-semibold text-xl hover:text-white'>
-              <NavLink to={"/profile"}>Profile</NavLink>
-            </li>
-          </div>
-          <div className='flex gap-x-2 items-center'>
             <Shop />
             <li className='font-semibold text-xl hover:text-white'>
               <NavLink to={"/toko"}>Toko</NavLink>
             </li>
           </div>
-          {/* <div className='flex gap-x-2 items-center'>
-            <svg
-              xmlns='http://www.w3.org/2000/svg'
-              fill='none'
-              viewBox='0 0 24 24'
-              strokeWidth={1.5}
-              stroke='currentColor'
-              className='w-6 h-6'>
-              <path
-                strokeLinecap='round'
-                strokeLinejoin='round'
-                d='M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z'
-              />
-            </svg>
-            <li className='font-semibold text-xl hover:text-white'>About</li>
-          </div> */}
+          {user.isLoggedIn ? (
+            <div className='flex gap-x-2 items-center'>
+              <User />
+              <li className='font-semibold text-xl hover:text-white'>
+                <NavLink to={"/profile"}>Profile</NavLink>
+              </li>
+            </div>
+          ) : (
+            <>
+              <div className='flex gap-x-2 items-center'>
+                <Login />
+                <li className='font-semibold text-xl hover:text-white'>
+                  <NavLink to={"/login"}>Login</NavLink>
+                </li>
+              </div>
+              <div className='flex gap-x-2 items-center'>
+                <img src={signup} alt='signup' className='w-6 h-6' />
+                <li className='font-semibold text-xl hover:text-white'>
+                  <NavLink to={"/signup"}>Signup</NavLink>
+                </li>
+              </div>
+            </>
+          )}
         </ul>
         <button
           onClick={() => setNavbarToggle(!navbarToggle)}
@@ -159,19 +163,29 @@ export default function Toko() {
           <nav className='mr-3 font-semibold hidden md:block md:text-xl '>
             <ul className='flex gap-x-3'>
               <NavLink to='/'>Home</NavLink>
-              <NavLink to='/profile'>Profile</NavLink>
               <NavLink to='/toko'>Toko</NavLink>
-              {/* <NavLink to='/about'>About</NavLink> */}
+              {user.isLoggedIn ? (
+                <NavLink to='/profile'>Profile</NavLink>
+              ) : (
+                <>
+                  <NavLink to='/login'>Login</NavLink>
+                  <NavLink to='/signup'>Signup</NavLink>
+                </>
+              )}
             </ul>
           </nav>
           <NavLink to={"/cart"}>
             <Cart className={"w-7 h-7 md:w-8 md:h-8"} />
           </NavLink>
-          <img
-            src={hacker}
-            alt='profile'
-            className='w-9 h-9 hidden md:block rounded-full'
-          />
+          {user.photo ? (
+            <img
+              src={hacker}
+              alt='profile'
+              className='w-9 h-9 hidden md:block rounded-full'
+            />
+          ) : (
+            <User className={"w-7 h-7"} />
+          )}
           <div
             className='md:hidden'
             onClick={() => setNavbarToggle(!navbarToggle)}>
