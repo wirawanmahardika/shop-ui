@@ -1,18 +1,9 @@
 import Bars3 from "../svg/Bars3";
 import Cart from "../svg/Cart";
 import hacker from "../img/hacker-1.jpg";
-import gucci from "../img/gucci.png";
-import nike from "../img/nike.png";
-import puma from "../img/puma.png";
-import converse from "../img/converse.png";
-import adidas from "../img/adidas.png";
 import shoes1 from "../img/shoes1.png";
 import shoes2 from "../img/shoes2.png";
 import shoes3 from "../img/shoes3.png";
-import kalung from "../img/kalung.png";
-import celana from "../img/celana.png";
-import baju from "../img/baju.png";
-import gelang from "../img/gelang.png";
 import instagram from "../img/instagram.png";
 import whatsapp from "../img/whatsapp.png";
 import facebook from "../img/facebook.png";
@@ -25,6 +16,9 @@ import Shop from "../svg/Shop";
 import { NavLink } from "react-router-dom";
 import User from "../svg/User";
 import axios from "axios";
+import useGetUser from "../hooks/useGetUser";
+import Login from "../svg/Login";
+import signup from "../img/signup.png";
 
 export default function Home() {
   const [navbarToggle, setNavbarToggle] = useState(false);
@@ -39,11 +33,11 @@ export default function Home() {
 
   useEffect(() => {
     axios.get("http://localhost:1000/api/brands").then((res) => {
-      console.log(res.data.data);
       setBrands(res.data.data);
     });
   }, []);
 
+  const user = useGetUser();
   return (
     <>
       <nav className='flex p-5 justify-between w-full md:bg-main-1 md:p-3 xl:p-7 relative z-10'>
@@ -72,38 +66,69 @@ export default function Home() {
             Home
           </NavLink>
           <NavLink
-            to={"/profile"}
-            className={
-              "font-semibold text-md hover:text-white hidden lg:inline xl:text-xl"
-            }>
-            Profile
-          </NavLink>
-          <NavLink
             to={"/toko"}
             className={
               "font-semibold text-md hover:text-white hidden lg:inline xl:text-xl"
             }>
             Toko
           </NavLink>
-          <NavLink
-            to={"/about"}
-            className={
-              "font-semibold text-md hover:text-white hidden lg:inline xl:text-xl"
-            }>
-            About
-          </NavLink>
+          {user.isLoggedIn ? (
+            <NavLink
+              to={"/profile"}
+              className={
+                "font-semibold text-md hover:text-white hidden lg:inline xl:text-xl"
+              }>
+              Profile
+            </NavLink>
+          ) : (
+            <>
+              <NavLink
+                to={"/login"}
+                className={
+                  "font-semibold text-md hover:text-white hidden lg:inline xl:text-xl"
+                }>
+                Login
+              </NavLink>
+              <NavLink
+                to={"/signup"}
+                className={
+                  "font-semibold text-md hover:text-white hidden lg:inline xl:text-xl"
+                }>
+                Signup
+              </NavLink>
+            </>
+          )}
+
           <NavLink to='/cart'>
             <Cart className={"w-10 h-10"} />
           </NavLink>
-          <NavLink to={"/profile"} className={"w-10 h-full flex"}>
-            <img
-              src={hacker}
-              alt='profile'
-              className='w-10 rounded-full self-stretch'
-            />
-          </NavLink>
+          {user.isLoggedIn ? (
+            <NavLink to={"/profile"} className={"w-10 h-full flex"}>
+              <img
+                src={hacker}
+                alt='profile'
+                className='w-10 rounded-full self-stretch'
+              />
+            </NavLink>
+          ) : (
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              fill='none'
+              viewBox='0 0 24 24'
+              strokeWidth={1.5}
+              stroke='currentColor'
+              className='w-10 h-10'>
+              <path
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                d='M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z'
+              />
+            </svg>
+          )}
         </div>
       </nav>
+
+      {/* Mobile navbar */}
       <motion.nav
         animate={{ x: navbarToggle ? 0 : "-100vh" }}
         className='fixed bg-black bottom-0 left-0 top-0 w-1/2 z-40 text-white p-3 -translate-x-[100vh] md:hidden'>
@@ -115,36 +140,36 @@ export default function Home() {
               <NavLink to={"/"}>Home</NavLink>
             </li>
           </div>
-          <div className='flex gap-x-2 items-center'>
-            <User />
-            <li className='font-semibold text-xl hover:text-white'>
-              <NavLink to={"/profile"}>Profile</NavLink>
-            </li>
-          </div>
+
           <div className='flex gap-x-2 items-center'>
             <Shop />
             <li className='font-semibold text-xl hover:text-white'>
               <NavLink to={"/toko"}>Toko</NavLink>
             </li>
           </div>
-
-          <div className='flex gap-x-2 items-center'>
-            <svg
-              xmlns='http://www.w3.org/2000/svg'
-              fill='none'
-              viewBox='0 0 24 24'
-              strokeWidth={1.5}
-              stroke='currentColor'
-              className='w-6 h-6'>
-              <path
-                strokeLinecap='round'
-                strokeLinejoin='round'
-                d='M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z'
-              />
-            </svg>
-
-            <li className='font-semibold text-xl hover:text-white'>About</li>
-          </div>
+          {user.isLoggedIn ? (
+            <div className='flex gap-x-2 items-center'>
+              <User />
+              <li className='font-semibold text-xl hover:text-white'>
+                <NavLink to={"/profile"}>Profile</NavLink>
+              </li>
+            </div>
+          ) : (
+            <>
+              <div className='flex gap-x-2 items-center'>
+                <Login />
+                <li className='font-semibold text-xl hover:text-white'>
+                  <NavLink to={"/login"}>Login</NavLink>
+                </li>
+              </div>
+              <div className='flex gap-x-2 items-center'>
+                <img src={signup} alt='signup' className='w-6 h-6' />
+                <li className='font-semibold text-xl hover:text-white'>
+                  <NavLink to={"/signup"}>Signup</NavLink>
+                </li>
+              </div>
+            </>
+          )}
         </ul>
         <button
           onClick={() => setNavbarToggle(!navbarToggle)}
@@ -160,19 +185,27 @@ export default function Home() {
             <NavLink to={"/"}>Home</NavLink>
           </li>
           <li className='font-bold text-xl hover:text-white'>
-            <NavLink to={"/profile"}>Profile</NavLink>
-          </li>
-          <li className='font-bold text-xl hover:text-white'>
             <NavLink to={"/toko"}>Toko</NavLink>
           </li>
-          <li className='font-bold text-xl hover:text-white'>
-            <NavLink to={"/about"}>About</NavLink>
-          </li>
+          {user.isLoggedIn ? (
+            <li className='font-bold text-xl hover:text-white'>
+              <NavLink to={"/profile"}>Profile</NavLink>
+            </li>
+          ) : (
+            <>
+              <li className='font-bold text-xl hover:text-white'>
+                <NavLink to={"/login"}>Login</NavLink>
+              </li>
+              <li className='font-bold text-xl hover:text-white'>
+                <NavLink to={"/signup"}>Signup</NavLink>
+              </li>
+            </>
+          )}
         </ul>
       </motion.nav>
       <div className='w-full h-[390px] bg-image-home bg-cover p-7 flex sm:bg-none sm:flex sm:p-0 md:h-[450px]'>
         <div className='w-4/5 text-center sm:w-full sm:flex sm:items-center sm:justify-center sm:flex-col sm:basis-1/2 md:gap-y-1 lg:gap-y-2'>
-          <h2 className='text-main-1 font-bold text-3xl sm:text-yellow-600 md:text-fuchsia-600 lg:text-emerald-600 xl:text-4xl xl:text-red-600 md:-mb-1'>
+          <h2 className='text-main-1 font-bold text-3xl  md:-mb-1'>
             SHOP WITH US
           </h2>
           <p className='font-semibold font-quicksand'>
@@ -264,7 +297,9 @@ export default function Home() {
         {categories &&
           categories.map((d) => {
             return (
-              <div className='w-full flex justify-between items-center px-6 sm:justify-around'>
+              <div
+                key={d.id_category}
+                className='w-full flex justify-between items-center px-6 sm:justify-around'>
                 <img src={d.category_photo} alt='shoes1' className='w-[80px]' />
                 <h3 className='font-semibold capitalize'>{d.category}</h3>
               </div>

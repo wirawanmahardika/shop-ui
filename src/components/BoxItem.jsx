@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom";
+import useGetUser from "../hooks/useGetUser";
 import Star from "../svg/Star";
 
 export default function BoxItem({
@@ -9,6 +11,8 @@ export default function BoxItem({
   stock,
   setToggle,
 }) {
+  const user = useGetUser();
+  const navigation = useNavigate();
   const numberWithCommas = (x) =>
     x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 
@@ -28,7 +32,14 @@ export default function BoxItem({
         </div>
         <button
           type='button'
-          onClick={() => setToggle({ id, name, price, image, stock })}
+          onClick={() => {
+            if (!user.isLoggedIn) {
+              return navigation("/login", {
+                state: "Anda harus login terlebih dahulu",
+              });
+            }
+            setToggle({ id, name, price, image, stock });
+          }}
           className='px-2 py-0.5 text-sm mt-1 font-semibold w-fit rounded-xl mx-auto bg-main-1 lg:px-3 lg:py-1 lg:text-lg'>
           Checkout
         </button>

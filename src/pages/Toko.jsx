@@ -13,6 +13,7 @@ import User from "../svg/User";
 import axios from "axios";
 import ModalItem from "../components/ModalItem";
 import { useFetchGet } from "../hooks/useFetch";
+import useGetUser from "../hooks/useGetUser";
 
 export default function Toko() {
   const [brandForFilter] = useFetchGet("http://localhost:1000/api/brands");
@@ -91,6 +92,7 @@ export default function Toko() {
     setHargaToggle(mode);
   };
 
+  useGetUser();
   return (
     <>
       {/* Nav for mobile size */}
@@ -117,7 +119,7 @@ export default function Toko() {
               <NavLink to={"/toko"}>Toko</NavLink>
             </li>
           </div>
-          <div className='flex gap-x-2 items-center'>
+          {/* <div className='flex gap-x-2 items-center'>
             <svg
               xmlns='http://www.w3.org/2000/svg'
               fill='none'
@@ -132,7 +134,7 @@ export default function Toko() {
               />
             </svg>
             <li className='font-semibold text-xl hover:text-white'>About</li>
-          </div>
+          </div> */}
         </ul>
         <button
           onClick={() => setNavbarToggle(!navbarToggle)}
@@ -159,7 +161,7 @@ export default function Toko() {
               <NavLink to='/'>Home</NavLink>
               <NavLink to='/profile'>Profile</NavLink>
               <NavLink to='/toko'>Toko</NavLink>
-              <NavLink to='/about'>About</NavLink>
+              {/* <NavLink to='/about'>About</NavLink> */}
             </ul>
           </nav>
           <NavLink to={"/cart"}>
