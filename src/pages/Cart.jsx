@@ -1,7 +1,7 @@
 import logo from "../img/logo.png";
 import Bars3 from "../svg/Bars3";
 import Cart from "../svg/Cart";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import HomeNav from "../svg/HomeNav";
@@ -9,12 +9,11 @@ import Shop from "../svg/Shop";
 import hacker from "../img/hacker-1.jpg";
 import User from "../svg/User";
 import CartItem from "../components/CartItem";
-import { useDispatch, useSelector } from "react-redux";
-import { deleteItem } from "../reduxSlice/CartItem";
+import { useSelector } from "react-redux";
 import useGetUser from "../hooks/useGetUser";
-import useCheckLogin from "../hooks/useCheckLogin";
 
 export default function CartPage() {
+  const navigate = useNavigate();
   const [navbarToggle, setNavbarToggle] = useState(false);
   const [subTotal, setSubTotal] = useState(0);
   const data = useSelector((state) => state.cartItem);
@@ -28,8 +27,7 @@ export default function CartPage() {
     setSubTotal(count);
   }, [data]);
 
-  useGetUser();
-  useCheckLogin();
+  const user = useGetUser();
   return (
     <>
       <motion.nav
@@ -44,33 +42,17 @@ export default function CartPage() {
             </li>
           </div>
           <div className='flex gap-x-2 items-center'>
-            <User />
-            <li className='font-semibold text-xl hover:text-white'>
-              <NavLink to={"/profile"}>Profile</NavLink>
-            </li>
-          </div>
-          <div className='flex gap-x-2 items-center'>
             <Shop />
             <li className='font-semibold text-xl hover:text-white'>
               <NavLink to={"/toko"}>Toko</NavLink>
             </li>
           </div>
-          {/* <div className='flex gap-x-2 items-center'>
-            <svg
-              xmlns='http://www.w3.org/2000/svg'
-              fill='none'
-              viewBox='0 0 24 24'
-              strokeWidth={1.5}
-              stroke='currentColor'
-              className='w-6 h-6'>
-              <path
-                strokeLinecap='round'
-                strokeLinejoin='round'
-                d='M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z'
-              />
-            </svg>
-            <li className='font-semibold text-xl hover:text-white'>About</li>
-          </div> */}
+          <div className='flex gap-x-2 items-center'>
+            <User />
+            <li className='font-semibold text-xl hover:text-white'>
+              <NavLink to={"/profile"}>Profile</NavLink>
+            </li>
+          </div>
         </ul>
         <button
           onClick={() => setNavbarToggle(!navbarToggle)}
@@ -97,19 +79,26 @@ export default function CartPage() {
               <NavLink to={"/cart"} className={"md:hidden"}>
                 Cart
               </NavLink>
-              <NavLink to={"/profile"}>Profile</NavLink>
               <NavLink to={"/toko"}>Toko</NavLink>
-              {/* <NavLink to={"/about"}>About</NavLink> */}
+              <NavLink to={"/profile"}>Profile</NavLink>
             </ul>
           </div>
           <NavLink to='/cart'>
             <Cart className={"w-7 h-7 md:w-8 md:h-8"} />
           </NavLink>
-          <img
-            src={hacker}
-            alt='profile'
-            className='w-9 h-9 hidden md:block rounded-full'
-          />
+          {user.isLoggedIn && user.photo ? (
+            <img
+              onClick={() => navigate("/profile")}
+              src={user.photo}
+              alt='profile'
+              className='w-9 h-9 hidden md:block rounded-full cursor-pointer'
+            />
+          ) : (
+            <User
+              className={"w-7 h-7 cursor-pointer"}
+              clickHandler={navigate}
+            />
+          )}
           <div
             className='md:hidden'
             onClick={() => setNavbarToggle(!navbarToggle)}>

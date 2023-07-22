@@ -1,6 +1,7 @@
-export default function User({ className }) {
+export default function User({ className, clickHandler }) {
   return (
     <svg
+      onClick={() => clickHandler && clickHandler("/profile")}
       xmlns='http://www.w3.org/2000/svg'
       fill='none'
       viewBox='0 0 24 24'

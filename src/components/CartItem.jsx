@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { deleteItem, editQuantityCart } from "../reduxSlice/CartItem";
 
 export default function CartItem({ id, name, qty, image, price, stock }) {

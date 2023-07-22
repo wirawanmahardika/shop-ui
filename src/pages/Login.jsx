@@ -143,6 +143,7 @@ export const loginAction = async ({ request }) => {
       data,
       { withCredentials: true }
     );
+    localStorage.setItem("isLoggedIn", "true");
     return returndata.data;
   } catch (error) {
     return error.response.data;

@@ -7,6 +7,7 @@ const initialState = {
   role: null,
   emailValidated: false,
   photo: null,
+  balance: null,
   isLoggedIn: false,
 };
 
@@ -20,6 +21,7 @@ const authSlice = createSlice({
     logout: (state, action) => {
       return (state = initialState);
     },
+
   },
 });
 

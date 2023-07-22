@@ -47,7 +47,7 @@ export default function ModalItem({ setToggle, data }) {
                 </div>
               </div>
               <button
-                disabled={qty <= 0}
+                disabled={qty <= 0 || qty > data.stock}
                 className='sm:mt-0 md:text-xl mt-auto px-4 py-1 w-fit rounded-md bg-sky-600 font-medium mx-auto lg:bg-orange-600 md:bg-emerald-600 sm:bg-red-600'
                 onClick={() => {
                   if (cartItems.find((d) => d.id === data.id)) {

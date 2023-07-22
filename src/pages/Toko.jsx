@@ -1,7 +1,7 @@
 import logo from "../img/logo.png";
 import Bars3 from "../svg/Bars3";
 import Cart from "../svg/Cart";
-import { Form, NavLink } from "react-router-dom";
+import { Form, NavLink, useNavigate } from "react-router-dom";
 import Filter from "../svg/Filter";
 import BoxItem from "../components/BoxItem";
 import { useEffect, useState } from "react";
@@ -18,6 +18,7 @@ import Login from "../svg/Login";
 import signup from "../img/signup.png";
 
 export default function Toko() {
+  const navigate = useNavigate();
   const [brandForFilter] = useFetchGet("http://localhost:1000/api/brands");
   const [data, setData] = useFetchGet(
     "http://localhost:1000/api/items/get-all"
@@ -95,7 +96,6 @@ export default function Toko() {
   };
 
   const user = useGetUser();
-  console.log(user);
   return (
     <>
       {/* Nav for mobile size */}
@@ -177,14 +177,18 @@ export default function Toko() {
           <NavLink to={"/cart"}>
             <Cart className={"w-7 h-7 md:w-8 md:h-8"} />
           </NavLink>
-          {user.photo ? (
+          {user.isLoggedIn && user.photo ? (
             <img
-              src={hacker}
+              onClick={() => navigate("/profile")}
+              src={user.photo}
               alt='profile'
-              className='w-9 h-9 hidden md:block rounded-full'
+              className='w-9 h-9 hidden md:block rounded-full cursor-pointer'
             />
           ) : (
-            <User className={"w-7 h-7"} />
+            <User
+              className={"w-7 h-7 cursor-pointer"}
+              clickHandler={navigate}
+            />
           )}
           <div
             className='md:hidden'
