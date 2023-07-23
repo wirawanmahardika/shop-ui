@@ -1,4 +1,4 @@
-import { Form, NavLink, useActionData, useLocation } from "react-router-dom";
+import { Form, NavLink } from "react-router-dom";
 import logo from "../img/logo.png";
 import { useEffect, useState } from "react";
 import PasswordValidate from "../components/PasswordValidate";
@@ -32,8 +32,6 @@ export default function EditProfile({}) {
       setMsg({ place: "", message: "" });
     }
   }, [valueInput]);
-
-  console.log(msg);
 
   return (
     <>

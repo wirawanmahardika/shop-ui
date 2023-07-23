@@ -149,7 +149,7 @@ export default function Profile() {
         <p className='font-bold text-2xl font-geologica px-3 text-center sm:text-sky-600 md:text-3xl'>
           Buy History
         </p>
-        <div className='w-full '>
+        <div className='w-full lg:mt-3'>
           <div className='inline-block w-full '>
             <div className='overflow-hidden'>
               <table className='w-full text-center text-sm '>

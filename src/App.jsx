@@ -12,6 +12,12 @@ import Profile from "./pages/Profile";
 import Login, { loginAction } from "./pages/Login";
 import Signup, { signupAction } from "./pages/Signup";
 import EditProfile, { editProfileAction } from "./pages/EditProfile";
+import Admin from "./pages/Admin";
+import CategorySetting from "./pages/CategorySetting";
+import AdminHome from "./pages/AdminHome";
+import BrandSetting from "./pages/BrandSetting";
+import UsersSetting from "./pages/UsersSettting";
+import ItemSetting from "./pages/ItemSetting";
 
 const router = createHashRouter(
   createRoutesFromElements(
@@ -27,6 +33,13 @@ const router = createHashRouter(
       />
       <Route path='/login' element={<Login />} action={loginAction} />
       <Route path='/signup' element={<Signup />} action={signupAction} />
+      <Route path='/admin' element={<Admin />}>
+        <Route index element={<AdminHome />} />
+        <Route path='category' element={<CategorySetting />} />
+        <Route path='brand' element={<BrandSetting />} />
+        <Route path='users' element={<UsersSetting />} />
+        <Route path='items' element={<ItemSetting />} />
+      </Route>
     </>
   )
 );

@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "../reduxSlice/Auth";
-import { useMatch, useMatches, useNavigate } from "react-router-dom";
+import { useMatches, useNavigate } from "react-router-dom";
 
 export default function useGetUser() {
   const notAllowedPage = ["/profile", "/cart", "/edit-profile"];
