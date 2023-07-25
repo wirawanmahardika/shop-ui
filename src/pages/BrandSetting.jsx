@@ -2,15 +2,29 @@ import { useOutletContext } from "react-router-dom";
 import Bars3 from "../svg/Bars3";
 import { useFetchGet } from "../hooks/useFetch";
 import Plus from "../svg/Plus";
+import { useState } from "react";
+import BrandModal from "../components/BrandModal";
+import axios from "axios";
 
 export default function BrandSetting() {
   const { navbarToggle, setNavbarToggle } = useOutletContext();
+  const [brandModal, setBrandModal] = useState(false);
   const [brands, setBrands] = useFetchGet("http://localhost:1000/api/brands");
+  const [msg, setMsg] = useState("");
 
   const deleteBrand = (id_brand) => {
-    // axios.delete('http://localhost:1000/api/category/'+id_brand, {withCredentials: true})
-    //   .then(res => console.log(res))
-    setBrands(brands.filter((c) => c.id_brand !== id_brand));
+    axios
+      .delete("http://localhost:1000/api/brands/" + id_brand, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        setMsg(res.data.description);
+        setBrands(brands.filter((c) => c.id_brand !== id_brand));
+      });
+  };
+
+  const addBrand = (data) => {
+    setBrands([...brands, data]);
   };
 
   return (
@@ -24,9 +38,16 @@ export default function BrandSetting() {
         <h2 className='font-bold text-center text-2xl uppercase font-roboto md:text-3xl'>
           Brand Setting
         </h2>
-        <div className='flex px-3 py-1 mt-7 sm:px-4 sm:py-2 items-center gap-x-1 group w-fit'>
+        {msg && (
+          <div className='mt-4 w-4/5 mx-auto rounded-md flex items-center justify-center p-3 bg-green-300 text-green-800 md:text-lg'>
+            <p>{msg}</p>
+          </div>
+        )}
+        <div className='flex px-3 py-1 mt-7 sm:px-4 sm:py-2 items-center gap-x-1 group w-fit  md:text-2xl'>
           <Plus className={"group-hover:fill-blue-600 w-6 h-6"} />
-          <button className='font-bold text-xl font-raleway group-hover:text-blue-600 md:text-2xl'>
+          <button
+            onClick={() => setBrandModal(!brandModal)}
+            className='font-bold text-xl font-raleway group-hover:text-blue-600 md:text-2xl'>
             Add Brand
           </button>
         </div>
@@ -66,7 +87,15 @@ export default function BrandSetting() {
                       </td>
                       <td className='whitespace-nowrap  px-6 py-4'>
                         <button
-                          onClick={() => deleteBrand(b.id_brand)}
+                          onClick={() => {
+                            if (
+                              confirm(
+                                "Anda yakin ingin menghapus " + b.name_brand
+                              )
+                            ) {
+                              return deleteBrand(b.id_brand);
+                            }
+                          }}
                           className='px-4 py-1 bg-red-600 rounded-md'>
                           Delete
                         </button>
@@ -79,6 +108,14 @@ export default function BrandSetting() {
           </div>
         </div>
       </div>
+      {brandModal && (
+        <BrandModal
+          state={brandModal}
+          setState={setBrandModal}
+          setParentMsg={setMsg}
+          setBrands={addBrand}
+        />
+      )}
     </>
   );
 }

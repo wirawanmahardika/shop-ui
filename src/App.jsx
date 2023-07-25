@@ -1,7 +1,6 @@
 import {
   Route,
   RouterProvider,
-  createBrowserRouter,
   createHashRouter,
   createRoutesFromElements,
 } from "react-router-dom";
@@ -16,7 +15,7 @@ import Admin from "./pages/Admin";
 import CategorySetting from "./pages/CategorySetting";
 import AdminHome from "./pages/AdminHome";
 import BrandSetting from "./pages/BrandSetting";
-import UsersSetting from "./pages/UsersSettting";
+import UsersSetting from "./pages/UsersSetting";
 import ItemSetting from "./pages/ItemSetting";
 
 const router = createHashRouter(

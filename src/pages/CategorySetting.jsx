@@ -92,7 +92,16 @@ export default function CategorySetting() {
                         </td>
                         <td className='whitespace-nowrap  px-6 py-4 md:text-lg'>
                           <button
-                            onClick={() => deleteCategory(c.id_category)}
+                            onClick={() => {
+                              if (
+                                confirm(
+                                  "Anda yakin ingin menghapus category " +
+                                    c.category
+                                )
+                              ) {
+                                return deleteCategory(c.id_category);
+                              }
+                            }}
                             className='px-4 py-1 bg-red-600 rounded-md'>
                             Delete
                           </button>

@@ -1,12 +1,11 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 
-export default function CategoryModal({
+export default function BrandModal({
   state,
   setState,
   setParentMsg,
-  setCategories,
+  setBrands,
 }) {
   const [input, setInput] = useState({ name_brand: "", image: null });
   const [msg, setMsg] = useState("");
@@ -15,18 +14,20 @@ export default function CategoryModal({
     setMsg("");
   }, [input]);
 
-  const addCategory = () => {
-    if (!input.category) return setMsg("Membutuhkan category");
+  console.log(input);
+
+  const addBrand = () => {
+    if (!input.name_brand) return setMsg("Membutuhkan brand");
     if (!input.image) return setMsg("Membutuhkan image");
     if (input.image.size > 3_200_000) return setMsg("Melebihi size maksimum");
     axios
-      .post("http://localhost:1000/api/category", input, {
+      .post("http://localhost:1000/api/brands", input, {
         withCredentials: true,
         headers: { "Content-Type": "multipart/form-data" },
       })
       .then((res) => {
         if (res.data?.code && res.data.code < 300) {
-          setCategories(res.data.data);
+          setBrands(res.data.data);
           setParentMsg(res.data.description);
           setState(!state);
         }
@@ -39,22 +40,24 @@ export default function CategoryModal({
         onClick={() => setState(!state)}
         className='fixed top-0 bottom-0 left-0 right-0 backdrop-blur-sm'></div>
       <div className='fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-black w-4/5 h-fit p-5 flex items-center flex-col text-white'>
-        <p className='text-center text-2xl font-semibold'>Add Category</p>
+        <p className='text-center text-2xl font-semibold'>Add Brand</p>
 
         <div className='flex flex-col p-5 gap-y-3'>
           <div className='flex flex-col gap-y-2'>
-            <label htmlFor='category' className='font-medium text-lg'>
-              Category
+            <label htmlFor='brand' className='font-medium text-lg'>
+              Brand
             </label>
             <input
-              id='category'
+              id='brand'
               type='text'
-              name='category'
+              name='brand'
               className='form-input py-1 rounded text-black'
-              value={input.category}
-              onChange={(e) => setInput({ ...input, category: e.target.value })}
+              value={input.brand}
+              onChange={(e) =>
+                setInput({ ...input, name_brand: e.target.value })
+              }
             />
-            <p className='text-sm text-red-600'>{!input.category && msg}</p>
+            <p className='text-sm text-red-600'>{!input.name_brand && msg}</p>
           </div>
           <div className='flex flex-col gap-y-2'>
             <label className='font-medium text-lg' htmlFor='file_input'>
@@ -72,13 +75,13 @@ export default function CategoryModal({
               onChange={(e) => setInput({ ...input, image: e.target.files[0] })}
             />
             <p className='text-sm text-red-600'>
-              {((!input.image && input.category) ||
-                input.image?.size > 3_200_000) &&
-                msg}
+              {input.image
+                ? input.image.size > 3_200_000 && msg
+                : input.name_brand && msg}
             </p>
           </div>
           <button
-            onClick={() => addCategory()}
+            onClick={() => addBrand()}
             className='px-4 py-1 rounded bg-orange-600 font-medium w-fit mx-auto mt-2'>
             Tambah
           </button>

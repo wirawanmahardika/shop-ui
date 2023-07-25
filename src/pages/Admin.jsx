@@ -1,15 +1,21 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import HomeNav from "../svg/HomeNav";
 import Shop from "../svg/Shop";
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import User from "../svg/User";
 import useGetUser from "../hooks/useGetUser";
-import Login from "../svg/Login";
-import signup from "../img/signup.png";
 
 export default function Admin() {
   const [navbarToggle, setNavbarToggle] = useState(false);
+  const user = useGetUser();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user.role !== "admin") {
+      return navigate("/");
+    }
+  });
 
   return (
     <>
@@ -30,12 +36,12 @@ function Navbar({ navbarToggle, setNavbarToggle }) {
           <div className='flex gap-x-2 items-center'>
             <HomeNav />
             <li className='font-semibold text-xl hover:text-white md:text-3xl'>
-              <NavLink to={"/profile/items"}>Item</NavLink>
+              <NavLink to={"/admin/items"}>Item</NavLink>
             </li>
           </div>
 
           <div className='flex gap-x-2 items-center'>
-            <Shop />
+            <User />
             <li className='font-semibold text-xl hover:text-white md:text-3xl'>
               <NavLink to={"/admin/users"}>Users</NavLink>
             </li>
