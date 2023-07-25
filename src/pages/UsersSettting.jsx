@@ -29,19 +29,19 @@ export default function UsersSetting() {
                   <th
                     scope='col'
                     colSpan={1}
-                    className='whitespace-nowrap px-6 py-4'>
+                    className='whitespace-nowrap px-6 py-4 w-5/12'>
                     Username
                   </th>
                   <th
                     scope='col'
                     colSpan={6}
-                    className='whitespace-nowrap px-6 py-4'>
+                    className='whitespace-nowrap px-6 py-4 w-5/12'>
                     Fullname
                   </th>
                   <th
                     scope='col'
                     colSpan={6}
-                    className='whitespace-nowrap px-6 py-4'>
+                    className='whitespace-nowrap px-6 py-4 w-2/12'>
                     Handle
                   </th>
                 </tr>

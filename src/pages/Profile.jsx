@@ -8,7 +8,7 @@ import User from "../svg/User";
 import Cart from "../svg/Cart";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { logout } from "../reduxSlice/Auth";
+import { logout } from "../slice/Auth";
 import useGetUser from "../hooks/useGetUser";
 import EditPhoto from "../components/EditPhoto";
 import Camera from "../svg/Camera";

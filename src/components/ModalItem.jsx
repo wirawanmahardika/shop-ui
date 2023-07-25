@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart, editCart } from "../reduxSlice/CartItem";
+import { addToCart, editCart } from "../slice/CartItem";
 
 export default function ModalItem({ setToggle, data }) {
   const [qty, setQty] = useState(0);
