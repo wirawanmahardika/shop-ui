@@ -5,6 +5,7 @@ import Shop from "../svg/Shop";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import User from "../svg/User";
 import useGetUser from "../hooks/useGetUser";
+import category from "../img/category.png";
 
 export default function Admin() {
   const [navbarToggle, setNavbarToggle] = useState(false);
@@ -12,10 +13,10 @@ export default function Admin() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (user.role !== "admin") {
+    if (user && user.role !== "admin") {
       return navigate("/");
     }
-  });
+  }, []);
 
   return (
     <>
@@ -48,7 +49,7 @@ function Navbar({ navbarToggle, setNavbarToggle }) {
           </div>
 
           <div className='flex gap-x-2 items-center'>
-            <User />
+            <img src={category} alt='category' className='w-7 h-7' />
             <li className='font-semibold text-xl hover:text-white md:text-3xl'>
               <NavLink to={"/admin/category"}>Category</NavLink>
             </li>

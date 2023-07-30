@@ -6,14 +6,23 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import HomeNav from "../svg/HomeNav";
 import Shop from "../svg/Shop";
-import hacker from "../img/hacker-1.jpg";
 import User from "../svg/User";
 import CartItem from "../components/CartItem";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import useGetUser from "../hooks/useGetUser";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { resetCart } from "../slice/CartItem";
+import OnDelivery from "../components/Ondelivery";
+import { useFetchGet } from "../hooks/useFetch";
 
 export default function CartPage() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [ondeliveryData, setOndeliveryData] = useFetchGet(
+    "http://localhost:1000/api/penjualan"
+  );
   const [navbarToggle, setNavbarToggle] = useState(false);
   const [subTotal, setSubTotal] = useState(0);
   const data = useSelector((state) => state.cartItem);
@@ -26,6 +35,51 @@ export default function CartPage() {
     });
     setSubTotal(count);
   }, [data]);
+
+  const buyProcess = () => {
+    const items = [];
+    for (const item of data) {
+      const i = {
+        id_item: item.id,
+        quantity: item.qty,
+      };
+      items.push(i);
+    }
+
+    axios
+      .patch(
+        "http://localhost:1000/api/items/buy",
+        { items },
+        { withCredentials: true }
+      )
+      .then((res) => {
+        toast.success(res.data.description, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: false,
+          theme: "light",
+        });
+        dispatch(resetCart());
+        axios
+          .get("http://localhost:1000/api/penjualan", { withCredentials: true })
+          .then((res) => setOndeliveryData(res.data.data));
+      })
+      .catch((err) => {
+        toast.error(err.response.data.description, {
+          position: "bottom-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: false,
+          progress: undefined,
+          theme: "light",
+        });
+      });
+  };
 
   const user = useGetUser();
   return (
@@ -107,13 +161,13 @@ export default function CartPage() {
         </div>
       </header>
 
-      <div className='h-screen bg-gray-100 pt-20'>
-        <h1 className='mb-10 text-center text-2xl font-bold lg:text-5xl font-geologica'>
+      <div className='bg-gray-100 pt-20 min-h-screen'>
+        <h1 className='mb-10 text-center text-2xl font-bold md:text-3xl lg:text-5xl font-geologica'>
           Cart Items
         </h1>
         {data.length === 0 ? (
           <div className='text-3xl font-geologica font-bold text-center'>
-            No Items were checked out
+            No Items in Check
           </div>
         ) : (
           <div className='mx-auto max-w-5xl justify-center px-6 md:flex md:space-x-6 xl:px-0'>
@@ -153,13 +207,41 @@ export default function CartPage() {
                   <p className='text-sm text-gray-700'>including VAT</p>
                 </div>
               </div>
-              <button className='mt-6 w-full rounded-md bg-blue-500 py-1.5 font-medium text-blue-50 hover:bg-blue-600'>
+              <button
+                onClick={buyProcess}
+                className='mt-6 w-full rounded-md bg-blue-500 py-1.5 font-medium text-blue-50 hover:bg-blue-600'>
                 Check out
               </button>
             </div>
           </div>
         )}
+        {ondeliveryData.map((o, index) => {
+          console.log(o);
+          return (
+            <OnDelivery
+              key={index}
+              status={o.status}
+              tanggal_beli={o.tanggal_beli}
+              items={o.item_terjual}
+              setItems={setOndeliveryData}
+              id_penjualan={o.id_penjualan}
+            />
+          );
+        })}
       </div>
+      <ToastContainer
+        position='top-center'
+        autoClose={5000}
+        limit={1}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable={false}
+        pauseOnHover
+        theme='light'
+      />
     </>
   );
 }

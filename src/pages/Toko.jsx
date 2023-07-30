@@ -458,7 +458,7 @@ export default function Toko() {
                 viewBox='0 0 24 24'
                 strokeWidth={1.5}
                 stroke='currentColor'
-                className='w-6 h-6 md:w-12 md:h-12'>
+                className='w-6 h-6 md:w-12 md:h-12 lg:hidden'>
                 <path
                   strokeLinecap='round'
                   strokeLinejoin='round'

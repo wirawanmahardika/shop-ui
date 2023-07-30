@@ -29,9 +29,12 @@ const cartItem = createSlice({
       filteredState.push(targetItem);
       state = filteredState;
     },
+    resetCart: (state) => {
+      return (state = initialState);
+    },
   },
 });
 
-export const { addToCart, editQuantityCart, editCart, deleteItem } =
+export const { addToCart, editQuantityCart, editCart, deleteItem, resetCart } =
   cartItem.actions;
 export default cartItem.reducer;

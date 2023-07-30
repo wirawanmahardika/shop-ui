@@ -12,3 +12,6 @@ export function useFetchGet(url) {
 
   return [data, setData];
 }
+
+
+

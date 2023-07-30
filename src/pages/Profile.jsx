@@ -12,13 +12,22 @@ import { logout } from "../slice/Auth";
 import useGetUser from "../hooks/useGetUser";
 import EditPhoto from "../components/EditPhoto";
 import Camera from "../svg/Camera";
+import { useFetchGet } from "../hooks/useFetch";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import shoes from '../img/shoes1.png'
 
 export default function Profile() {
   const [navbarToggle, setNavbarToggle] = useState(false);
   const [editPhotoNotifToggle, setEditPhotoNotifToggle] = useState(false);
   const [editPhotoTagIsOn, setEditPhotoTagIsOn] = useState(false);
+  const [detailToggle, setDetailToggle] = useState(false)
+  const [buyHistory, setBuyHistory] = useFetchGet(
+    "http://localhost:1000/api/penjualan/history"
+  );
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [detailItems, setDetailsItems] = useFetchGet('http://localhost:1000/api/penjualan/items')
 
   const toggleLogout = () => {
     axios
@@ -30,6 +39,23 @@ export default function Profile() {
         dispatch(logout());
       });
   };
+  const deleteHistory = (id_penjualan) => {
+    axios.delete('http://localhost:1000/api/penjualan/'+id_penjualan, {withCredentials: true})
+      .then(res => {
+        toast.success(res.data.description, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: false,
+          theme: "light",
+        });
+        axios.get("http://localhost:1000/api/penjualan/history", {withCredentials: true})
+          .then(res => setBuyHistory(res.data.data))
+      })
+      .catch(err => console.log(err.response))
+  }
   const user = useGetUser();
   return (
     <>
@@ -133,11 +159,11 @@ export default function Profile() {
       </div>
 
       <div className='w-full grid p-4 grid-cols-2 justify-items-center'>
-        <div className='text-center w-fit px-5 py-2 bg-slate-100 shadow-xl md:px-9 md:py-4 md:text-xl'>
+        <div className='text-center w-fit px-5 py-2 bg-slate-100 shadow-md shadow-slate-400 md:px-9 md:py-4 md:text-xl'>
           <strong>Bought Item</strong>
           <p>5</p>
         </div>
-        <div className='text-center w-fit px-5 py-2 bg-slate-100 shadow-xl md:px-9 md:py-4 md:text-xl'>
+        <div className='text-center w-fit px-5 py-2 bg-slate-100 shadow-md shadow-slate-400 md:px-9 md:py-4 md:text-xl'>
           <strong>Balance</strong>
           <p>
             Rp {user.wallet?.balance && numberWithCommas(user.wallet.balance)}
@@ -151,42 +177,141 @@ export default function Profile() {
         </p>
         <div className='w-full lg:mt-3'>
           <div className='inline-block w-full '>
-            <div className='overflow-hidden'>
+            <div className='overflow-x-auto'>
               <table className='w-full text-center text-sm '>
                 <thead className='border-b bg-neutral-800 font-medium text-white dark:border-neutral-500 dark:bg-neutral-900'>
                   <tr>
-                    <th scope='col' className='whitespace-nowrap px-6 py-4'>
+                    <th
+                      scope='col'
+                      className='whitespace-nowrap px-6 py-4 w-1/6'>
+                      Number
+                    </th>
+                    <th
+                      scope='col'
+                      className='whitespace-nowrap px-6 py-4 w-2/6'>
                       Date
                     </th>
-                    <th scope='col' className='whitespace-nowrap px-6 py-4'>
-                      Spend
+                    <th
+                      scope='col'
+                      className='whitespace-nowrap px-6 py-4 w-1/6'>
+                      Items
                     </th>
-                    <th scope='col' className='whitespace-nowrap px-6 py-4'>
-                      Handle
+                    <th
+                      scope='col'
+                      className='whitespace-nowrap px-6 py-4 w-2/6'>
+                      Total Price
+                    </th>
+                    <th
+                      scope='col'
+                      className='whitespace-nowrap px-6 py-4 w-2/6'>
+                      Action
                     </th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className='border-b dark:border-neutral-500'>
-                    <td className='whitespace-nowrap  px-6 py-4 font-medium'>
-                      Date
-                    </td>
-                    <td className='whitespace-nowrap  px-6 py-4'>Spend</td>
-                    <td className='whitespace-nowrap  px-6 py-4'>Handle</td>
-                  </tr>
-                  <tr className='border-b dark:border-neutral-500'>
-                    <td className='whitespace-nowrap  px-6 py-4 font-medium'>
-                      2
-                    </td>
-                    <td className='whitespace-nowrap  px-6 py-4'>Thornton</td>
-                    <td className='whitespace-nowrap  px-6 py-4'>Thornton</td>
-                  </tr>
+                  {buyHistory &&
+                    buyHistory.map((b, i) => {
+                      const displayDate = getDate(b.tanggal_beli);
+                      let totalPrice = 0;
+
+                      b.item_terjual.forEach((d) => {
+                        totalPrice += d.price;
+                      });
+
+                      return (
+                        <tr
+                          key={i}
+                          className='border-b dark:border-neutral-500'>
+                          <td className='whitespace-nowrap  px-6 py-4 font-medium'>
+                            {i + 1}
+                          </td>
+                          <td className='whitespace-nowrap  px-6 py-4 font-medium'>
+                            {displayDate}
+                          </td>
+                          <td className='whitespace-nowrap  px-6 py-4'>
+                            {b.item_terjual.length}
+                          </td>
+                          <td className='whitespace-nowrap  px-6 py-4'>
+                            {numberWithCommas(totalPrice)}
+                          </td>
+                          <td className='whitespace-nowrap  px-6 py-4 flex gap-x-4 justify-evenly'>
+                            <button
+                              onClick={() => {
+                                setDetailToggle(!detailToggle);
+                                axios
+                                  .get(
+                                    "http://localhost:1000/api/penjualan/items?id_penjualan="+b.id_penjualan,
+                                    { withCredentials: true }
+                                  )
+                                  .then((res) => {
+                                    setDetailsItems(res.data.data)
+                                    console.log(res.data.data);
+                                  })
+                                  .catch((err) =>
+                                    console.log(err.response.data)
+                                  );
+                              }}
+                              className='hover:bg-sky-400 px-5 py-1 bg-sky-600 rounded-sm font-medium'>
+                              Detail
+                            </button>
+                            <button
+                              onClick={() => deleteHistory(b.id_penjualan)}
+                              className='hover:bg-red-400 px-5 py-1 bg-red-600 rounded-sm font-medium'>
+                              Delete
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    })}
                 </tbody>
               </table>
             </div>
           </div>
         </div>
       </div>
+
+      {detailToggle && (
+        <>
+          <div
+            onClick={() => setDetailToggle(!detailToggle)}
+            className='fixed top-0 left-0 bottom-0 right-0 backdrop-blur-sm z-10'></div>
+          <div className='fixed w-4/5 flex flex-col z-20 left-1/2 top-1/2 max-h-[500px] -translate-x-1/2 -translate-y-1/2 p-5 bg-gray-500 rounded-md shadow shadow-slate-700 gap-y-6 overflow-y-auto lg:w-3/5'>
+            <p className='font-bold text-xl text-center md:text-3xl'>Detail</p>
+            {
+              detailItems.map((d) => {
+                return <div key={d.id} className='flex justify-between items-center md:p-5 lg:px-8'>
+                <img src={d.items.photo_item} alt='shoes' className='w-2/6 md:w-1/5' />
+                <div className='flex flex-col items-center text-sm md:text-xl'>
+                  <p className='font-bold'>{d.items.name} ({d.quantity}x)</p>
+                  <p className='font-medium'>Price : {numberWithCommas(d.price)}</p>
+                </div>
+              </div>
+              })
+            }
+            {/* <div className='flex justify-between items-center md:p-5 lg:px-8'>
+              <img src={shoes} alt='shoes' className='w-2/6 md:w-1/5' />
+              <div className='flex flex-col items-center text-sm md:text-xl'>
+                <p className='font-bold'>Sepatu x12 (x3)</p>
+                <p className='font-medium'>Price : 1000000</p>
+              </div>
+            </div>
+            <div className='flex justify-between items-center md:p-5 lg:px-8'>
+              <img src={shoes} alt='shoes' className='w-2/6 md:w-1/5' />
+              <div className='flex flex-col items-center text-sm md:text-xl'>
+                <p className='font-bold'>Sepatu x12 (x3)</p>
+                <p className='font-medium'>Price : 1000000</p>
+              </div>
+            </div>
+            <div className='flex justify-between items-center md:p-5 lg:px-8'>
+              <img src={shoes} alt='shoes' className='w-2/6 md:w-1/5' />
+              <div className='flex flex-col items-center text-sm md:text-xl'>
+                <p className='font-bold'>Sepatu x12 (x3)</p>
+                <p className='font-medium'>Price : 1000000</p>
+              </div>
+            </div> */}
+          </div>
+        </>
+      )}
 
       {editPhotoTagIsOn && (
         <div className={"fixed z-50 "}>
@@ -235,6 +360,20 @@ export default function Profile() {
           </div>
         </>
       )}
+
+      <ToastContainer
+        position='top-center'
+        autoClose={5000}
+        limit={1}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable={false}
+        pauseOnHover
+        theme='light'
+      />
     </>
   );
 }
@@ -242,8 +381,18 @@ export default function Profile() {
 const numberWithCommas = (x) =>
   x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 
+
+function getDate(tanggal) {
+  const date = new Date(tanggal)
+  const dateToDisplay = `${date.getDate()}-${date.getMonth()}-${date.getFullYear()} ${
+    date.getHours() > 9
+      ? date.getHours()
+      : "0" + date.getHours()
+  }:${date.getMinutes() > 9 ? date.getMinutes() : "0" + date.getMinutes()}`;
+
+  return dateToDisplay
+}
 /**
  * pembelian history
- * balance dari wallet (oke)
  * jumlah barang yang sudah dibeli
  */

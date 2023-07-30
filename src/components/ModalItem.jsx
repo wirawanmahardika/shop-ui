@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, editCart } from "../slice/CartItem";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function ModalItem({ setToggle, data }) {
   const [qty, setQty] = useState(0);
@@ -26,7 +28,7 @@ export default function ModalItem({ setToggle, data }) {
             </p>
             <div className='sm:grid sm:grid-cols-3 sm:grid-rows-1 sm:items-center flex flex-col gap-y-4'>
               <p className='font-semibold text-xl text-center md:text-2xl'>
-                {data.price}
+                {data.price && numberWithCommas(data.price)}
               </p>
               <div className='flex flex-col gap-y-1 text-center md:text-xl'>
                 <p>Quantity</p>
@@ -52,16 +54,51 @@ export default function ModalItem({ setToggle, data }) {
                 onClick={() => {
                   if (cartItems.find((d) => d.id === data.id)) {
                     dispatch(editCart({ id: data.id, qty }));
+                    toast.success("Item telah ditambahkan ke cart", {
+                      position: "top-center",
+                      autoClose: 5000,
+                      hideProgressBar: false,
+                      closeOnClick: true,
+                      pauseOnHover: true,
+                      draggable: false,
+                      progress: undefined,
+                      theme: "light",
+                    });
                   } else {
                     dispatch(addToCart({ ...data, qty }));
+                    toast.success("Item telah ditambahkan ke cart", {
+                      position: "top-center",
+                      autoClose: 5000,
+                      hideProgressBar: false,
+                      closeOnClick: true,
+                      pauseOnHover: true,
+                      draggable: false,
+                      progress: undefined,
+                      theme: "light",
+                    });
                   }
                 }}>
                 Checkout
               </button>
             </div>
           </div>
+          <ToastContainer
+            position='top-center'
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable={false}
+            pauseOnHover
+            theme='light'
+          />
         </>
       )}
     </>
   );
 }
+
+const numberWithCommas = (x) =>
+  x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
