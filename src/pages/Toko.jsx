@@ -4,28 +4,23 @@ import Cart from "../svg/Cart";
 import { Form, NavLink, useNavigate } from "react-router-dom";
 import Filter from "../svg/Filter";
 import BoxItem from "../components/BoxItem";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import HomeNav from "../svg/HomeNav";
 import Shop from "../svg/Shop";
-import hacker from "../img/hacker-1.jpg";
 import User from "../svg/User";
-import axios from "axios";
 import ModalItem from "../components/ModalItem";
 import { useFetchGet } from "../hooks/useFetch";
 import useGetUser from "../hooks/useGetUser";
 import Login from "../svg/Login";
 import signup from "../img/signup.png";
+import { myAxios } from "../utils/axios";
 
 export default function Toko() {
   const navigate = useNavigate();
-  const [brandForFilter] = useFetchGet("http://localhost:1000/api/brands");
-  const [data, setData] = useFetchGet(
-    "http://localhost:1000/api/items/get-all"
-  );
-  const [categoriesForFilter] = useFetchGet(
-    "http://localhost:1000/api/category"
-  );
+  const [brandForFilter] = useFetchGet("/api/brands");
+  const [data, setData] = useFetchGet("/api/items/get-all");
+  const [categoriesForFilter] = useFetchGet("/api/category");
   const [filterToggle, setFilterToggle] = useState(false);
   const [navbarToggle, setNavbarToggle] = useState(false);
   const [hargaToggle, setHargaToggle] = useState("auto");
@@ -76,7 +71,7 @@ export default function Toko() {
       harga_gte: limitHarga.harga_gte,
       harga_lte: limitHarga.harga_lte,
     };
-    axios.post("http://localhost:1000/api/items/search", data).then((res) => {
+    myAxios.post("/api/items/search", data).then((res) => {
       setData(res.data.data);
     });
   };
@@ -101,7 +96,8 @@ export default function Toko() {
       {/* Nav for mobile size */}
       <motion.nav
         animate={{ x: navbarToggle ? 0 : "-100vh" }}
-        className='fixed bg-black bottom-0 left-0 top-0 w-1/2 z-40 text-white p-3 -translate-x-[100vh] md:hidden'>
+        className='fixed bg-black bottom-0 left-0 top-0 w-1/2 z-40 text-white p-3 -translate-x-[100vh] md:hidden'
+      >
         <p className='font-bold text-xl text-center mb-5'>Navigation</p>
         <ul className='flex flex-col justify-evenly gap-y-4'>
           <div className='flex gap-x-2 items-center'>
@@ -117,12 +113,22 @@ export default function Toko() {
             </li>
           </div>
           {user.isLoggedIn ? (
-            <div className='flex gap-x-2 items-center'>
-              <User />
-              <li className='font-semibold text-xl hover:text-white'>
-                <NavLink to={"/profile"}>Profile</NavLink>
-              </li>
-            </div>
+            <>
+              <div className='flex gap-x-2 items-center'>
+                <User />
+                <li className='font-semibold text-xl hover:text-white'>
+                  <NavLink to={"/profile"}>Profile</NavLink>
+                </li>
+              </div>
+              {user.role === "admin" && (
+                <div className='flex gap-x-2 items-center'>
+                  <User />
+                  <li className='font-semibold text-xl hover:text-white'>
+                    <NavLink to={"/admin"}>Admin</NavLink>
+                  </li>
+                </div>
+              )}
+            </>
           ) : (
             <>
               <div className='flex gap-x-2 items-center'>
@@ -142,7 +148,8 @@ export default function Toko() {
         </ul>
         <button
           onClick={() => setNavbarToggle(!navbarToggle)}
-          className='mt-auto absolute text-sm font-medium bottom-5 left-1/2 -translate-x-1/2 uppercase px-2 py-1 bg-red-600 rounded-lg'>
+          className='mt-auto absolute text-sm font-medium bottom-5 left-1/2 -translate-x-1/2 uppercase px-2 py-1 bg-red-600 rounded-lg'
+        >
           Close
         </button>
       </motion.nav>
@@ -165,7 +172,13 @@ export default function Toko() {
               <NavLink to='/'>Home</NavLink>
               <NavLink to='/toko'>Toko</NavLink>
               {user.isLoggedIn ? (
-                <NavLink to='/profile'>Profile</NavLink>
+                <>
+                  <NavLink to='/profile'>Profile</NavLink>
+                  {
+                    user.role === 'admin' && 
+                  <NavLink to='/admin'>Admin</NavLink>
+                  }
+                </>
               ) : (
                 <>
                   <NavLink to='/login'>Login</NavLink>
@@ -192,7 +205,8 @@ export default function Toko() {
           )}
           <div
             className='md:hidden'
-            onClick={() => setNavbarToggle(!navbarToggle)}>
+            onClick={() => setNavbarToggle(!navbarToggle)}
+          >
             <Bars3 strokeColor={"black"} className={"w-8 h-8 md:w-10"} />
           </div>
         </div>
@@ -219,7 +233,8 @@ export default function Toko() {
                 viewBox='0 0 24 24'
                 strokeWidth={1.5}
                 stroke='white'
-                className='w-5 h-5 cursor-pointer self-stretch md:w-6 md:h-6 my-auto lg:w-6 lg:h-6'>
+                className='w-5 h-5 cursor-pointer self-stretch md:w-6 md:h-6 my-auto lg:w-6 lg:h-6'
+              >
                 <path
                   strokeLinecap='round'
                   strokeLinejoin='round'
@@ -229,24 +244,28 @@ export default function Toko() {
             </div>
             <div
               className='ml-1 flex md:ml-3 lg:hidden'
-              onClick={() => setFilterToggle(!filterToggle)}>
+              onClick={() => setFilterToggle(!filterToggle)}
+            >
               <Filter className={"w-8 h-8 md:w-10 md:h-10 my-auto"} />
             </div>
           </div>
           <motion.div
             animate={{ x: filterToggle ? "0" : "100vw" }}
-            className=' fixed right-0 top-0 bottom-0 w-2/3 lg:hidden'>
+            className=' fixed right-0 top-0 bottom-0 w-2/3 lg:hidden'
+          >
             <div className='bg-main-1 w-full h-full p-3 text-white overflow-y-auto flex flex-col md:gap-y-9 lg:hidden'>
               <div
                 onClick={() => setFilterToggle(!filterToggle)}
-                className='absolute left-3 top-3 hover:text-red-500'>
+                className='absolute left-3 top-3 hover:text-red-500'
+              >
                 <svg
                   xmlns='http://www.w3.org/2000/svg'
                   fill='none'
                   viewBox='0 0 24 24'
                   strokeWidth={1.5}
                   stroke='currentColor'
-                  className='w-6 h-6 md:w-12 md:h-12'>
+                  className='w-6 h-6 md:w-12 md:h-12'
+                >
                   <path
                     strokeLinecap='round'
                     strokeLinejoin='round'
@@ -263,7 +282,8 @@ export default function Toko() {
                     return (
                       <div
                         className='flex gap-x-2 items-center '
-                        key={d.id_category}>
+                        key={d.id_category}
+                      >
                         <input
                           type='checkbox'
                           id={d.category}
@@ -287,7 +307,8 @@ export default function Toko() {
                     return (
                       <div
                         className='flex gap-x-2 items-center '
-                        key={b.id_brand}>
+                        key={b.id_brand}
+                      >
                         <input
                           type='checkbox'
                           id={b.id_brand}
@@ -312,7 +333,8 @@ export default function Toko() {
                     onClick={() => resetLimitHargaAndChangeMode("auto")}
                     className={
                       "px-2 rounded-l py-0.5 md:px-5 md:py-2 " + hargaAutoToggle
-                    }>
+                    }
+                  >
                     Auto
                   </button>
                   <button
@@ -321,7 +343,8 @@ export default function Toko() {
                     className={
                       `px-2 rounded-r py-0.5 md:px-5 md:py-2 ` +
                       hargaCustomToggle
-                    }>
+                    }
+                  >
                     Custom
                   </button>
                 </div>
@@ -439,7 +462,8 @@ export default function Toko() {
               <button
                 type='button'
                 onClick={resetFilter}
-                className='px-4 py-0.5 rounded bg-main-3  text-black font-semibold mx-auto mt-auto md:px-8 md:py-2 md:mb-5 md:text-2xl md:border border-black'>
+                className='px-4 py-0.5 rounded bg-main-3  text-black font-semibold mx-auto mt-auto md:px-8 md:py-2 md:mb-5 md:text-2xl md:border border-black'
+              >
                 Reset
               </button>
             </div>
@@ -451,14 +475,16 @@ export default function Toko() {
           <div className='bg-main-1 w-full h-full p-3 rounded-lg text-white overflow-y-auto hidden flex-col md:gap-y-9 lg:flex'>
             <div
               onClick={() => setFilterToggle(!filterToggle)}
-              className='absolute left-3 top-3 hover:text-red-500'>
+              className='absolute left-3 top-3 hover:text-red-500'
+            >
               <svg
                 xmlns='http://www.w3.org/2000/svg'
                 fill='none'
                 viewBox='0 0 24 24'
                 strokeWidth={1.5}
                 stroke='currentColor'
-                className='w-6 h-6 md:w-12 md:h-12 lg:hidden'>
+                className='w-6 h-6 md:w-12 md:h-12 lg:hidden'
+              >
                 <path
                   strokeLinecap='round'
                   strokeLinejoin='round'
@@ -475,7 +501,8 @@ export default function Toko() {
                   return (
                     <div
                       className='flex gap-x-2 items-center '
-                      key={d.id_category}>
+                      key={d.id_category}
+                    >
                       <input
                         type='checkbox'
                         className='form-input md:w-9 md:h-9'
@@ -498,7 +525,8 @@ export default function Toko() {
                   return (
                     <div
                       className='flex gap-x-2 items-center '
-                      key={b.id_brand}>
+                      key={b.id_brand}
+                    >
                       <input
                         type='checkbox'
                         id={b.id_brand}
@@ -529,7 +557,8 @@ export default function Toko() {
                   }}
                   className={
                     "px-2 rounded-l py-0.5 md:px-5 md:py-2 " + hargaAutoToggle
-                  }>
+                  }
+                >
                   Auto
                 </button>
                 <button
@@ -543,7 +572,8 @@ export default function Toko() {
                   }}
                   className={
                     `px-2 rounded-r py-0.5 md:px-5 md:py-2 ` + hargaCustomToggle
-                  }>
+                  }
+                >
                   Costum
                 </button>
               </div>
@@ -659,7 +689,8 @@ export default function Toko() {
             <button
               type='button'
               onClick={resetFilter}
-              className='px-4 py-0.5 rounded bg-main-3  text-black font-semibold mx-auto mt-auto md:px-8 md:py-2 md:mb-5 md:text-2xl md:border border-black'>
+              className='px-4 py-0.5 rounded bg-main-3  text-black font-semibold mx-auto mt-auto md:px-8 md:py-2 md:mb-5 md:text-2xl md:border border-black'
+            >
               Reset
             </button>
           </div>

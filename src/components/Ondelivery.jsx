@@ -1,15 +1,13 @@
-import { useEffect } from "react";
 import { DeliveryItem } from "./DeliveryItem";
-import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { myAxios } from "../utils/axios";
 
 export default function OnDelivery({
   status,
   items,
   id_penjualan,
   setItems,
-  tanggal_beli,
 }) {
   const pengemasan = `w-5 h-5 rounded-full bg-black relative md:w-7 md:h-7 ${
     status === "pengemasan"
@@ -41,9 +39,9 @@ export default function OnDelivery({
 
   const changeStatusPenjualan = () => {
     if (status === "sampai") {
-      axios
+      myAxios
         .patch(
-          "http://localhost:1000/api/penjualan/terima",
+          "/api/penjualan/terima",
           { id_penjualan },
           { withCredentials: true }
         )
@@ -57,8 +55,8 @@ export default function OnDelivery({
             draggable: false,
             theme: "light",
           });
-          axios
-            .get("http://localhost:1000/api/penjualan", {
+          myAxios
+            .get("/api/penjualan", {
               withCredentials: true,
             })
             .then((res) => {

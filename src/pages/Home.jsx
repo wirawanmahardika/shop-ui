@@ -1,6 +1,5 @@
 import Bars3 from "../svg/Bars3";
 import Cart from "../svg/Cart";
-import hacker from "../img/hacker-1.jpg";
 import shoes1 from "../img/shoes1.png";
 import shoes2 from "../img/shoes2.png";
 import shoes3 from "../img/shoes3.png";
@@ -10,12 +9,11 @@ import facebook from "../img/facebook.png";
 import imageHome from "../img/bg-image-home.png";
 import logo from "../img/logo.png";
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import HomeNav from "../svg/HomeNav";
 import Shop from "../svg/Shop";
 import { NavLink } from "react-router-dom";
 import User from "../svg/User";
-import axios from "axios";
 import useGetUser from "../hooks/useGetUser";
 import Login from "../svg/Login";
 import signup from "../img/signup.png";
@@ -23,8 +21,8 @@ import { useFetchGet } from "../hooks/useFetch";
 
 export default function Home() {
   const [navbarToggle, setNavbarToggle] = useState(false);
-  const [brands] = useFetchGet("http://localhost:1000/api/brands");
-  const [categories] = useFetchGet("http://localhost:1000/api/category");
+  const [brands] = useFetchGet("/api/brands");
+  const [categories] = useFetchGet("/api/category");
 
   const user = useGetUser();
   return (
@@ -32,13 +30,15 @@ export default function Home() {
       <nav className='flex p-5 justify-between w-full md:bg-main-1 md:p-3 xl:p-7 relative z-10'>
         <div
           className='cursor-pointer sm:hidden'
-          onClick={() => setNavbarToggle(!navbarToggle)}>
+          onClick={() => setNavbarToggle(!navbarToggle)}
+        >
           <Bars3 className={"w-10 h-10"} />
         </div>
         <div className='sm:flex gap-x-3 items-center hidden'>
           <div
             className='cursor-pointer'
-            onClick={() => setNavbarToggle(!navbarToggle)}>
+            onClick={() => setNavbarToggle(!navbarToggle)}
+          >
             <Bars3 className={"w-10 h-10 lg:hidden"} />
           </div>
           <img src={logo} alt='logo' className='w-8 h-8 ' />
@@ -51,38 +51,55 @@ export default function Home() {
             to={"/"}
             className={
               "font-semibold text-md hover:text-white hidden lg:inline xl:text-xl"
-            }>
+            }
+          >
             Home
           </NavLink>
           <NavLink
             to={"/toko"}
             className={
               "font-semibold text-md hover:text-white hidden lg:inline xl:text-xl"
-            }>
+            }
+          >
             Toko
           </NavLink>
           {user.isLoggedIn ? (
-            <NavLink
-              to={"/profile"}
-              className={
-                "font-semibold text-md hover:text-white hidden lg:inline xl:text-xl"
-              }>
-              Profile
-            </NavLink>
+            <>
+              <NavLink
+                to={"/profile"}
+                className={
+                  "font-semibold text-md hover:text-white hidden lg:inline xl:text-xl"
+                }
+              >
+                Profile
+              </NavLink>
+              {user.role === "admin" && (
+                <NavLink
+                  to={"/admin"}
+                  className={
+                    "font-semibold text-md hover:text-white hidden lg:inline xl:text-xl"
+                  }
+                >
+                  Admin
+                </NavLink>
+              )}
+            </>
           ) : (
             <>
               <NavLink
                 to={"/login"}
                 className={
                   "font-semibold text-md hover:text-white hidden lg:inline xl:text-xl"
-                }>
+                }
+              >
                 Login
               </NavLink>
               <NavLink
                 to={"/signup"}
                 className={
                   "font-semibold text-md hover:text-white hidden lg:inline xl:text-xl"
-                }>
+                }
+              >
                 Signup
               </NavLink>
             </>
@@ -107,7 +124,8 @@ export default function Home() {
                 viewBox='0 0 24 24'
                 strokeWidth={1.5}
                 stroke='currentColor'
-                className='w-10 h-10'>
+                className='w-10 h-10'
+              >
                 <path
                   strokeLinecap='round'
                   strokeLinejoin='round'
@@ -122,7 +140,8 @@ export default function Home() {
       {/* Mobile navbar */}
       <motion.nav
         animate={{ x: navbarToggle ? 0 : "-100vh" }}
-        className='fixed bg-black bottom-0 left-0 top-0 w-1/2 z-40 text-white p-3 -translate-x-[100vh] md:hidden'>
+        className='fixed bg-black bottom-0 left-0 top-0 w-1/2 z-40 text-white p-3 -translate-x-[100vh] md:hidden'
+      >
         <p className='font-bold text-xl text-center mb-5'>Navigation</p>
         <ul className='flex flex-col justify-evenly gap-y-4'>
           <div className='flex gap-x-2 items-center'>
@@ -139,12 +158,22 @@ export default function Home() {
             </li>
           </div>
           {user.isLoggedIn ? (
-            <div className='flex gap-x-2 items-center'>
-              <User />
-              <li className='font-semibold text-xl hover:text-white'>
-                <NavLink to={"/profile"}>Profile</NavLink>
-              </li>
-            </div>
+            <>
+              <div className='flex gap-x-2 items-center'>
+                <User />
+                <li className='font-semibold text-xl hover:text-white'>
+                  <NavLink to={"/profile"}>Profile</NavLink>
+                </li>
+              </div>
+              {user.role === "admin" && (
+                <div className='flex gap-x-2 items-center'>
+                  <User />
+                  <li className='font-semibold text-xl hover:text-white'>
+                    <NavLink to={"/admin"}>Admin</NavLink>
+                  </li>
+                </div>
+              )}
+            </>
           ) : (
             <>
               <div className='flex gap-x-2 items-center'>
@@ -164,13 +193,15 @@ export default function Home() {
         </ul>
         <button
           onClick={() => setNavbarToggle(!navbarToggle)}
-          className='mt-auto absolute text-sm font-medium bottom-5 left-1/2 -translate-x-1/2 uppercase px-2 py-1 bg-red-600 rounded-lg'>
+          className='mt-auto absolute text-sm font-medium bottom-5 left-1/2 -translate-x-1/2 uppercase px-2 py-1 bg-red-600 rounded-lg'
+        >
           Close
         </button>
       </motion.nav>
       <motion.nav
         animate={{ marginTop: navbarToggle ? "0px" : "-80px" }}
-        className={`w-full p-5 bg-main-2 relative z-0 -mt-20 hidden md:block lg:hidden`}>
+        className={`w-full p-5 bg-main-2 relative z-0 -mt-20 hidden md:block lg:hidden`}
+      >
         <ul className=' flex justify-evenly'>
           <li className='font-bold text-xl hover:text-white'>
             <NavLink to={"/"}>Home</NavLink>
@@ -179,9 +210,16 @@ export default function Home() {
             <NavLink to={"/toko"}>Toko</NavLink>
           </li>
           {user.isLoggedIn ? (
-            <li className='font-bold text-xl hover:text-white'>
-              <NavLink to={"/profile"}>Profile</NavLink>
-            </li>
+            <>
+              <li className='font-bold text-xl hover:text-white'>
+                <NavLink to={"/profile"}>Profile</NavLink>
+              </li>
+              {user.role === "admin" && (
+                <li className='font-bold text-xl hover:text-white'>
+                  <NavLink to={"/admin"}>Admin</NavLink>
+                </li>
+              )}
+            </>
           ) : (
             <>
               <li className='font-bold text-xl hover:text-white'>
@@ -205,7 +243,8 @@ export default function Home() {
           </p>
           <NavLink
             to={"/toko"}
-            className='mx-auto px-3 py-0.5 rounded-2xl bg-main-3 font-semibold hidden md:block shadow-md lg:px-5 lg:py-1'>
+            className='mx-auto px-3 py-0.5 rounded-2xl bg-main-3 font-semibold hidden md:block shadow-md lg:px-5 lg:py-1'
+          >
             Start Now
           </NavLink>
         </div>
@@ -216,7 +255,8 @@ export default function Home() {
       <div className='w-full flex justify-center p-5 pb-9 md:hidden'>
         <NavLink
           to='/toko'
-          className='mx-auto px-5 py-1 rounded-xl bg-main-3 font-semibold'>
+          className='mx-auto px-5 py-1 rounded-xl bg-main-3 font-semibold'
+        >
           Start Now
         </NavLink>
       </div>
@@ -290,7 +330,8 @@ export default function Home() {
             return (
               <div
                 key={d.id_category}
-                className='w-full flex justify-between items-center px-6 sm:justify-around'>
+                className='w-full flex justify-between items-center px-6 sm:justify-around'
+              >
                 <img src={d.category_photo} alt='shoes1' className='w-[80px]' />
                 <h3 className='font-semibold capitalize'>{d.category}</h3>
               </div>

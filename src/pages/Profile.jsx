@@ -6,7 +6,6 @@ import { useState } from "react";
 import Bars3 from "../svg/Bars3";
 import User from "../svg/User";
 import Cart from "../svg/Cart";
-import axios from "axios";
 import { useDispatch } from "react-redux";
 import { logout } from "../slice/Auth";
 import useGetUser from "../hooks/useGetUser";
@@ -15,7 +14,7 @@ import Camera from "../svg/Camera";
 import { useFetchGet } from "../hooks/useFetch";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import shoes from '../img/shoes1.png'
+import { myAxios } from "../utils/axios";
 
 export default function Profile() {
   const [navbarToggle, setNavbarToggle] = useState(false);
@@ -23,15 +22,15 @@ export default function Profile() {
   const [editPhotoTagIsOn, setEditPhotoTagIsOn] = useState(false);
   const [detailToggle, setDetailToggle] = useState(false)
   const [buyHistory, setBuyHistory] = useFetchGet(
-    "http://localhost:1000/api/penjualan/history"
+    "/api/penjualan/history"
   );
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [detailItems, setDetailsItems] = useFetchGet('http://localhost:1000/api/penjualan/items')
+  const [detailItems, setDetailsItems] = useFetchGet('/api/penjualan/items')
 
   const toggleLogout = () => {
-    axios
-      .delete("http://localhost:1000/api/users/logout", {
+    myAxios
+      .delete("/api/users/logout", {
         withCredentials: true,
       })
       .then(() => {
@@ -40,7 +39,7 @@ export default function Profile() {
       });
   };
   const deleteHistory = (id_penjualan) => {
-    axios.delete('http://localhost:1000/api/penjualan/'+id_penjualan, {withCredentials: true})
+    myAxios.delete('/api/penjualan/'+id_penjualan, {withCredentials: true})
       .then(res => {
         toast.success(res.data.description, {
           position: "top-center",
@@ -51,7 +50,7 @@ export default function Profile() {
           draggable: false,
           theme: "light",
         });
-        axios.get("http://localhost:1000/api/penjualan/history", {withCredentials: true})
+        myAxios.get("/api/penjualan/history", {withCredentials: true})
           .then(res => setBuyHistory(res.data.data))
       })
       .catch(err => console.log(err.response))
@@ -61,7 +60,8 @@ export default function Profile() {
     <>
       <motion.nav
         animate={{ x: navbarToggle ? 0 : "-100vh" }}
-        className='fixed bg-black bottom-0 left-0 top-0 w-1/2 z-40 md:w-1/3 text-white p-3 -translate-x-[100vh]'>
+        className='fixed bg-black bottom-0 left-0 top-0 w-1/2 z-40 md:w-1/3 text-white p-3 -translate-x-[100vh]'
+      >
         <p className='font-bold text-xl text-center mb-5 md:text-3xl'>
           Navigation
         </p>
@@ -78,6 +78,14 @@ export default function Profile() {
               <NavLink to={"/profile"}>Profile</NavLink>
             </li>
           </div>
+          {user.role === "admin" && (
+            <div className='flex gap-x-2 items-center'>
+              <User />
+              <li className='font-semibold text-xl hover:text-white md:text-2xl'>
+                <NavLink to={"/admin"}>Admin</NavLink>
+              </li>
+            </div>
+          )}
           <div className='flex gap-x-2 items-center'>
             <Shop />
             <li className='font-semibold text-xl hover:text-white md:text-2xl'>
@@ -93,7 +101,8 @@ export default function Profile() {
         </ul>
         <button
           onClick={() => setNavbarToggle(!navbarToggle)}
-          className='mt-auto absolute text-sm font-medium bottom-5 left-1/2 -translate-x-1/2 uppercase px-2 py-1 bg-red-600 rounded-lg md:px-4 md:py-2 md:text-lg md:mb-6'>
+          className='mt-auto absolute text-sm font-medium bottom-5 left-1/2 -translate-x-1/2 uppercase px-2 py-1 bg-red-600 rounded-lg md:px-4 md:py-2 md:text-lg md:mb-6'
+        >
           Close
         </button>
       </motion.nav>
@@ -121,7 +130,8 @@ export default function Profile() {
                 viewBox='0 0 24 24'
                 strokeWidth={1.5}
                 stroke='currentColor'
-                className='w-full h-full cursor-pointer peer'>
+                className='w-full h-full cursor-pointer peer'
+              >
                 <path
                   strokeLinecap='round'
                   strokeLinejoin='round'
@@ -131,7 +141,8 @@ export default function Profile() {
             )}
             <div
               onClick={() => setEditPhotoNotifToggle(!editPhotoNotifToggle)}
-              className='peer-hover:block hidden opacity-70 absolute bg-black top-0 left-0 bottom-0 right-0'></div>
+              className='peer-hover:block hidden opacity-70 absolute bg-black top-0 left-0 bottom-0 right-0'
+            ></div>
             <Camera
               setEditPhotoNotifToggle={setEditPhotoNotifToggle}
               editPhotoNotifToggle={editPhotoNotifToggle}
@@ -147,12 +158,14 @@ export default function Profile() {
           </div>
           <Link
             to='/edit-profile'
-            className='text-center font-medium text-blue-600 -my-4 md:text-lg'>
+            className='text-center font-medium text-blue-600 -my-4 md:text-lg'
+          >
             Edit Profile
           </Link>
           <button
             onClick={toggleLogout}
-            className='px-4 py-1 font-medium rounded-2xl bg-red-600 mt-3 md:px-6 md:py-2 md:text-lg md:font-semibold lg:text-center w-fit'>
+            className='px-4 py-1 font-medium rounded-2xl bg-red-600 mt-3 md:px-6 md:py-2 md:text-lg md:font-semibold lg:text-center w-fit'
+          >
             Logout
           </button>
         </div>
@@ -183,27 +196,32 @@ export default function Profile() {
                   <tr>
                     <th
                       scope='col'
-                      className='whitespace-nowrap px-6 py-4 w-1/6'>
+                      className='whitespace-nowrap px-6 py-4 w-1/6'
+                    >
                       Number
                     </th>
                     <th
                       scope='col'
-                      className='whitespace-nowrap px-6 py-4 w-2/6'>
+                      className='whitespace-nowrap px-6 py-4 w-2/6'
+                    >
                       Date
                     </th>
                     <th
                       scope='col'
-                      className='whitespace-nowrap px-6 py-4 w-1/6'>
+                      className='whitespace-nowrap px-6 py-4 w-1/6'
+                    >
                       Items
                     </th>
                     <th
                       scope='col'
-                      className='whitespace-nowrap px-6 py-4 w-2/6'>
+                      className='whitespace-nowrap px-6 py-4 w-2/6'
+                    >
                       Total Price
                     </th>
                     <th
                       scope='col'
-                      className='whitespace-nowrap px-6 py-4 w-2/6'>
+                      className='whitespace-nowrap px-6 py-4 w-2/6'
+                    >
                       Action
                     </th>
                   </tr>
@@ -221,7 +239,8 @@ export default function Profile() {
                       return (
                         <tr
                           key={i}
-                          className='border-b dark:border-neutral-500'>
+                          className='border-b dark:border-neutral-500'
+                        >
                           <td className='whitespace-nowrap  px-6 py-4 font-medium'>
                             {i + 1}
                           </td>
@@ -238,25 +257,27 @@ export default function Profile() {
                             <button
                               onClick={() => {
                                 setDetailToggle(!detailToggle);
-                                axios
+                                myAxios
                                   .get(
-                                    "http://localhost:1000/api/penjualan/items?id_penjualan="+b.id_penjualan,
+                                    "/api/penjualan/items?id_penjualan=" +
+                                      b.id_penjualan,
                                     { withCredentials: true }
                                   )
                                   .then((res) => {
-                                    setDetailsItems(res.data.data)
-                                    console.log(res.data.data);
+                                    setDetailsItems(res.data.data);
                                   })
                                   .catch((err) =>
                                     console.log(err.response.data)
                                   );
                               }}
-                              className='hover:bg-sky-400 px-5 py-1 bg-sky-600 rounded-sm font-medium'>
+                              className='hover:bg-sky-400 px-5 py-1 bg-sky-600 rounded-sm font-medium'
+                            >
                               Detail
                             </button>
                             <button
                               onClick={() => deleteHistory(b.id_penjualan)}
-                              className='hover:bg-red-400 px-5 py-1 bg-red-600 rounded-sm font-medium'>
+                              className='hover:bg-red-400 px-5 py-1 bg-red-600 rounded-sm font-medium'
+                            >
                               Delete
                             </button>
                           </td>
@@ -274,20 +295,32 @@ export default function Profile() {
         <>
           <div
             onClick={() => setDetailToggle(!detailToggle)}
-            className='fixed top-0 left-0 bottom-0 right-0 backdrop-blur-sm z-10'></div>
+            className='fixed top-0 left-0 bottom-0 right-0 backdrop-blur-sm z-10'
+          ></div>
           <div className='fixed w-4/5 flex flex-col z-20 left-1/2 top-1/2 max-h-[500px] -translate-x-1/2 -translate-y-1/2 p-5 bg-gray-500 rounded-md shadow shadow-slate-700 gap-y-6 overflow-y-auto lg:w-3/5'>
             <p className='font-bold text-xl text-center md:text-3xl'>Detail</p>
-            {
-              detailItems.map((d) => {
-                return <div key={d.id} className='flex justify-between items-center md:p-5 lg:px-8'>
-                <img src={d.items.photo_item} alt='shoes' className='w-2/6 md:w-1/5' />
-                <div className='flex flex-col items-center text-sm md:text-xl'>
-                  <p className='font-bold'>{d.items.name} ({d.quantity}x)</p>
-                  <p className='font-medium'>Price : {numberWithCommas(d.price)}</p>
+            {detailItems.map((d) => {
+              return (
+                <div
+                  key={d.id}
+                  className='flex justify-between items-center md:p-5 lg:px-8'
+                >
+                  <img
+                    src={d.items.photo_item}
+                    alt='shoes'
+                    className='w-2/6 md:w-1/5'
+                  />
+                  <div className='flex flex-col items-center text-sm md:text-xl'>
+                    <p className='font-bold'>
+                      {d.items.name} ({d.quantity}x)
+                    </p>
+                    <p className='font-medium'>
+                      Price : {numberWithCommas(d.price)}
+                    </p>
+                  </div>
                 </div>
-              </div>
-              })
-            }
+              );
+            })}
             {/* <div className='flex justify-between items-center md:p-5 lg:px-8'>
               <img src={shoes} alt='shoes' className='w-2/6 md:w-1/5' />
               <div className='flex flex-col items-center text-sm md:text-xl'>
@@ -335,25 +368,28 @@ export default function Profile() {
                   setEditPhotoTagIsOn(!editPhotoTagIsOn);
                   setEditPhotoNotifToggle(!editPhotoNotifToggle);
                 }}
-                className='px-5 py-1 bg-orange-600 rounded-md font-medium lg:px-8 lg:py-2 lg:text-xl '>
+                className='px-5 py-1 bg-orange-600 rounded-md font-medium lg:px-8 lg:py-2 lg:text-xl '
+              >
                 Yes
               </button>
               <button
                 onClick={() => setEditPhotoNotifToggle(!editPhotoNotifToggle)}
-                className='px-5 py-1 bg-orange-600 rounded-md font-medium lg:px-8 lg:py-2 lg:text-xl'>
+                className='px-5 py-1 bg-orange-600 rounded-md font-medium lg:px-8 lg:py-2 lg:text-xl'
+              >
                 No
               </button>
               <button
                 onClick={() =>
-                  axios
-                    .delete("http://localhost:1000/api/users/empty-photo", {
+                  myAxios
+                    .delete("/api/users/empty-photo", {
                       withCredentials: true,
                     })
                     .then((res) => {
                       return navigate(0);
                     })
                 }
-                className='px-5 py-1 bg-orange-600 rounded-md font-medium lg:px-8 lg:py-2 lg:text-xl'>
+                className='px-5 py-1 bg-orange-600 rounded-md font-medium lg:px-8 lg:py-2 lg:text-xl'
+              >
                 Kosongkan
               </button>
             </div>

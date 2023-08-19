@@ -1,8 +1,8 @@
-import axios from "axios";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "../slice/Auth";
 import { useMatches, useNavigate } from "react-router-dom";
+import { myAxios } from "../utils/axios";
 
 export default function useGetUser() {
   const notAllowedPage = ["/profile", "/cart", "/edit-profile"];
@@ -14,12 +14,13 @@ export default function useGetUser() {
   useEffect(() => {
     async function getUserFromBackend() {
       try {
-        const res = await axios.get("http://localhost:1000/api/users/getme", {
+        const res = await myAxios.get("/api/users/getme", {
           withCredentials: true,
         });
         dispatch(getUser({ ...res.data.data, isLoggedIn: true }));
       } catch (error) {
-        if (notAllowedPage.find((d) => d === matcher[0].pathname)) {
+        const currentPath = matcher[1].pathname
+        if (notAllowedPage.find((d) => d === currentPath)) {
           return navigate("/login", { state: error.response.data.description });
         }
       }

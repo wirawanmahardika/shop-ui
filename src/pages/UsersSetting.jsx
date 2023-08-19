@@ -1,17 +1,14 @@
-import { useOutletContext } from "react-router-dom";
-import Bars3 from "../svg/Bars3";
 import { useFetchGet } from "../hooks/useFetch";
-import axios from "axios";
 import { useState } from "react";
+import { myAxios } from "../utils/axios";
 
 export default function UsersSetting() {
-  const { navbarToggle, setNavbarToggle } = useOutletContext();
-  const [users, setUsers] = useFetchGet("http://localhost:1000/api/users");
+  const [users, setUsers] = useFetchGet("/api/users");
   const [msg, setMsg] = useState({ message: "", status: null });
 
   const deleteUser = (id) => {
-    axios
-      .delete("http://localhost:1000/api/users/" + id, {
+    myAxios
+      .delete("/api/users/" + id, {
         withCredentials: true,
       })
       .then((res) => {
@@ -25,13 +22,8 @@ export default function UsersSetting() {
 
   return (
     <>
-      <div className='flex flex-col'>
-        <div
-          className='p-5 w-fit'
-          onClick={() => setNavbarToggle(!navbarToggle)}>
-          <Bars3 className={"w-8 h-8"} />
-        </div>
-        <h2 className='font-bold text-center text-2xl uppercase font-roboto mb-5'>
+      <div className='flex flex-col w-full pt-10'>
+        <h2 className='font-bold text-center text-3xl uppercase font-roboto mb-5'>
           Users Setting
         </h2>
         {msg.status !== null &&
@@ -51,27 +43,32 @@ export default function UsersSetting() {
                 <tr className='text-sm md:text-lg'>
                   <th
                     scope='col'
-                    className='whitespace-nowrap px-6 py-4 w-1/12'>
+                    className='whitespace-nowrap px-6 py-4 w-1/12'
+                  >
                     Number
                   </th>
                   <th
                     scope='col'
-                    className='whitespace-nowrap px-6 py-4 w-5/12 lg:w-3/12'>
+                    className='whitespace-nowrap px-6 py-4 w-5/12 lg:w-3/12'
+                  >
                     Username
                   </th>
                   <th
                     scope='col'
-                    className='whitespace-nowrap px-6 py-4 w-5/12 lg:w-3/12'>
+                    className='whitespace-nowrap px-6 py-4 w-5/12 lg:w-3/12'
+                  >
                     Email
                   </th>
                   <th
                     scope='col'
-                    className='whitespace-nowrap px-6 py-4 w-5/12 lg:w-3/12'>
+                    className='whitespace-nowrap px-6 py-4 w-5/12 lg:w-3/12'
+                  >
                     Fullname
                   </th>
                   <th
                     scope='col'
-                    className='whitespace-nowrap px-6 py-4 w-2/12'>
+                    className='whitespace-nowrap px-6 py-4 w-2/12'
+                  >
                     Handle
                   </th>
                 </tr>
@@ -79,11 +76,12 @@ export default function UsersSetting() {
               <tbody>
                 {users &&
                   users.map((c, i) => {
-                    console.log(c);
+                    
                     return (
                       <tr
                         key={c.id}
-                        className='border-b dark:border-neutral-500'>
+                        className='border-b dark:border-neutral-500'
+                      >
                         <td className='whitespace-nowrap  px-6 py-4 font-medium'>
                           {i + 1}
                         </td>
@@ -110,7 +108,8 @@ export default function UsersSetting() {
                                   return deleteUser(c.id);
                                 }
                               }}
-                              className='px-4 py-1 bg-red-600 rounded-md'>
+                              className='px-4 py-1 bg-red-600 rounded-md'
+                            >
                               Delete
                             </button>
                           )}

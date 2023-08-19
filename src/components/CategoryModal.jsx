@@ -1,6 +1,5 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { myAxios } from "../utils/axios";
 
 export default function CategoryModal({
   state,
@@ -19,8 +18,8 @@ export default function CategoryModal({
     if (!input.category) return setMsg("Membutuhkan category");
     if (!input.image) return setMsg("Membutuhkan image");
     if (input.image.size > 3_200_000) return setMsg("Melebihi size maksimum");
-    axios
-      .post("http://localhost:1000/api/category", input, {
+    myAxios
+      .post("/api/category", input, {
         withCredentials: true,
         headers: { "Content-Type": "multipart/form-data" },
       })

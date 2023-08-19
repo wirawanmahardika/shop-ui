@@ -1,11 +1,10 @@
-import { Form, useActionData } from "react-router-dom";
 import { useFetchGet } from "../hooks/useFetch";
 import { useState } from "react";
-import axios from "axios";
+import { myAxios } from "../utils/axios";
 
 export default function ItemModal({ state, setState, setParentMsg, setItems }) {
-  const [brands] = useFetchGet("http://localhost:1000/api/brands");
-  const [categories] = useFetchGet("http://localhost:1000/api/category");
+  const [brands] = useFetchGet("/api/brands");
+  const [categories] = useFetchGet("/api/category");
   const [input, setInput] = useState({
     name: null,
     id_category: null,
@@ -24,8 +23,8 @@ export default function ItemModal({ state, setState, setParentMsg, setItems }) {
   };
 
   const sendData = () => {
-    axios
-      .post("http://localhost:1000/api/items", input, {
+    myAxios
+      .post("/api/items", input, {
         withCredentials: true,
         headers: { "Content-Type": "multipart/form-data" },
       })

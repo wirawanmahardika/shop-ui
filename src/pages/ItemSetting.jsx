@@ -1,23 +1,19 @@
-import { useOutletContext } from "react-router-dom";
-import Bars3 from "../svg/Bars3";
 import { useFetchGet } from "../hooks/useFetch";
 import Plus from "../svg/Plus";
 import { useState } from "react";
-import BrandModal from "../components/BrandModal";
-import axios from "axios";
 import ItemModal from "../components/ItemModal";
+import { myAxios } from "../utils/axios";
 
 export default function ItemSetting() {
-  const { navbarToggle, setNavbarToggle } = useOutletContext();
   const [itemModal, setItemModal] = useState(false);
   const [msg, setMsg] = useState("");
   const [items, setItems] = useFetchGet(
-    "http://localhost:1000/api/items/get-all?withPhoto=yes"
+    "/api/items/get-all?withPhoto=yes"
   );
 
   const deleteItems = (id_item) => {
-    axios
-      .delete("http://localhost:1000/api/items/" + id_item, {
+    myAxios
+      .delete("/api/items/" + id_item, {
         withCredentials: true,
       })
       .then((res) => {
@@ -33,12 +29,7 @@ export default function ItemSetting() {
 
   return (
     <>
-      <div className='flex flex-col'>
-        <div
-          className='p-5 w-fit'
-          onClick={() => setNavbarToggle(!navbarToggle)}>
-          <Bars3 className={"w-8 h-8 md:w-10 md:h-10"} />
-        </div>
+      <div className='flex flex-col w-full pt-10'>
         <h2 className='font-bold text-center text-2xl uppercase font-roboto md:text-3xl'>
           Items Setting
         </h2>
@@ -47,11 +38,12 @@ export default function ItemSetting() {
             <p>{msg}</p>
           </div>
         )}
-        <div className='flex px-3 py-1 mt-7 sm:px-4 sm:py-2 items-center gap-x-1 group w-fit  md:text-2xl'>
+        <div className='flex px-3 py-1 mt-4 sm:px-4 sm:py-2 items-center gap-x-1 group w-fit  md:text-2xl'>
           <Plus className={"group-hover:fill-blue-600 w-6 h-6"} />
           <button
             onClick={() => setItemModal(!itemModal)}
-            className='font-bold text-xl font-raleway group-hover:text-blue-600 md:text-2xl'>
+            className='font-bold text-xl font-raleway group-hover:text-blue-600 md:text-2xl'
+          >
             Add Items
           </button>
         </div>
@@ -62,37 +54,44 @@ export default function ItemSetting() {
                 <tr>
                   <th
                     scope='col'
-                    className='whitespace-nowrap px-6 py-4 w-1/12 '>
+                    className='whitespace-nowrap px-6 py-4 w-1/12 '
+                  >
                     Number
                   </th>
                   <th
                     scope='col'
-                    className='whitespace-nowrap px-6 py-4 w-2/12'>
+                    className='whitespace-nowrap px-6 py-4 w-2/12'
+                  >
                     Name
                   </th>
                   <th
                     scope='col'
-                    className='whitespace-nowrap px-6 py-4 w-2/12'>
+                    className='whitespace-nowrap px-6 py-4 w-2/12'
+                  >
                     Price
                   </th>
                   <th
                     scope='col'
-                    className='whitespace-nowrap px-6 py-4 w-2/12'>
+                    className='whitespace-nowrap px-6 py-4 w-2/12'
+                  >
                     Stock
                   </th>
                   <th
                     scope='col'
-                    className='whitespace-nowrap px-6 py-4 w-2/12'>
+                    className='whitespace-nowrap px-6 py-4 w-2/12'
+                  >
                     Brand
                   </th>
                   <th
                     scope='col'
-                    className='whitespace-nowrap px-6 py-4 w-2/12'>
+                    className='whitespace-nowrap px-6 py-4 w-2/12'
+                  >
                     Category
                   </th>
                   <th
                     scope='col'
-                    className='whitespace-nowrap px-6 py-4 w-2/12'>
+                    className='whitespace-nowrap px-6 py-4 w-2/12'
+                  >
                     Handle
                   </th>
                 </tr>
@@ -103,7 +102,8 @@ export default function ItemSetting() {
                     return (
                       <tr
                         key={b.id_item}
-                        className='border-b dark:border-neutral-500'>
+                        className='border-b dark:border-neutral-500'
+                      >
                         <td className='whitespace-nowrap  px-6 py-4 font-medium'>
                           {i + 1}
                         </td>
@@ -131,7 +131,8 @@ export default function ItemSetting() {
                                 return deleteItems(b.id_item);
                               }
                             }}
-                            className='px-4 py-1 bg-red-600 rounded-md'>
+                            className='px-4 py-1 bg-red-600 rounded-md'
+                          >
                             Delete
                           </button>
                         </td>

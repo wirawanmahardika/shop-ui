@@ -1,11 +1,11 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
+import { myAxios } from "../utils/axios";
 
 export function useFetchGet(url) {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    axios.get(url, { withCredentials: true }).then((res) => {
+    myAxios.get(url, { withCredentials: true }).then((res) => {
       setData(res.data.data);
     });
   }, []);

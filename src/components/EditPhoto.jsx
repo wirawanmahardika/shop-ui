@@ -1,12 +1,11 @@
-import axios from "axios";
 import { useState } from "react";
-import { Form, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { myAxios } from "../utils/axios";
 
 export default function EditPhoto({ editPhotoTagIsOn, setEditPhotoTagIsOn }) {
   const [img, setImg] = useState(null);
   const [msg, setMsg] = useState(null);
   const navigate = useNavigate();
-  console.log(img);
 
   const changeImage = () => {
     const allowedType = ["image/jpeg", "image/png", "image/jpg"];
@@ -23,9 +22,9 @@ export default function EditPhoto({ editPhotoTagIsOn, setEditPhotoTagIsOn }) {
       return;
     }
 
-    axios
+    myAxios
       .patch(
-        "http://localhost:1000/api/users/add-photo",
+        "/api/users/add-photo",
         { photo: img },
         {
           withCredentials: true,

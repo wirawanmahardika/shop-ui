@@ -3,12 +3,10 @@ import {
   NavLink,
   useActionData,
   useLocation,
-  useNavigate,
 } from "react-router-dom";
 import logo from "../img/logo.png";
-import axios from "axios";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { myAxios } from "../utils/axios";
 
 export default function Login() {
   const [msg, setMsg] = useState(null);
@@ -16,11 +14,11 @@ export default function Login() {
   const location = useLocation();
 
   useEffect(() => {
-    if (data && data.code < 300) {
+    if (data?.code < 300) {
       setMsg("Berhasil Login");
-    } else if (data && data.place === "username") {
+    } else if (data?.place === "username") {
       setMsg(data.description);
-    } else if (data && data.place === "password") {
+    } else if (data?.place === "password") {
       setMsg(data.description);
     } else {
       setMsg("");
@@ -138,8 +136,8 @@ export default function Login() {
 export const loginAction = async ({ request }) => {
   const data = Object.fromEntries(await request.formData());
   try {
-    const returndata = await axios.post(
-      "http://localhost:1000/api/users/login",
+    const returndata = await myAxios.post(
+      "/api/users/login",
       data,
       { withCredentials: true }
     );

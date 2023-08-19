@@ -1,11 +1,7 @@
-import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import HomeNav from "../svg/HomeNav";
-import Shop from "../svg/Shop";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
-import User from "../svg/User";
 import useGetUser from "../hooks/useGetUser";
-import category from "../img/category.png";
+import logo from "../img/logo.png";
 
 export default function Admin() {
   const [navbarToggle, setNavbarToggle] = useState(false);
@@ -20,8 +16,25 @@ export default function Admin() {
 
   return (
     <>
-      <Navbar navbarToggle={navbarToggle} setNavbarToggle={setNavbarToggle} />
-      <Outlet context={{ navbarToggle, setNavbarToggle }} />
+      {window.innerWidth < 1024 ? (
+        <>
+          <div className='w-full h-screen flex items-center justify-center'>
+            <h1 className='font-bold text-center text-3xl uppercase font-quicksand'>
+              Tersedia hanya di desktop size
+            </h1>
+          </div>
+        </>
+      ) : (
+        <>
+          <div className='w-full h-screen flex'>
+            <Navbar
+              navbarToggle={navbarToggle}
+              setNavbarToggle={setNavbarToggle}
+            />
+            <Outlet context={{ navbarToggle, setNavbarToggle }} />
+          </div>
+        </>
+      )}
     </>
   );
 }
@@ -29,71 +42,72 @@ export default function Admin() {
 function Navbar({ navbarToggle, setNavbarToggle }) {
   return (
     <>
-      <motion.nav
-        animate={{ x: navbarToggle ? 0 : "-100vh" }}
-        className='fixed bg-black bottom-0 left-0 top-0 w-1/2 z-40 text-white p-3 -translate-x-[100vh] lg:w-1/3'>
-        <p className='font-bold text-xl text-center mb-5 md:text-4xl'>CMS</p>
-        <ul className='flex flex-col justify-evenly gap-y-4'>
-          <div className='flex gap-x-2 items-center'>
-            <HomeNav />
-            <li className='font-semibold text-xl hover:text-white md:text-3xl'>
-              <NavLink to={"/admin/items"}>Item</NavLink>
-            </li>
-          </div>
+      <nav className='w-1/4 h-screen bg-indigo-600 flex flex-col p-5 gap-y-6 text-white'>
+        <div className='w-full items-center flex justify-between'>
+          <img src={logo} alt='logo' className='w-9' />
+          <p className='text-xl uppercase font-extrabold font-roboto '>
+            Admin Control
+          </p>
+        </div>
+        <div className='w-full'>
+          <ul className='flex flex-col gap-y-3'>
+            <NavLink
+              to='/admin'
+              className='bg-indigo-800 px-3 py-2 rounded-lg hover:bg-indigo-950'
+            >
+              Deliver
+            </NavLink>
+            <NavLink
+              to='/admin/items'
+              className='bg-indigo-800 px-3 py-2 rounded-lg hover:bg-indigo-950'
+            >
+              Items
+            </NavLink>
+            <NavLink
+              to='/admin/users'
+              className='bg-indigo-800 px-3 py-2 rounded-lg hover:bg-indigo-950'
+            >
+              Users
+            </NavLink>
+            <NavLink
+              to='/admin/category'
+              className='bg-indigo-800 px-3 py-2 rounded-lg hover:bg-indigo-950'
+            >
+              Categories
+            </NavLink>
+            <NavLink
+              to='/admin/brand'
+              className='bg-indigo-800 px-3 py-2 rounded-lg hover:bg-indigo-950'
+            >
+              Brands
+            </NavLink>
+          </ul>
+        </div>
+        <div className='w-full flex flex-col gap-y-5'>
+          <h1 className='text-xl font-bold'>Navigation</h1>
+          <ul className='flex flex-col gap-y-3'>
+            <NavLink
+              to='/'
+              className='bg-indigo-800 px-3 py-2 rounded-lg hover:bg-indigo-950'
+            >
+              Home
+            </NavLink>
 
-          <div className='flex gap-x-2 items-center'>
-            <User />
-            <li className='font-semibold text-xl hover:text-white md:text-3xl'>
-              <NavLink to={"/admin/users"}>Users</NavLink>
-            </li>
-          </div>
-
-          <div className='flex gap-x-2 items-center'>
-            <img src={category} alt='category' className='w-7 h-7' />
-            <li className='font-semibold text-xl hover:text-white md:text-3xl'>
-              <NavLink to={"/admin/category"}>Category</NavLink>
-            </li>
-          </div>
-
-          <div className='flex gap-x-2 items-center'>
-            <User />
-            <li className='font-semibold text-xl hover:text-white md:text-3xl'>
-              <NavLink to={"/admin/brand"}>Brand</NavLink>
-            </li>
-          </div>
-        </ul>
-
-        <p className='font-bold text-xl text-center my-5 mt-8 md:text-4xl'>
-          Navigation
-        </p>
-        <ul className='flex flex-col justify-evenly gap-y-4'>
-          <div className='flex gap-x-2 items-center'>
-            <HomeNav className={"w-6 h-6 md:w-9 md:h-9"} />
-            <li className='font-semibold text-xl hover:text-white md:text-3xl'>
-              <NavLink to={"/"}>Home</NavLink>
-            </li>
-          </div>
-
-          <div className='flex gap-x-2 items-center'>
-            <Shop className={"w-6 h-6 md:w-9 md:h-9"} />
-            <li className='font-semibold text-xl hover:text-white md:text-3xl'>
-              <NavLink to={"/toko"}>Toko</NavLink>
-            </li>
-          </div>
-
-          <div className='flex gap-x-2 items-center'>
-            <User className={"w-6 h-6 md:w-9 md:h-9"} />
-            <li className='font-semibold text-xl hover:text-white md:text-3xl'>
-              <NavLink to={"/profile"}>Profile</NavLink>
-            </li>
-          </div>
-        </ul>
-        <button
-          onClick={() => setNavbarToggle(!navbarToggle)}
-          className='mt-auto absolute text-sm font-medium bottom-5 left-1/2 -translate-x-1/2 uppercase px-2 py-1 bg-red-600 rounded-lg md:text-lg md:px-4 md:py-2'>
-          Close
-        </button>
-      </motion.nav>
+            <NavLink
+              to='/profile'
+              className='bg-indigo-800 px-3 py-2 rounded-lg hover:bg-indigo-950'
+            >
+              Profile
+            </NavLink>
+            <NavLink
+              to='/toko'
+              className='bg-indigo-800 px-3 py-2 rounded-lg hover:bg-indigo-950'
+            >
+              Shop
+            </NavLink>
+          </ul>
+        </div>
+      </nav>
     </>
   );
 }

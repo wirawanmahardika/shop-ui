@@ -1,5 +1,5 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
+import { myAxios } from "../utils/axios";
 
 export default function PasswordValidate({
   appear,
@@ -15,9 +15,9 @@ export default function PasswordValidate({
   }, [password]);
 
   const validateAndChangeDataProfile = () => {
-    axios
+    myAxios
       .put(
-        "http://localhost:1000/api/users/edit-bio",
+        "/api/users/edit-bio",
         { ...data, password: password },
         { withCredentials: true }
       )
@@ -27,7 +27,6 @@ export default function PasswordValidate({
           message: res.data.description,
           code: res.data.code,
         });
-        console.log(res.data);
         setAppear(!appear);
       })
       .catch((err) => {

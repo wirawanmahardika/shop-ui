@@ -9,3 +9,10 @@
 .bg-image-toko-profile {
     background-image: url('../img/hacker-1.png')
 }
+
+.center-fixed {
+    transform: translate(-50%,-50%);
+    top: 50%;
+    left: 50%;
+    position: fixed;
+}

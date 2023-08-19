@@ -10,18 +10,18 @@ import User from "../svg/User";
 import CartItem from "../components/CartItem";
 import { useDispatch, useSelector } from "react-redux";
 import useGetUser from "../hooks/useGetUser";
-import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { resetCart } from "../slice/CartItem";
 import OnDelivery from "../components/Ondelivery";
 import { useFetchGet } from "../hooks/useFetch";
+import { myAxios } from "../utils/axios";
 
 export default function CartPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [ondeliveryData, setOndeliveryData] = useFetchGet(
-    "http://localhost:1000/api/penjualan"
+    "/api/penjualan"
   );
   const [navbarToggle, setNavbarToggle] = useState(false);
   const [subTotal, setSubTotal] = useState(0);
@@ -46,9 +46,9 @@ export default function CartPage() {
       items.push(i);
     }
 
-    axios
+    myAxios
       .patch(
-        "http://localhost:1000/api/items/buy",
+        "/api/items/buy",
         { items },
         { withCredentials: true }
       )
@@ -63,8 +63,8 @@ export default function CartPage() {
           theme: "light",
         });
         dispatch(resetCart());
-        axios
-          .get("http://localhost:1000/api/penjualan", { withCredentials: true })
+        myAxios
+          .get("/api/penjualan", { withCredentials: true })
           .then((res) => setOndeliveryData(res.data.data));
       })
       .catch((err) => {
@@ -86,7 +86,8 @@ export default function CartPage() {
     <>
       <motion.nav
         animate={{ x: navbarToggle ? 0 : "-100vh" }}
-        className='fixed bg-black bottom-0 left-0 top-0 w-1/2 z-40 text-white p-3 -translate-x-[100vh] md:hidden'>
+        className='fixed bg-black bottom-0 left-0 top-0 w-1/2 z-40 text-white p-3 -translate-x-[100vh] md:hidden'
+      >
         <p className='font-bold text-xl text-center mb-5'>Navigation</p>
         <ul className='flex flex-col justify-evenly gap-y-4'>
           <div className='flex gap-x-2 items-center'>
@@ -107,10 +108,19 @@ export default function CartPage() {
               <NavLink to={"/profile"}>Profile</NavLink>
             </li>
           </div>
+          {user.role === "admin" && (
+            <div className='flex gap-x-2 items-center'>
+              <User />
+              <li className='font-semibold text-xl hover:text-white'>
+                <NavLink to={"/admin"}>Admin</NavLink>
+              </li>
+            </div>
+          )}
         </ul>
         <button
           onClick={() => setNavbarToggle(!navbarToggle)}
-          className='mt-auto absolute text-sm font-medium bottom-5 left-1/2 -translate-x-1/2 uppercase px-2 py-1 bg-red-600 rounded-lg'>
+          className='mt-auto absolute text-sm font-medium bottom-5 left-1/2 -translate-x-1/2 uppercase px-2 py-1 bg-red-600 rounded-lg'
+        >
           Close
         </button>
       </motion.nav>
@@ -135,6 +145,7 @@ export default function CartPage() {
               </NavLink>
               <NavLink to={"/toko"}>Toko</NavLink>
               <NavLink to={"/profile"}>Profile</NavLink>
+              {user.role === "admin" && <NavLink to={"/admin"}>Admin</NavLink>}
             </ul>
           </div>
           <NavLink to='/cart'>
@@ -155,7 +166,8 @@ export default function CartPage() {
           )}
           <div
             className='md:hidden'
-            onClick={() => setNavbarToggle(!navbarToggle)}>
+            onClick={() => setNavbarToggle(!navbarToggle)}
+          >
             <Bars3 strokeColor={"black"} className={"w-8 h-8 md:w-10"} />
           </div>
         </div>
@@ -209,14 +221,14 @@ export default function CartPage() {
               </div>
               <button
                 onClick={buyProcess}
-                className='mt-6 w-full rounded-md bg-blue-500 py-1.5 font-medium text-blue-50 hover:bg-blue-600'>
+                className='mt-6 w-full rounded-md bg-blue-500 py-1.5 font-medium text-blue-50 hover:bg-blue-600'
+              >
                 Check out
               </button>
             </div>
           </div>
         )}
         {ondeliveryData.map((o, index) => {
-          console.log(o);
           return (
             <OnDelivery
               key={index}

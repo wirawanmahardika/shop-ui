@@ -1,7 +1,7 @@
-import axios from "axios";
 import logo from "../img/logo.png";
 import { Form, NavLink, useActionData } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { myAxios } from "../utils/axios";
 
 export default function Signup() {
   const data = useActionData();
@@ -182,8 +182,8 @@ export const signupAction = async ({ request }) => {
   const data = Object.fromEntries(await request.formData());
 
   try {
-    const returndata = await axios.post(
-      "http://localhost:1000/api/users/signup",
+    const returndata = await myAxios.post(
+      "/api/users/signup",
       data, { withCredentials: true}
     );
     return returndata.data;

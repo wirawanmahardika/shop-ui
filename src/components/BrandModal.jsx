@@ -1,5 +1,5 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
+import { myAxios } from "../utils/axios";
 
 export default function BrandModal({
   state,
@@ -14,14 +14,12 @@ export default function BrandModal({
     setMsg("");
   }, [input]);
 
-  console.log(input);
-
   const addBrand = () => {
     if (!input.name_brand) return setMsg("Membutuhkan brand");
     if (!input.image) return setMsg("Membutuhkan image");
     if (input.image.size > 3_200_000) return setMsg("Melebihi size maksimum");
-    axios
-      .post("http://localhost:1000/api/brands", input, {
+    myAxios
+      .post("/api/brands", input, {
         withCredentials: true,
         headers: { "Content-Type": "multipart/form-data" },
       })
