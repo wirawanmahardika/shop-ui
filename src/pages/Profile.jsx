@@ -386,7 +386,7 @@ export default function Profile() {
                     })
                     .then((res) => {
                       return navigate(0);
-                    })
+                    }).catch(err => console.log(err))
                 }
                 className='px-5 py-1 bg-orange-600 rounded-md font-medium lg:px-8 lg:py-2 lg:text-xl'
               >
@@ -428,7 +428,3 @@ function getDate(tanggal) {
 
   return dateToDisplay
 }
-/**
- * pembelian history
- * jumlah barang yang sudah dibeli
- */
