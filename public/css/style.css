@@ -1350,16 +1350,16 @@ select {
   row-gap: 1.5rem;
 }
 
+.gap-y-7 {
+  row-gap: 1.75rem;
+}
+
 .gap-y-8 {
   row-gap: 2rem;
 }
 
 .gap-y-9 {
   row-gap: 2.25rem;
-}
-
-.gap-y-7 {
-  row-gap: 1.75rem;
 }
 
 .space-x-4 > :not([hidden]) ~ :not([hidden]) {
@@ -1605,6 +1605,11 @@ select {
   background-color: rgb(241 245 249 / var(--tw-bg-opacity));
 }
 
+.bg-slate-200 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(226 232 240 / var(--tw-bg-opacity));
+}
+
 .bg-slate-800 {
   --tw-bg-opacity: 1;
   background-color: rgb(30 41 59 / var(--tw-bg-opacity));
@@ -1613,11 +1618,6 @@ select {
 .bg-white {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
-}
-
-.bg-slate-200 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(226 232 240 / var(--tw-bg-opacity));
 }
 
 .bg-cover {
@@ -1787,6 +1787,11 @@ select {
   line-height: 2.25rem;
 }
 
+.text-4xl {
+  font-size: 2.25rem;
+  line-height: 2.5rem;
+}
+
 .text-5xl {
   font-size: 3rem;
   line-height: 1;
@@ -1810,11 +1815,6 @@ select {
 .text-xs {
   font-size: 0.75rem;
   line-height: 1rem;
-}
-
-.text-4xl {
-  font-size: 2.25rem;
-  line-height: 2.5rem;
 }
 
 .font-bold {
@@ -1869,6 +1869,11 @@ select {
 .text-blue-50 {
   --tw-text-opacity: 1;
   color: rgb(239 246 255 / var(--tw-text-opacity));
+}
+
+.text-blue-500 {
+  --tw-text-opacity: 1;
+  color: rgb(59 130 246 / var(--tw-text-opacity));
 }
 
 .text-blue-600 {
@@ -1954,11 +1959,6 @@ select {
 .text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
-}
-
-.text-blue-500 {
-  --tw-text-opacity: 1;
-  color: rgb(59 130 246 / var(--tw-text-opacity));
 }
 
 .placeholder-gray-200::-moz-placeholder {
@@ -2104,15 +2104,15 @@ select {
 }
 
 .bg-image-home {
-  background-image: url('../img/bg-image-home.png')
+  background-image: url("../src/img/bg-image-home.png");
 }
 
 .bg-image-toko-profile {
-  background-image: url('../img/hacker-1.png')
+  background-image: url("../src/img/hacker-1.png");
 }
 
 .center-fixed {
-  transform: translate(-50%,-50%);
+  transform: translate(-50%, -50%);
   top: 50%;
   left: 50%;
   position: fixed;
