@@ -15,7 +15,6 @@ export default function Home() {
             <JumboTron />
             <BrandCoop />
             <ProdukPreview />
-
             <CategoryPreview />
             <Footer />
         </>
