@@ -1,20 +1,20 @@
 import { motion } from "framer-motion";
-import HomeNav from "../svg/HomeNav";
-import Shop from "../svg/Shop";
+import HomeNav from "../../svg/HomeNav";
+import Shop from "../../svg/Shop";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import Bars3 from "../svg/Bars3";
-import User from "../svg/User";
-import Cart from "../svg/Cart";
+import Bars3 from "../../svg/Bars3";
+import User from "../../svg/User";
+import Cart from "../../svg/Cart";
 import { useDispatch } from "react-redux";
-import { logout } from "../slice/Auth";
-import useGetUser from "../hooks/useGetUser";
-import EditPhoto from "../components/profile/EditPhoto";
-import Camera from "../svg/Camera";
-import { useFetchGet } from "../hooks/useFetch";
+import { logout } from "../../slice/Auth";
+import useGetUser from "../../hooks/useGetUser";
+import EditPhoto from "../../components/profile/EditPhoto";
+import Camera from "../../svg/Camera";
+import { useFetchGet } from "../../hooks/useFetch";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { myAxios } from "../utils/axios";
+import { myAxios } from "../../utils/axios";
 
 export default function Profile() {
     const [navbarToggle, setNavbarToggle] = useState(false);

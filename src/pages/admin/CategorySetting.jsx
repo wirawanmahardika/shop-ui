@@ -1,8 +1,8 @@
-import { useFetchGet } from "../hooks/useFetch";
-import Plus from "../svg/Plus";
-import CategoryModal from "../components/category-setting/CategoryModal";
+import { useFetchGet } from "../../hooks/useFetch";
+import Plus from "../../svg/Plus";
+import CategoryModal from "../../components/category-setting/CategoryModal";
 import { useState } from "react";
-import { myAxios } from "../utils/axios";
+import { myAxios } from "../../utils/axios";
 
 export default function CategorySetting() {
     const [msg, setMsg] = useState("");

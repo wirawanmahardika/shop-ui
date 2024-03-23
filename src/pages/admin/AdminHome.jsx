@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { useFetchGet } from "../hooks/useFetch";
-import { myAxios } from "../utils/axios";
-import PenjualanDetail from "../components/edit-profile/PenjualanDetail";
+import { useFetchGet } from "../../hooks/useFetch";
+import { myAxios } from "../../utils/axios";
+import PenjualanDetail from "../../components/edit-profile/PenjualanDetail";
 
 export default function AdminHome() {
     const [delivers, setDelivers] = useFetchGet("/api/penjualan");

@@ -1,9 +1,9 @@
 import { useOutletContext } from "react-router-dom";
-import { useFetchGet } from "../hooks/useFetch";
-import Plus from "../svg/Plus";
+import { useFetchGet } from "../../hooks/useFetch";
+import Plus from "../../svg/Plus";
 import { useState } from "react";
-import BrandModal from "../components/brand-setting/BrandModal";
-import { myAxios } from "../utils/axios";
+import BrandModal from "../../components/brand-setting/BrandModal";
+import { myAxios } from "../../utils/axios";
 
 export default function BrandSetting() {
     const { navbarToggle, setNavbarToggle } = useOutletContext();

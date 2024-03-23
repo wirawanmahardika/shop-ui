@@ -1,8 +1,8 @@
-import { useFetchGet } from "../hooks/useFetch";
-import Plus from "../svg/Plus";
+import { useFetchGet } from "../../hooks/useFetch";
+import Plus from "../../svg/Plus";
 import { useState } from "react";
-import ItemModal from "../components/item-setting/ItemModal";
-import { myAxios } from "../utils/axios";
+import ItemModal from "../../components/item-setting/ItemModal";
+import { myAxios } from "../../utils/axios";
 
 export default function ItemSetting() {
     const [itemModal, setItemModal] = useState(false);

@@ -10,50 +10,18 @@ import {
 import Home from "./pages/home/Home";
 import Toko from "./pages/Toko";
 import CartPage from "./pages/Cart";
-import Profile from "./pages/Profile";
+import Profile from "./pages/profile/Profile";
 import Login, { loginAction } from "./pages/Login";
 import Signup, { signupAction } from "./pages/Signup";
-import EditProfile, { editProfileAction } from "./pages/EditProfile";
-import Admin from "./pages/Admin";
-import CategorySetting from "./pages/CategorySetting";
-import AdminHome from "./pages/AdminHome";
-import BrandSetting from "./pages/BrandSetting";
-import UsersSetting from "./pages/UsersSetting";
-import ItemSetting from "./pages/ItemSetting";
-import { useEffect } from "react";
-
-const Container = () => {
-    return (
-        <>
-            <Outlet />
-        </>
-    );
-};
-
-const ErrorElement = () => {
-    const error = useRouteError();
-    const navigate = useNavigate();
-
-    useEffect(() => {
-        if (
-            error?.internal &&
-            error?.status === 404 &&
-            error?.data.includes("Error: No route matches URL")
-        ) {
-            navigate("/");
-            return;
-        }
-    }, []);
-
-    return (
-        <div className="w-full h-screen font-quicksand bg-slate-200 flex justify-center items-center flex-col gap-y-7">
-            <h1 className="font-bold text-4xl ">SOMETHING WENT WRONG</h1>
-            <a href="/" className="text-blue-500 font-semibold">
-                Back To Homepage
-            </a>
-        </div>
-    );
-};
+import EditProfile, { editProfileAction } from "./pages/profile/EditProfile";
+import CategorySetting from "./pages/admin/CategorySetting";
+import Admin from "./pages/admin/Admin";
+import AdminHome from "./pages/admin/AdminHome";
+import BrandSetting from "./pages/admin/BrandSetting";
+import UsersSetting from "./pages/admin/UsersSetting";
+import ItemSetting from "./pages/admin/ItemSetting";
+import Container from "./components/all/Container";
+import ErrorElementAll from "./components/all/ErrorElementAll";
 
 function App() {
     const router = createBrowserRouter(
@@ -62,7 +30,7 @@ function App() {
                 <Route
                     path="/"
                     element={<Container />}
-                    errorElement={<ErrorElement />}
+                    errorElement={<ErrorElementAll />}
                 >
                     <Route index element={<Home />} />
                     <Route path="/toko" element={<Toko />} />
