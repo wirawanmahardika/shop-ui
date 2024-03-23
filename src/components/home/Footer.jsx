@@ -1,6 +1,6 @@
-import instagram from "../../img/instagram.png";
-import whatsapp from "../../img/whatsapp.png";
-import facebook from "../../img/facebook.png";
+import instagram from "../../assets/instagram.png";
+import whatsapp from "../../assets/whatsapp.png";
+import facebook from "../../assets/facebook.png";
 
 export default function Footer() {
     return (

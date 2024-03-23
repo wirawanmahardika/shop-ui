@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import useGetUser from "../../hooks/useGetUser";
-import logo from "../../img/logo.png";
+import logo from "../../assets/logo.png";
 
 export default function Admin() {
     const [navbarToggle, setNavbarToggle] = useState(false);

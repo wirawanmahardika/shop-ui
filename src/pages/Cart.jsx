@@ -1,4 +1,4 @@
-import logo from "../img/logo.png";
+import logo from "../assets/logo.png";
 import Bars3 from "../svg/Bars3";
 import Cart from "../svg/Cart";
 import { NavLink, useNavigate } from "react-router-dom";

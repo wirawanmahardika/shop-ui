@@ -1,4 +1,4 @@
-import logo from "../img/logo.png";
+import logo from "../assets/logo.png";
 import Bars3 from "../svg/Bars3";
 import Cart from "../svg/Cart";
 import { Form, NavLink, useNavigate } from "react-router-dom";
@@ -12,7 +12,7 @@ import User from "../svg/User";
 import { useFetchGet } from "../hooks/useFetch";
 import useGetUser from "../hooks/useGetUser";
 import Login from "../svg/Login";
-import signup from "../img/signup.png";
+import signup from "../assets/signup.png";
 import { myAxios } from "../utils/axios";
 import ModalItem from "../components/Toko/ModalItem";
 

@@ -1,6 +1,6 @@
-import shoes1 from "../../img/shoes1.png";
-import shoes2 from "../../img/shoes2.png";
-import shoes3 from "../../img/shoes3.png";
+import shoes1 from "../../assets/shoes1.png";
+import shoes2 from "../../assets/shoes2.png";
+import shoes3 from "../../assets/shoes3.png";
 
 export default function ProdukPreview() {
     return (

@@ -1,5 +1,5 @@
 import { Form, NavLink, useNavigate } from "react-router-dom";
-import logo from "../../img/logo.png";
+import logo from "../../assets/logo.png";
 import { useEffect, useState } from "react";
 import PasswordValidate from "../../components/edit-profile/PasswordValidate";
 import useGetUser from "../../hooks/useGetUser";

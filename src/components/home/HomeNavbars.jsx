@@ -1,11 +1,11 @@
 import Bars3 from "../../svg/Bars3";
 import Cart from "../../svg/Cart";
-import logo from "../../img/logo.png";
+import logo from "../../assets/logo.png";
 import { motion } from "framer-motion";
 import HomeNav from "../../svg/HomeNav";
 import Shop from "../../svg/Shop";
 import Login from "../../svg/Login";
-import signup from "../../img/signup.png";
+import signup from "../../assets/signup.png";
 import User from "../../svg/User";
 import { useState } from "react";
 import useGetUser from "../../hooks/useGetUser";

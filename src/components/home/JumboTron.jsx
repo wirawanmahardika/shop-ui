@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import imageHome from "../../img/bg-image-home.png";
+import imageHome from "../../assets/bg-image-home.png";
 
 export default function JumboTron() {
     return (
