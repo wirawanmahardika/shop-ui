@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import useGetUser from "../../hooks/useGetUser";
-import Star from "../../svg/Star";
+import Star from "../../assets/svg/Star";
 
 export default function BoxItem({
     id,

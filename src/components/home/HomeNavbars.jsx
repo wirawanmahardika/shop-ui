@@ -1,12 +1,12 @@
-import Bars3 from "../../svg/Bars3";
-import Cart from "../../svg/Cart";
+import Bars3 from "../../assets/svg/Bars3";
+import Cart from "../../assets/svg/Cart";
 import logo from "../../assets/logo.png";
 import { motion } from "framer-motion";
-import HomeNav from "../../svg/HomeNav";
-import Shop from "../../svg/Shop";
-import Login from "../../svg/Login";
+import HomeNav from "../../assets/svg/HomeNav";
+import Shop from "../../assets/svg/Shop";
+import Login from "../../assets/svg/Login";
 import signup from "../../assets/signup.png";
-import User from "../../svg/User";
+import User from "../../assets/svg/User";
 import { useState } from "react";
 import useGetUser from "../../hooks/useGetUser";
 import { NavLink } from "react-router-dom";

@@ -1,5 +1,5 @@
 import { useFetchGet } from "../../hooks/useFetch";
-import Plus from "../../svg/Plus";
+import Plus from "../../assets/svg/Plus";
 import CategoryModal from "../../components/category-setting/CategoryModal";
 import { useState } from "react";
 import { myAxios } from "../../utils/axios";

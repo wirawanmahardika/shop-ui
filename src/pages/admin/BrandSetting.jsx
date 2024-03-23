@@ -1,6 +1,6 @@
 import { useOutletContext } from "react-router-dom";
 import { useFetchGet } from "../../hooks/useFetch";
-import Plus from "../../svg/Plus";
+import Plus from "../../assets/svg/Plus";
 import { useState } from "react";
 import BrandModal from "../../components/brand-setting/BrandModal";
 import { myAxios } from "../../utils/axios";

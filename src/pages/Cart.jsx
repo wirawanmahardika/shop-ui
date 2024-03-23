@@ -1,12 +1,12 @@
 import logo from "../assets/logo.png";
-import Bars3 from "../svg/Bars3";
-import Cart from "../svg/Cart";
+import Bars3 from "../assets/svg/Bars3";
+import Cart from "../assets/svg/Cart";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import HomeNav from "../svg/HomeNav";
-import Shop from "../svg/Shop";
-import User from "../svg/User";
+import HomeNav from "../assets/svg/HomeNav";
+import Shop from "../assets/svg/Shop";
+import User from "../assets/svg/User";
 import CartItem from "../components/cart/CartItem";
 import { useDispatch, useSelector } from "react-redux";
 import useGetUser from "../hooks/useGetUser";
