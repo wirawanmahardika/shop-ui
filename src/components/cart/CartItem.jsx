@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { deleteItem, editQuantityCart } from "../../slice/CartItem";
+import { deleteItem, editQuantityCart } from "../../utils/redux/slice/CartItem";
 
 export default function CartItem({ id, name, qty, image, price, stock }) {
     const dispatch = useDispatch();

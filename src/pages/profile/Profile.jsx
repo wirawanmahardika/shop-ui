@@ -7,7 +7,7 @@ import Bars3 from "../../assets/svg/Bars3";
 import User from "../../assets/svg/User";
 import Cart from "../../assets/svg/Cart";
 import { useDispatch } from "react-redux";
-import { logout } from "../../slice/Auth";
+import { logout } from "../../utils/redux/slice/Auth";
 import useGetUser from "../../hooks/useGetUser";
 import EditPhoto from "../../components/profile/EditPhoto";
 import Camera from "../../assets/svg/Camera";

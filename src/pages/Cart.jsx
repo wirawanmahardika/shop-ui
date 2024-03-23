@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import useGetUser from "../hooks/useGetUser";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { resetCart } from "../slice/CartItem";
+import { resetCart } from "../utils/redux/slice/CartItem";
 import OnDelivery from "../components/cart/Ondelivery";
 import { useFetchGet } from "../hooks/useFetch";
 import { myAxios } from "../utils/axios";
