@@ -22,6 +22,7 @@ import UsersSetting from "./pages/admin/UsersSetting";
 import ItemSetting from "./pages/admin/ItemSetting";
 import Container from "./components/all/Container";
 import ErrorElementAll from "./components/all/ErrorElementAll";
+import { produkPreviewLoader } from "./components/home/ProdukPreview";
 
 function App() {
     const router = createBrowserRouter(
@@ -32,7 +33,11 @@ function App() {
                     element={<Container />}
                     errorElement={<ErrorElementAll />}
                 >
-                    <Route index element={<Home />} />
+                    <Route
+                        index
+                        element={<Home />}
+                        loader={produkPreviewLoader}
+                    />
                     <Route path="/toko" element={<Toko />} />
                     <Route path="/cart" element={<CartPage />} />
                     <Route path="/profile" element={<Profile />} />

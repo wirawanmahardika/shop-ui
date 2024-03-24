@@ -3,11 +3,11 @@
 @tailwind utilities;
 
 .bg-image-home {
-    background-image: url("../src/img/bg-image-home.png");
+    background-image: url("../../src/assets/bg-image-home.png");
 }
 
 .bg-image-toko-profile {
-    background-image: url("../src/img/hacker-1.png");
+    background-image: url("../../src/assets/hacker-1.png");
 }
 
 .center-fixed {

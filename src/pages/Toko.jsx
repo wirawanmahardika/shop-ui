@@ -1,7 +1,7 @@
 import logo from "../assets/logo.png";
 import Bars3 from "../assets/svg/Bars3";
 import Cart from "../assets/svg/Cart";
-import { Form, NavLink, useNavigate } from "react-router-dom";
+import { Form, NavLink, useLoaderData, useNavigate } from "react-router-dom";
 import Filter from "../assets/svg/Filter";
 import BoxItem from "../components/toko/BoxItem";
 import { useState } from "react";
