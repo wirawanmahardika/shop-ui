@@ -1,12 +1,12 @@
 export default function Footer() {
   return (
     <>
-      <footer className="w-full bg-black text-gray-50 p-5 gap-x-5 flex flex-col items-center gap-y-4 sm:p-10 sm:flex-row">
+      <footer className="w-full bg-black text-gray-50 p-5 gap-x-5 flex flex-col items-center gap-y-4 lg:items-start sm:p-10 sm:flex-row">
         <div className="w-1/2 flex flex-col items-center gap-y-2  sm:self-auto">
-          <h3 className="font-geologica font-extrabold text-xl ">
+          <h3 className="font-geologica font-extrabold text-xl lg:text-2xl">
             Tentang Kami
           </h3>
-          <p className="text-xs text-center lg:w-4/5">
+          <p className="text-xs text-center lg:w-4/5 lg:text-base">
             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus
             dolor sunt tempora harum eum dolorum ut quas earum reprehenderit
             voluptatem vel voluptas, numquam at maxime quidem, asperiores minima
@@ -14,7 +14,7 @@ export default function Footer() {
           </p>
         </div>
         <div className="w-1/2 flex flex-col items-center font-light sm:self-auto">
-          <h3 className="font-geologica font-extrabold text-xl mb-2">
+          <h3 className="font-geologica font-extrabold text-xl mb-2 lg:text-2xl">
             Contact
           </h3>
           <p className="font-extralight">+628-1234-5678</p>
