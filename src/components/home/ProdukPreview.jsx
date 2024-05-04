@@ -37,7 +37,7 @@ export default function ProdukPreview() {
 
   return (
     <>
-      <div className="w-full h-fit bg-gradient-to-r from-red-600 to-black text-white grid-rows-1 grid  grid-cols-3 md:grid-rows-3 md:grid-cols-4 md:h-screen">
+      <div className="w-full h-fit bg-gradient-to-r from-main-1 to-black text-white grid-rows-1 grid  grid-cols-3 md:grid-rows-3 md:grid-cols-4 md:h-screen">
         <div className="col-span-3  gap-y-5 flex items-center flex-col justify-between py-5 md:row-span-3">
           <span className="text-3xl font-bold">Previews</span>
 
