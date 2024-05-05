@@ -9,28 +9,19 @@ const cartItem = createSlice({
       state.push(action.payload);
     },
     editCart: (state, action) => {
-      const targetItem = state.find((d) => d.id === action.payload.id);
-      const filteredState = state.filter((d) => d.id !== action.payload.id);
-      targetItem.qty = action.payload.qty;
-      filteredState.push(targetItem);
-      state = filteredState;
+      const indexItem = state.findIndex((d) => d.id === action.payload.id);
+      state[indexItem].qty = action.payload.qty;
     },
     deleteItem: (state, action) => {
-      return (state = state.filter((d) => d.id !== action.payload.id));
+      return [...state.filter((d) => d.id !== action.payload.id)];
     },
     editQuantityCart: (state, action) => {
-      const targetItem = state.find((d) => d.id === action.payload.id);
-      const filteredState = state.filter((d) => d.id !== action.payload.id);
-      if (action.payload.edit === false) {
-        targetItem.qty -= 1;
-      } else {
-        targetItem.qty += 1;
-      }
-      filteredState.push(targetItem);
-      state = filteredState;
+      const indexItem = state.findIndex((d) => d.id === action.payload.id);
+      if (action.payload.edit === false) state[indexItem].qty -= 1;
+      else state[indexItem].qty += 1;
     },
-    resetCart: (state) => {
-      return (state = initialState);
+    resetCart: () => {
+      return [];
     },
   },
 });
