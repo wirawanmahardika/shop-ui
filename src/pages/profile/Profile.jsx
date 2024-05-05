@@ -116,12 +116,12 @@ export default function Profile() {
 
       <div className="  flex flex-col p-3 items-center justify-center w-full gap-3 lg:flex-row lg:justify-items-center">
         <div className="w-1/2 overflow-hidden flex justify-center items-center">
-          <div className="relative overflow-hidden max-w-full h-auto flex rounded-full border-2 border-black justify-center items-center lg:max-w-[68%] lg:shadow-xl ">
+          <div className="relative overflow-hidden max-w-full h-auto flex rounded-full border-2 border-black justify-center items-center lg:max-w-[68%] lg:shadow-xl group cursor-pointer">
             {user.photo ? (
               <img
                 src={user.photo}
                 alt="user"
-                className="drop-shadow-lg lg:w-full rounded-full cursor-pointer peer"
+                className="drop-shadow-lg lg:w-full rounded-full"
               />
             ) : (
               <svg
@@ -130,7 +130,7 @@ export default function Profile() {
                 viewBox="0 0 24 24"
                 strokeWidth={1.5}
                 stroke="currentColor"
-                className="w-full h-full cursor-pointer peer"
+                className="w-full h-full"
               >
                 <path
                   strokeLinecap="round"
@@ -141,7 +141,7 @@ export default function Profile() {
             )}
             <div
               onClick={() => setEditPhotoNotifToggle(!editPhotoNotifToggle)}
-              className="peer-hover:block hidden opacity-70 absolute bg-black top-0 left-0 bottom-0 right-0"
+              className="group-hover:block hidden opacity-70 absolute bg-black top-0 left-0 bottom-0 right-0"
             ></div>
             <Camera
               setEditPhotoNotifToggle={setEditPhotoNotifToggle}

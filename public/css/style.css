@@ -1138,10 +1138,6 @@ select {
   width: 2.5rem;
 }
 
-.w-11\/12 {
-  width: 91.666667%;
-}
-
 .w-2\/12 {
   width: 16.666667%;
 }
@@ -1297,10 +1293,6 @@ select {
 
 .justify-evenly {
   justify-content: space-evenly;
-}
-
-.justify-items-center {
-  justify-items: center;
 }
 
 .gap-3 {
@@ -1632,12 +1624,6 @@ select {
   background-image: linear-gradient(to right, var(--tw-gradient-stops));
 }
 
-.from-red-600 {
-  --tw-gradient-from: #dc2626 var(--tw-gradient-from-position);
-  --tw-gradient-to: rgb(220 38 38 / 0) var(--tw-gradient-to-position);
-  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
-}
-
 .from-main-1 {
   --tw-gradient-from: #007B8E var(--tw-gradient-from-position);
   --tw-gradient-to: rgb(0 123 142 / 0) var(--tw-gradient-to-position);
@@ -1770,10 +1756,6 @@ select {
   padding-bottom: 2.25rem;
 }
 
-.pl-2 {
-  padding-left: 0.5rem;
-}
-
 .pt-10 {
   padding-top: 2.5rem;
 }
@@ -1798,6 +1780,10 @@ select {
   font-family: 'Geologica', sans-serif;
 }
 
+.font-poetsenOne {
+  font-family: "Poetsen One", sans-serif;
+}
+
 .font-quicksand {
   font-family: 'Quicksand', sans-serif;
 }
@@ -1808,10 +1794,6 @@ select {
 
 .font-roboto {
   font-family: 'Roboto', sans-serif;
-}
-
-.font-poetsenOne {
-  font-family: "Poetsen One", sans-serif;
 }
 
 .text-2xl {
@@ -2260,6 +2242,14 @@ select {
   outline-color: #007B8E;
 }
 
+.group:hover .group-hover\:block {
+  display: block;
+}
+
+.group:hover .group-hover\:inline {
+  display: inline;
+}
+
 .group:hover .group-hover\:fill-blue-600 {
   fill: #2563eb;
 }
@@ -2329,10 +2319,6 @@ select {
 
   .sm\:w-4\/5 {
     width: 80%;
-  }
-
-  .sm\:w-4\/6 {
-    width: 66.666667%;
   }
 
   .sm\:w-\[5\%\] {
@@ -2464,11 +2450,6 @@ select {
     line-height: 1.5rem;
   }
 
-  .sm\:text-red-600 {
-    --tw-text-opacity: 1;
-    color: rgb(220 38 38 / var(--tw-text-opacity));
-  }
-
   .sm\:text-sky-600 {
     --tw-text-opacity: 1;
     color: rgb(2 132 199 / var(--tw-text-opacity));
@@ -2553,10 +2534,6 @@ select {
     height: 100vh;
   }
 
-  .md\:w-1\/2 {
-    width: 50%;
-  }
-
   .md\:w-1\/3 {
     width: 33.333333%;
   }
@@ -2621,28 +2598,20 @@ select {
     justify-content: flex-end;
   }
 
-  .md\:gap-y-1 {
-    row-gap: 0.25rem;
-  }
-
   .md\:gap-y-2 {
     row-gap: 0.5rem;
+  }
+
+  .md\:gap-y-3 {
+    row-gap: 0.75rem;
   }
 
   .md\:gap-y-5 {
     row-gap: 1.25rem;
   }
 
-  .md\:gap-y-6 {
-    row-gap: 1.5rem;
-  }
-
   .md\:gap-y-9 {
     row-gap: 2.25rem;
-  }
-
-  .md\:gap-y-3 {
-    row-gap: 0.75rem;
   }
 
   .md\:space-x-6 > :not([hidden]) ~ :not([hidden]) {
@@ -2671,10 +2640,6 @@ select {
 
   .md\:p-5 {
     padding: 1.25rem;
-  }
-
-  .md\:p-8 {
-    padding: 2rem;
   }
 
   .md\:p-9 {
@@ -2724,11 +2689,6 @@ select {
   .md\:py-4 {
     padding-top: 1rem;
     padding-bottom: 1rem;
-  }
-
-  .md\:py-1 {
-    padding-top: 0.25rem;
-    padding-bottom: 0.25rem;
   }
 
   .md\:pb-4 {
@@ -2822,10 +2782,6 @@ select {
     height: 1.5rem;
   }
 
-  .lg\:w-1\/3 {
-    width: 33.333333%;
-  }
-
   .lg\:w-1\/6 {
     width: 16.666667%;
   }
@@ -2872,10 +2828,6 @@ select {
 
   .lg\:justify-items-center {
     justify-items: center;
-  }
-
-  .lg\:gap-y-3 {
-    row-gap: 0.75rem;
   }
 
   .lg\:gap-y-8 {
