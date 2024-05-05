@@ -13,7 +13,7 @@ const cartItem = createSlice({
       state[indexItem].qty = action.payload.qty;
     },
     deleteItem: (state, action) => {
-      return [...state.filter((d) => d.id !== action.payload.id)];
+      return state.filter((d) => d.id !== action.payload.id);
     },
     editQuantityCart: (state, action) => {
       const indexItem = state.findIndex((d) => d.id === action.payload.id);

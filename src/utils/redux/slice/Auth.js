@@ -8,6 +8,7 @@ const initialState = {
   emailValidated: false,
   photo: null,
   balance: null,
+  boughItem: 0,
   isLoggedIn: false,
 };
 
