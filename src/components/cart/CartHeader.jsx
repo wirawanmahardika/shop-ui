@@ -4,7 +4,7 @@ import Bars3 from "../../assets/svg/Bars3";
 import Cart from "../../assets/svg/Cart";
 import User from "../../assets/svg/User";
 
-export default function CartHeader({ user }) {
+export default function CartHeader({ user, navbarToggle, setNavbarToggle }) {
   const navigate = useNavigate();
 
   return (

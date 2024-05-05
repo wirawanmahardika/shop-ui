@@ -7,31 +7,35 @@ import CartHeader from "../components/cart/CartHeader";
 import CartMain from "../components/cart/CartMain";
 
 export default function CartPage() {
-    const [navbarToggle, setNavbarToggle] = useState(false);
-    const user = useGetUser();
+  const [navbarToggle, setNavbarToggle] = useState(false);
+  const user = useGetUser();
 
-    return (
-        <>
-            <CartNavbar
-                navbarToggle={navbarToggle}
-                setNavbarToggle={setNavbarToggle}
-                user={user}
-            />
-            <CartHeader user={user} />
-            <CartMain />
-            <ToastContainer
-                position="top-center"
-                autoClose={5000}
-                limit={1}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable={false}
-                pauseOnHover
-                theme="light"
-            />
-        </>
-    );
+  return (
+    <>
+      <CartNavbar
+        navbarToggle={navbarToggle}
+        setNavbarToggle={setNavbarToggle}
+        user={user}
+      />
+      <CartHeader
+        navbarToggle={navbarToggle}
+        setNavbarToggle={setNavbarToggle}
+        user={user}
+      />
+      <CartMain />
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        limit={1}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable={false}
+        pauseOnHover
+        theme="light"
+      />
+    </>
+  );
 }
