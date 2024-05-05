@@ -15,11 +15,11 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    getUser: (state, action) => {
-      return (state = action.payload);
+    getUser: (_, action) => {
+      return action.payload;
     },
-    logout: (state) => {
-      return (state = initialState);
+    logout: () => {
+      return initialState;
     },
   },
 });
